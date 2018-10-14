@@ -19,7 +19,7 @@
 #'
 #' @param .x vector of the class that should be tested.
 #'
-#' @details The name logic of \code{could_chr_be_num()} should be intepreted as:
+#' @details The name logic of \code{could_chr_be_num} should be intepreted as:
 #' Could this character vector be a numeric vector?
 #' The same logic goes for all functions named could_this_be_that.
 #'
@@ -116,7 +116,7 @@ could_dtm_be_dte <- function(.x) {
 
 #' @title Only allow rational values in numeric vectors
 #'
-#' \code{rationalize()} transforms all numeric elements to be rational values or NA,
+#' \code{rationalize} transforms all numeric elements to be rational values or NA,
 #' thus removes all \code{NaN,Inf} and replaces them with \code{NA}.
 #' If a non-numeric vector is passed, it is unchanged. If a data.frame is
 #' passed, it evaluates all columns seperately.
@@ -491,7 +491,7 @@ s <- function(..., ignore_na = T) {
 #' @return a single aggregated value
 #'
 #' @examples
-#' ## sum_() on non-rational numeric vector
+#' ## sum_ on non-rational numeric vector
 #' vector <- c(7, NaN, -Inf, 4)
 #' sum_(vector)
 #'
@@ -570,7 +570,7 @@ sd_ <- function(..., ignore_na = T) {
 #' @aliases as_reliable_lgl
 #'
 #' @description
-#' Suppoert functions for the \code{convert} function. These functions coerces vectors to a new data type, e.g. \code{as.numeric()}
+#' Suppoert functions for the \code{convert} function. These functions coerces vectors to a new data type, e.g. \code{as.numeric}
 #' except that it converts factors to character first.
 #' See \code{\link{convert}} for more information.
 #'

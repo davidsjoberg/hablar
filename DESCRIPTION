@@ -6,10 +6,13 @@ Author: David Sjoberg
 Maintainer: David Sjoberg <dav.sjob@gmail.com>
 Description: Simple tools for converting columns to new data types. Intuitive summary functions.
 License: MIT + file LICENSE
+Url: https://davidsjoberg.github.io/
+BugReports: https://github.com/davidsjoberg/hablar/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
-Imports: dplyr, tibble
+Imports: dplyr, 
+    tibble
 Suggests: testthat,
     knitr,
     rmarkdown
