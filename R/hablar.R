@@ -15,7 +15,7 @@
 #' @aliases  could_dtm_be_dte
 #'
 #' @description
-#' Tests if vector could be a of another class without errors.
+#' Tests if vector could be a another class without errors.
 #'
 #' @param .x vector of the class that should be tested.
 #'
