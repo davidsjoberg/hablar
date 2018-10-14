@@ -15,5 +15,7 @@ Imports: dplyr,
     tibble
 Suggests: testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    gapminder,
+    DiagrammeR
 VignetteBuilder: knitr
