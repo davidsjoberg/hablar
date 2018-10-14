@@ -378,7 +378,8 @@ retype.data.frame <- function(.x, ...) {
 #' \code{s} means simple and short. It removes all non-values, i.e. \code{NA,Inf,NaN}  from a vector.
 #' However, if the length is 0 it returns NA.
 #' It is useful in combination with aggregating/summary functions, e.g. mean, sum or min, when
-#' an answer is desired, if there is one in the data. In any other case NA is returned. Please read \code{vignette("s")} for more information.
+#' an answer is desired, if there is one in the data. In any other case NA is returned. 
+#' Type \code{vignette("s")} in the console.
 #'
 #' @param ... one or more vectors. Does not work for factors.
 #' @param ignore_na if TRUE then NA omitted from results, as long as any non-NA element is left.
@@ -684,7 +685,7 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", ...) {
 #' @aliases lgl
 #'
 #' \code{convert} coerces columns to new classes through scoping functions. Always converts factors to
-#' character before coercion.
+#' character before coercion. Type \code{vignette("convert")} in the console.
 #'
 #' @usage convert(.df, ...)
 #'
