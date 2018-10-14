@@ -1,10 +1,10 @@
 Package: hablar
 Type: Package
-Title: Simplified class coercion and vector aggregation
+Title: A grammer for data type conversion and vector aggregation
 Version: 0.1.0
 Author: David Sjoberg
 Maintainer: David Sjoberg <dav.sjob@gmail.com>
-Description: A grammer for data type coercion and intuitive vector aggregation
+Description: Simple tools for converting columns to new data types. Intuitive summary functions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
