@@ -200,7 +200,7 @@ rationalize.data.frame <- function(.x, ...) {
 
 #' Return simple classes
 #'
-#' \code{replace} transforms all elements into simple classes. The simple classes
+#' \code{retype} transforms all elements into simple classes. The simple classes
 #' are date, numeric and character. By transforming all elements to these
 #' classes no information is lost, while simplifying the object. See details below for
 #' more information or type \code{vignette("retype")} in the console.
@@ -240,17 +240,15 @@ rationalize.data.frame <- function(.x, ...) {
 #' df
 #' retype(df)
 #'
-#' @details The simplification hiarchy is as follows. date > numeric > character.
-#' Each element past to \code{replace} is reclassified into the highest position in
-#' the simplification hiarchy without loosing any information. This means that:
+#' @details Each vector past to \code{retype} is reclassified into the highest position in
+#' a simplification hiarchy without loosing any information. This means that:
 #' Factors are converted to characters.
 #' However, character vectors (or vectors changed to character initially)
 #' are checked to see if they could be a numeric vector without error.
 #' If so, it is transformed into a numeric vector which is higher in the hiarchy.
 #' Vectors of class logical, integer are changed to numerical.
-#' Dates and date time (POSIXct) is the on the top of the simplification hiarachy and is
-#' therefore left unchanged.
-#' Lists are left unchanged because the are neither simple nor complicated.
+#' Dates and date time (POSIXct) goes through the same procedure.
+#' Lists and complex vectors are left unchanged because the are neither simple nor complicated.
 #'
 #' @rdname retype
 #' @export
@@ -384,7 +382,7 @@ retype.data.frame <- function(.x, ...) {
 #'
 #' \code{s} means simple and short. It removes all non-values, i.e. \code{NA,Inf,NaN}  from a vector.
 #' However, if the length is 0 it returns NA.
-#' It is useful in combination with aggregating/summary functions, e.g. mean, sum or min, when
+#' It is useful in combination with summary functions, e.g. mean, sum or min, when
 #' an answer is desired, if there is one in the data. In any other case NA is returned. 
 #' Type \code{vignette("s")} in the console.
 #'
@@ -392,8 +390,7 @@ retype.data.frame <- function(.x, ...) {
 #' @param ignore_na if TRUE then NA omitted from results, as long as any non-NA element is left.
 #'
 #' @return a shortened and simplified vector
-#'df <- data.frame(num_col = c(Inf, 3, NaN), 
-#'                 stringsAsFactors = FALSE)
+#' 
 #' @seealso \code{\link{retype}}, \code{\link{rationalize}}
 #'
 #' @examples
@@ -455,7 +452,7 @@ retype.data.frame <- function(.x, ...) {
 
 s <- function(..., ignore_na = TRUE) {
   if(is.factor(...)){
-    stop("s does not work with factors. Change class of input. Consider using replace on your data frame.")
+    stop("s does not work with factors. Change class of input. Consider using retype on your data frame.")
   }
   .v <- rationalize(c(...))
   if(all(is.na(.v)) | length(.v) == 0) {

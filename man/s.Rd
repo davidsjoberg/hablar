@@ -13,13 +13,11 @@ s(..., ignore_na = TRUE)
 }
 \value{
 a shortened and simplified vector
-df <- data.frame(num_col = c(Inf, 3, NaN), 
-                stringsAsFactors = FALSE)
 }
 \description{
 \code{s} means simple and short. It removes all non-values, i.e. \code{NA,Inf,NaN}  from a vector.
 However, if the length is 0 it returns NA.
-It is useful in combination with aggregating/summary functions, e.g. mean, sum or min, when
+It is useful in combination with summary functions, e.g. mean, sum or min, when
 an answer is desired, if there is one in the data. In any other case NA is returned. 
 Type \code{vignette("s")} in the console.
 }

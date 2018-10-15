@@ -3,14 +3,14 @@
 hablar
 ======
 
-hablar give users an easy and effective way to work with data types. Additionally, it provides non-astonishing results when summarizing data.
+`hablar` give users an easy and effective way to work with data types. Additionally, it provides non-astonishing results when summarizing data.
 
 The ambition is to lower the barrier to R but also provides simple tools that experienced R users could benefit from.
 
 Installation
 ------------
 
-You can install hablar from github with:
+You can install `hablar` from github with:
 
 ``` r
 # install.packages("devtools")
@@ -20,7 +20,7 @@ devtools::install_github("davidsjoberg/hablar")
 convert
 -------
 
-The most useful function of hablar is maybe convert. convert helps the user to quickly change data type of columns in a data frame. convert always converts factors to character before further conversion.
+The most useful function of `hablar` is maybe convert. convert helps the user to quickly change data type of columns in a data frame. convert always converts factors to character before further conversion.
 
 ``` r
 ## convert column:
@@ -83,7 +83,7 @@ For more information type `vignette("retype")` in the console.
 s
 -
 
-Often summary function like min, max and mean returt suprising results. Combining s with your summary function ensures that you will get a result, if there is one in your data.
+Often summary function like min, max and mean return suprising results. Combining `s` with your summary function ensures you that you will get a result, if there is one in your data.
 
 ``` r
 ## Base R

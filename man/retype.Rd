@@ -57,23 +57,21 @@ For data.frame: a tbl data frame with simple classes.
 \code{NULL}
 }
 \description{
-\code{replace} transforms all elements into simple classes. The simple classes
+\code{retype} transforms all elements into simple classes. The simple classes
 are date, numeric and character. By transforming all elements to these
 classes no information is lost, while simplifying the object. See details below for
 more information or type \code{vignette("retype")} in the console.
 }
 \details{
-The simplification hiarchy is as follows. date > numeric > character.
-Each element past to \code{replace} is reclassified into the highest position in
-the simplification hiarchy without loosing any information. This means that:
+Each vector past to \code{retype} is reclassified into the highest position in
+a simplification hiarchy without loosing any information. This means that:
 Factors are converted to characters.
 However, character vectors (or vectors changed to character initially)
 are checked to see if they could be a numeric vector without error.
 If so, it is transformed into a numeric vector which is higher in the hiarchy.
 Vectors of class logical, integer are changed to numerical.
-Dates and date time (POSIXct) is the on the top of the simplification hiarachy and is
-therefore left unchanged.
-Lists are left unchanged because the are neither simple nor complicated.
+Dates and date time (POSIXct) goes through the same procedure.
+Lists and complex vectors are left unchanged because the are neither simple nor complicated.
 }
 \examples{
 # Dates
