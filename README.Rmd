@@ -72,7 +72,7 @@ Often summary function like min, max and mean returt suprising results. Combinin
 ## Base R
 x <- c(NaN, 1, 2, NA)
 min(x)
-
+ 
 ## With s
 min(s(x))
 ```
