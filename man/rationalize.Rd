@@ -22,6 +22,8 @@ rationalize(.x, ...)
 }
 \arguments{
 \item{.x}{vector or data.frame}
+
+\item{...}{columns to be evaluated. Only applicable if .x is a data frame.}
 }
 \value{
 For vectors: same class as .x.
@@ -46,7 +48,7 @@ passed, it evaluates all columns seperately.
 x <- c(3, -Inf, 6.56, 9.3, NaN, 5, -Inf)
 rationalize(x)
 
-df <- tibble(num_col = c(Inf, 3, NaN)), chr_col = c("a", "b", "c")) \%>\% print
+df <- tibble(num_col = c(Inf, 3, NaN), chr_col = c("a", "b", "c")) \%>\% print
 rationalize(df)
 
 }

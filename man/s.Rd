@@ -4,7 +4,7 @@
 \alias{s}
 \title{Make vector shorter and simpler}
 \usage{
-s(..., ignore_na = T)
+s(..., ignore_na = TRUE)
 }
 \arguments{
 \item{...}{one or more vectors. Does not work for factors.}
@@ -13,6 +13,7 @@ s(..., ignore_na = T)
 }
 \value{
 a shortened and simplified vector
+df <- tibble(num_col = c(Inf, 3, NaN))
 }
 \description{
 \code{s} means simple and short. It removes all non-values, i.e. \code{NA,Inf,NaN}  from a vector.
@@ -42,7 +43,7 @@ min(s(vector))
 
 ## Max of vector with only NA
 # Base R
-max(vector, na.rm = T)
+max(vector, na.rm = TRUE)
 # With s
 max(s(vector))
 
@@ -58,12 +59,12 @@ vector <- c(7, Inf, NA, 4)
 # Base R
 sum(vector)
 # With s
-sum(s(vector, ignore_na = F))
+sum(s(vector, ignore_na = FALSE))
 
 ## s when summarizing a weird data.frame
 df_test <- tibble(a = c(NaN, 1, -Inf, 3), b = c(NA, "Q", "P", "P"), c = c(NA, NA, NA, NA)) \%>\% print
 # Base R aggregation with dplyr's summarize
-df_test \%>\% summarise(mean_a = mean(a), first_b = first(b), min_c = min(c, na.rm = T))
+df_test \%>\% summarise(mean_a = mean(a), first_b = first(b), min_c = min(c, na.rm = TRUE))
 # With s
 df_test \%>\% summarise(mean_a = mean(s(a)), first_b = first(s(b)), min_c = min(s(c)))
 

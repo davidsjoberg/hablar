@@ -6,10 +6,7 @@
 \alias{sum_}
 \alias{min_}
 \alias{mean_}
-\alias{median_}
 \alias{first_}
-\alias{var_}
-\alias{sd_}
 \title{Combine aggregate function and s}
 \usage{
 sum_(..., ignore_na = TRUE)
@@ -22,26 +19,18 @@ min_(..., ignore_na = TRUE)
 
 first_(..., ignore_na = TRUE)
 
-sd_(..., ignore_na = TRUE)
+min_(..., ignore_na = TRUE)
 
-var_(..., ignore_na = TRUE)
+sum_(..., ignore_na = TRUE)
 
-min_(..., ignore_na = T)
+mean_(..., ignore_na = TRUE)
 
-sum_(..., ignore_na = T)
-
-mean_(..., ignore_na = T)
-
-median_(..., ignore_na = T)
-
-first_(..., ignore_na = T)
-
-var_(..., ignore_na = T)
-
-sd_(..., ignore_na = T)
+first_(..., ignore_na = TRUE)
 }
 \arguments{
 \item{...}{one or more vectors}
+
+\item{ignore_na}{if false missing values are not omitted.}
 }
 \value{
 a single aggregated value
@@ -68,7 +57,7 @@ min_(vector)
 
 ## Max of vector with only NA
 # Base R
-max(vector, na.rm = T)
+max(vector, na.rm = TRUE)
 # With a wrapped s
 max_(vector)
 
@@ -77,6 +66,6 @@ vector <- c(7, Inf, NA, 4)
 # Base R
 sum(vector)
 # With a wrapped s
-sum_(vector, ignore_na = F)
+sum_(vector, ignore_na = FALSE)
 
 }

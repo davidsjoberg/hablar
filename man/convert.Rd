@@ -12,7 +12,7 @@
 \alias{dte}
 \title{convert class of columns}
 \usage{
-convert(.df, ...)
+convert(.x, ...)
 
 chr(..., .args = list())
 
@@ -33,7 +33,9 @@ convert(.x, ...)
 \arguments{
 \item{...}{Scoping functions, se details}
 
-\item{.df}{A data.frame}
+\item{.args}{extra argument to be passed to support function.}
+
+\item{.x}{A data.frame}
 }
 \value{
 a tbl data frame

@@ -64,14 +64,6 @@ test_that("s() and aggregators", {
   expect_equal(mean(s(as.numeric(c(NaN, NA, Inf)))), as.numeric(NA))
   expect_equal(mean(s(as.numeric(c(NaN, 2, NA)), ignore_na = F)), as.numeric(NA))
 
-  expect_equal(median(s(as.numeric(c(1, 2)))), as.numeric(c(1.5)))
-  expect_equal(median(s(as.numeric(c()))), median(c(NA)))
-  expect_equal(median(s(as.numeric(c(1, 2, NA)))), as.numeric(c(1.5)))
-  expect_equal(median(s(as.numeric(c(NaN, 2, NA)))), as.numeric(c(2)))
-  expect_equal(median(s(as.numeric(c(NaN, 2, Inf)))), as.numeric(c(2)))
-  expect_equal(median(s(as.numeric(c(NaN, NA, Inf)))), NA)
-  expect_equal(median(s(as.numeric(c(NaN, 2, NA)), ignore_na = F)), as.numeric(NA))
-
   expect_equal(first(s(as.numeric(c(1, 2)))), as.numeric(c(1)))
   expect_equal(first(s(as.numeric(c()))), first(c(NA)))
   expect_equal(first(s(as.numeric(c(1, 2, NA)))), as.numeric(c(1)))
@@ -79,22 +71,6 @@ test_that("s() and aggregators", {
   expect_equal(first(s(as.numeric(c(NaN, 2, Inf)))), as.numeric(c(2)))
   expect_equal(first(s(as.numeric(c(NaN, NA, Inf)))), NA)
   expect_equal(first(s(as.numeric(c(NaN, 2, NA)), ignore_na = F)), as.numeric(NA))
-
-  expect_equal(sd(s(as.numeric(c(1, 2)))), sd(as.numeric(c(1, 2))))
-  expect_equal(sd(s(as.numeric(c()))), sd(as.numeric(c(NA))))
-  expect_equal(sd(s(as.numeric(c(1, 2, NA)))), sd(as.numeric(c(1, 2))))
-  expect_equal(sd(s(as.numeric(c(NaN, 2, NA)))), sd(as.numeric(c(2))))
-  expect_equal(sd(s(as.numeric(c(NaN, 2, Inf)))), sd(as.numeric(c(2))))
-  expect_equal(sd(s(as.numeric(c(NaN, NA, Inf)))), as.numeric(NA))
-  expect_equal(sd(s(as.numeric(c(NaN, 2, NA)), ignore_na = F)), sd(as.numeric(NA)))
-
-  expect_equal(var(s(as.numeric(c(1, 2)))), var(as.numeric(c(1, 2))))
-  expect_equal(var(s(as.numeric(c()))), var(as.numeric(c(NA))))
-  expect_equal(var(s(as.numeric(c(1, 2, NA)))), var(as.numeric(c(1, 2))))
-  expect_equal(var(s(as.numeric(c(NaN, 2, NA)))), var(as.numeric(c(2))))
-  expect_equal(var(s(as.numeric(c(NaN, 2, Inf)))), var(as.numeric(c(2))))
-  expect_equal(var(s(as.numeric(c(NaN, NA, Inf)))), as.numeric(NA))
-  expect_equal(var(s(as.numeric(c(NaN, 2, NA)), ignore_na = F)), var(as.numeric(NA)))
 
   expect_error(s(as.factor(c(2, 3, NA))))
 })
@@ -126,14 +102,6 @@ test_that("s() and aggregators - wrappers", {
   expect_equal(mean_(as.numeric(c(NaN, NA, Inf))), as.numeric(NA))
   expect_equal(mean_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
 
-  expect_equal(median_(as.numeric(c(1, 2))), as.numeric(c(1.5)))
-  expect_equal(median_(as.numeric(c())), median(c(NA)))
-  expect_equal(median_(as.numeric(c(1, 2, NA))), as.numeric(c(1.5)))
-  expect_equal(median_(as.numeric(c(NaN, 2, NA))), as.numeric(c(2)))
-  expect_equal(median_(as.numeric(c(NaN, 2, Inf))), as.numeric(c(2)))
-  expect_equal(median_(as.numeric(c(NaN, NA, Inf))), NA)
-  expect_equal(median_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
-
   expect_equal(first_(as.numeric(c(1, 2))), as.numeric(c(1)))
   expect_equal(first_(as.numeric(c())), first(c(NA)))
   expect_equal(first_(as.numeric(c(1, 2, NA))), as.numeric(c(1)))
@@ -142,24 +110,8 @@ test_that("s() and aggregators - wrappers", {
   expect_equal(first_(as.numeric(c(NaN, NA, Inf))), NA)
   expect_equal(first_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
 
-  expect_equal(sd_(as.numeric(c(1, 2))), sd(as.numeric(c(1, 2))))
-  expect_equal(sd_(as.numeric(c())), sd(as.numeric(c(NA))))
-  expect_equal(sd_(as.numeric(c(1, 2, NA))), sd(as.numeric(c(1, 2))))
-  expect_equal(sd_(as.numeric(c(NaN, 2, NA))), sd(as.numeric(c(2))))
-  expect_equal(sd_(as.numeric(c(NaN, 2, Inf))), sd(as.numeric(c(2))))
-  expect_equal(sd_(as.numeric(c(NaN, NA, Inf))), as.numeric(NA))
-  expect_equal(sd_(as.numeric(c(NaN, 2, NA)), ignore_na = F), sd(as.numeric(NA)))
-
-  expect_equal(var_(as.numeric(c(1, 2))), var(as.numeric(c(1, 2))))
-  expect_equal(var_(as.numeric(c())), var(as.numeric(c(NA))))
-  expect_equal(var_(as.numeric(c(1, 2, NA))), var(as.numeric(c(1, 2))))
-  expect_equal(var_(as.numeric(c(NaN, 2, NA))), var(as.numeric(c(2))))
-  expect_equal(var_(as.numeric(c(NaN, 2, Inf))), var(as.numeric(c(2))))
-  expect_equal(var_(as.numeric(c(NaN, NA, Inf))), as.numeric(NA))
-  expect_equal(var_(as.numeric(c(NaN, 2, NA)), ignore_na = F), var(as.numeric(NA)))
-
   expect_error(min_(as.factor(c(2, 3, NA))))
-  expect_equal(length(sd_(as.numeric(c()))), 1)
+  expect_equal(length(mean_(as.numeric(c()))), 1)
 })
 
 

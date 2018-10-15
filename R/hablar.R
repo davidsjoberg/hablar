@@ -55,9 +55,7 @@ could_chr_be_num <- function(.x) {
   .test <- tryCatch(as.numeric(.x),
                     error=function(e) e,
                     warning=function(w) w)
-  if(is(.test, "error")) {
-    return(FALSE)
-  } else if(is(.test, "warning")) {
+  if(any(attributes(.test)$class == "warning")) {
     return(FALSE)
   } else {TRUE}
 }
@@ -74,7 +72,7 @@ could_chr_be_int <- function(.x) {
   .x <- as.numeric(.x)
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
-  ifelse(all(na.omit(.x) / as.integer(na.omit(.x)) == 1), T, F)
+  ifelse(all(.x[!is.na(.x)] == as.integer(.x[!is.na(.x)])), T, F)
 }
 
 #' @rdname could_this_be_that
@@ -84,7 +82,7 @@ could_num_be_int <- function(.x) {
     stop("Only works with numeric vectors")}
   if(all(is.na(.x)) | length(.x) == 0 | any(is.nan(.x) | any(is.infinite(.x)))) {
     return(FALSE)}
-  ifelse(all(na.omit(.x) / as.integer(na.omit(.x)) == 1), T, F)
+  ifelse(all(.x[!is.na(.x)] == as.integer(.x[!is.na(.x)])), T, F)
 }
 
 #' @rdname could_this_be_that
@@ -106,7 +104,7 @@ could_dtm_be_dte <- function(.x) {
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
   .timestamps <- strftime(.x, format="%H:%M:%S")
-  ifelse(length(unique(na.omit(.timestamps))) == 1, T, F)
+  ifelse(length(unique(.timestamps[!is.na(.timestamps)])) == 1, T, F)
 }
 
 
@@ -122,6 +120,7 @@ could_dtm_be_dte <- function(.x) {
 #' passed, it evaluates all columns seperately.
 #'
 #' @param .x vector or data.frame
+#' @param ... columns to be evaluated. Only applicable if .x is a data frame.
 #'
 #' @return For vectors: same class as .x.
 #' @return For data.frame: a tbl data frame.
@@ -132,7 +131,7 @@ could_dtm_be_dte <- function(.x) {
 #' x <- c(3, -Inf, 6.56, 9.3, NaN, 5, -Inf)
 #' rationalize(x)
 #'
-#' df <- tibble(num_col = c(Inf, 3, NaN)), chr_col = c("a", "b", "c")) %>% print
+#' df <- tibble(num_col = c(Inf, 3, NaN), chr_col = c("a", "b", "c")) %>% print
 #' rationalize(df)
 #'
 #' @rdname rationalize
@@ -205,6 +204,7 @@ rationalize.data.frame <- function(.x, ...) {
 #' more information or type \code{vignette("retype")} in the console.
 #'
 #' @param .x vector or data.frame
+#' @param ... column names to be evalutated. Only if .x is a data frame.
 #'
 #' @return For vectors: simple class of .x.
 #' @return For data.frame: a tbl data frame with simple classes.
@@ -262,9 +262,9 @@ retype.default <- function(.x, ...) {
   .x <- as.character(.x)
 
   # Numericals
-  if(could_chr_be_num(.x) == T) {
+  if(could_chr_be_num(.x) == TRUE) {
     .x <- as.numeric(gsub(",", ".", .x))
-    if(could_num_be_int(.x) == T) {
+    if(could_num_be_int(.x) == TRUE) {
       return(as.integer(.x))
     } else {
       return(.x)
@@ -272,9 +272,9 @@ retype.default <- function(.x, ...) {
     }
 
   # Dates
-  if(could_chr_be_dtm(.x) == T) {
+  if(could_chr_be_dtm(.x) == TRUE) {
     .x <- as.POSIXct(.x)
-    if(could_dtm_be_dte(.x) == T) {
+    if(could_dtm_be_dte(.x) == TRUE) {
       return(as.Date(strftime(.x)))
     } else {
       return(.x)
@@ -317,7 +317,7 @@ retype.Date <- function(.x, ...) {
 #' @method retype POSIXct
 #' @export
 retype.POSIXct <- function(.x, ...) {
-  if(could_dtm_be_dte(.x) == T) {
+  if(could_dtm_be_dte(.x) == TRUE) {
     .x <- as.Date(strftime(.x))
   }
   return(.x)
@@ -329,7 +329,7 @@ retype.POSIXct <- function(.x, ...) {
 #' @method retype numeric
 #' @export
 retype.numeric <- function(.x, ...) {
-  if(could_num_be_int(.x) == T) {
+  if(could_num_be_int(.x) == TRUE) {
     .x <- as.integer(.x)
   }
   return(.x)
@@ -385,7 +385,7 @@ retype.data.frame <- function(.x, ...) {
 #' @param ignore_na if TRUE then NA omitted from results, as long as any non-NA element is left.
 #'
 #' @return a shortened and simplified vector
-#'
+#'df <- tibble(num_col = c(Inf, 3, NaN))
 #' @seealso \code{\link{retype}}, \code{\link{rationalize}}
 #'
 #' @examples
@@ -409,7 +409,7 @@ retype.data.frame <- function(.x, ...) {
 #'
 #' ## Max of vector with only NA
 #' # Base R
-#' max(vector, na.rm = T)
+#' max(vector, na.rm = TRUE)
 #' # With s
 #' max(s(vector))
 #'
@@ -425,19 +425,19 @@ retype.data.frame <- function(.x, ...) {
 #' # Base R
 #' sum(vector)
 #' # With s
-#' sum(s(vector, ignore_na = F))
+#' sum(s(vector, ignore_na = FALSE))
 #'
 #' ## s when summarizing a weird data.frame
 #' df_test <- tibble(a = c(NaN, 1, -Inf, 3), b = c(NA, "Q", "P", "P"), c = c(NA, NA, NA, NA)) %>% print
 #' # Base R aggregation with dplyr's summarize
-#' df_test %>% summarise(mean_a = mean(a), first_b = first(b), min_c = min(c, na.rm = T))
+#' df_test %>% summarise(mean_a = mean(a), first_b = first(b), min_c = min(c, na.rm = TRUE))
 #' # With s
 #' df_test %>% summarise(mean_a = mean(s(a)), first_b = first(s(b)), min_c = min(s(c)))
 #'
 #' @rdname s
 #' @export
 
-s <- function(..., ignore_na = T) {
+s <- function(..., ignore_na = TRUE) {
   if(is.factor(...)){
     stop("s does not work with factors. Change class of input. Consider using replace on your data frame.")
   }
@@ -445,7 +445,7 @@ s <- function(..., ignore_na = T) {
   if(all(is.na(.v)) | length(.v) == 0) {
     return(NA)
     }
-  if(ignore_na) {return(c(na.omit(.v)))}
+  if(ignore_na) {return(c(.v[!is.na(.v)]))}
   return(.v)
 }
 
@@ -462,8 +462,6 @@ s <- function(..., ignore_na = T) {
 #' @aliases max_
 #' @aliases min_
 #' @aliases first_
-#' @aliases sd_
-#' @aliases var_
 #'
 #' @description
 #' \code{[summary function_*]} functions are simple wrappers of aggregate function
@@ -483,11 +481,8 @@ s <- function(..., ignore_na = T) {
 #'
 #' first_(..., ignore_na = TRUE)
 #'
-#' sd_(..., ignore_na = TRUE)
-#'
-#' var_(..., ignore_na = TRUE)
-#'
 #' @param ... one or more vectors
+#' @param ignore_na if false missing values are not omitted.
 #'
 #' @return a single aggregated value
 #'
@@ -505,7 +500,7 @@ s <- function(..., ignore_na = T) {
 #'
 #' ## Max of vector with only NA
 #' # Base R
-#' max(vector, na.rm = T)
+#' max(vector, na.rm = TRUE)
 #' # With a wrapped s
 #' max_(vector)
 #'
@@ -514,49 +509,33 @@ s <- function(..., ignore_na = T) {
 #' # Base R
 #' sum(vector)
 #' # With a wrapped s
-#' sum_(vector, ignore_na = F)
+#' sum_(vector, ignore_na = FALSE)
 #'
 #' @rdname aggregators
 #' @export
 
-max_ <- function(..., ignore_na = T) {
+max_ <- function(..., ignore_na = TRUE) {
   max(s(..., ignore_na = ignore_na))}
 
 #' @rdname aggregators
 #' @export
-min_ <- function(..., ignore_na = T) {
+min_ <- function(..., ignore_na = TRUE) {
   min(s(..., ignore_na = ignore_na))}
 
 #' @rdname aggregators
 #' @export
-sum_ <- function(..., ignore_na = T) {
+sum_ <- function(..., ignore_na = TRUE) {
   sum(s(..., ignore_na = ignore_na))}
 
 #' @rdname aggregators
 #' @export
-mean_ <- function(..., ignore_na = T) {
+mean_ <- function(..., ignore_na = TRUE) {
   mean(s(..., ignore_na = ignore_na))}
 
 #' @rdname aggregators
 #' @export
-median_ <- function(..., ignore_na = T) {
-  median(s(..., ignore_na = ignore_na))}
-
-#' @rdname aggregators
-#' @export
-first_ <- function(..., ignore_na = T) {
+first_ <- function(..., ignore_na = TRUE) {
   first(s(..., ignore_na = ignore_na))}
-
-#' @rdname aggregators
-#' @export
-var_ <- function(..., ignore_na = T) {
-  var(s(..., ignore_na = ignore_na))}
-
-#' @rdname aggregators
-#' @export
-sd_ <- function(..., ignore_na = T) {
-  sd(s(..., ignore_na = ignore_na))}
-
 
 
 
@@ -581,11 +560,13 @@ sd_ <- function(..., ignore_na = T) {
 #'
 #' as_reliable_lgl(.x, ...)
 #'
-#' as_reliable_dte(.x, ...)
+#' as_reliable_dte(.x, origin = "1970-01-01", ...)
 #'
-#' as_reliable_dtm(.x, ...)
+#' as_reliable_dtm(.x, origin = "1970-01-01", ...)
 #'
 #' @param .x vector
+#' @param origin argument to set origin for date/date time.
+#' @param ... additional arguments
 #'
 #' @return vector
 #'
@@ -687,10 +668,11 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", ...) {
 #' \code{convert} coerces columns to new classes through scoping functions. Always converts factors to
 #' character before coercion. Type \code{vignette("convert")} in the console.
 #'
-#' @usage convert(.df, ...)
+#' @usage convert(.x, ...)
 #'
-#' @param .df A data.frame
+#' @param .x A data.frame
 #' @param ... Scoping functions, se details
+#' @param .args extra argument to be passed to support function.
 #'
 #' @return a tbl data frame
 #'

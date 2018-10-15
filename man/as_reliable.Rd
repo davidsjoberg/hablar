@@ -15,9 +15,9 @@ as_reliable_int(.x, ...)
 
 as_reliable_lgl(.x, ...)
 
-as_reliable_dte(.x, ...)
+as_reliable_dte(.x, origin = "1970-01-01", ...)
 
-as_reliable_dtm(.x, ...)
+as_reliable_dtm(.x, origin = "1970-01-01", ...)
 
 as_reliable_int(.x, ...)
 
@@ -29,6 +29,10 @@ as_reliable_dtm(.x, origin = "1970-01-01", ...)
 }
 \arguments{
 \item{.x}{vector}
+
+\item{...}{additional arguments}
+
+\item{origin}{argument to set origin for date/date time.}
 }
 \value{
 vector

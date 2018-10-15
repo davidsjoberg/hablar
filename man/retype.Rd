@@ -32,6 +32,8 @@ retype(.x, ...)
 }
 \arguments{
 \item{.x}{vector or data.frame}
+
+\item{...}{column names to be evalutated. Only if .x is a data frame.}
 }
 \value{
 For vectors: simple class of .x.
