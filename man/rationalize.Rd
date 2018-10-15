@@ -26,7 +26,7 @@ rationalize(.x, ...)
 \item{...}{columns to be evaluated. Only applicable if .x is a data frame.}
 }
 \value{
-For vectors: same class as .x.
+For vectors: same data type/class as .x.
 
 For data.frame: a tbl data frame.
 

@@ -20,13 +20,13 @@ could_chr_be_dtm(.x)
 could_dtm_be_dte(.x)
 }
 \arguments{
-\item{.x}{vector of the class that should be tested.}
+\item{.x}{vector of the data type that should be tested.}
 }
 \value{
 TRUE or FALSE
 }
 \description{
-Tests if vector could be a another class without errors.
+Tests if vector could be a another data type without errors.
 }
 \details{
 The name logic of \code{could_chr_be_num} should be intepreted as:
