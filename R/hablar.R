@@ -15,9 +15,9 @@
 #' @aliases  could_dtm_be_dte
 #'
 #' @description
-#' Tests if vector could be a another class without errors.
+#' Tests if vector could be a another data type without errors.
 #'
-#' @param .x vector of the class that should be tested.
+#' @param .x vector of the data type that should be tested.
 #'
 #' @details The name logic of \code{could_chr_be_num} should be intepreted as:
 #' Could this character vector be a numeric vector?
@@ -121,7 +121,7 @@ could_dtm_be_dte <- function(.x) {
 #' @param .x vector or data.frame
 #' @param ... columns to be evaluated. Only applicable if .x is a data frame.
 #'
-#' @return For vectors: same class as .x.
+#' @return For vectors: same data type/class as .x.
 #' @return For data.frame: a tbl data frame.
 #'
 #' @seealso \code{\link{s}}, \code{\link{rationalize}}
