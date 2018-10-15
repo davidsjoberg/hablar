@@ -48,7 +48,10 @@ passed, it evaluates all columns seperately.
 x <- c(3, -Inf, 6.56, 9.3, NaN, 5, -Inf)
 rationalize(x)
 
-df <- tibble(num_col = c(Inf, 3, NaN), chr_col = c("a", "b", "c")) \%>\% print
+df <- data.frame(num_col = c(Inf, 3, NaN), 
+                 chr_col = c("a", "b", "c"), 
+                 stringsAsFactors = FALSE)
+df
 rationalize(df)
 
 }

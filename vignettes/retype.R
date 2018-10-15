@@ -53,8 +53,8 @@ grViz("digraph d {
 df <- starwars %>% 
   select(1:4) %>% 
   convert(fct(name),
-          chr(height:mass),
-          fct(hair_color)) %>% 
+           chr(height:mass),
+           fct(hair_color)) %>% 
   print()
   
 

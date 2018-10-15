@@ -79,10 +79,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Best practise of data analysis is to fix data types directly after importing data into R. This helps in many ways:</p>
 <ul>
 <li>You only need to do it once</li>
-<li>If there is any errors you know where in the script it should be fixed</li>
+<li>If there are any errors you know where in the script it should be fixed</li>
 <li>It scales up your code. For example, all columns that should be numeric could be converted at the same time.</li>
 </ul>
-<p>Additionally, if every columns are explicitly converted to its appropriate data type then you won’t be suprised by data type errors the next time you run the script.</p>
+<p>Additionally, if every column is converted to its appropriate data type then you won’t be surprised by data type errors the next time you run the script.</p>
 </div>
 <div id="usage" class="section level3">
 <h3>Usage</h3>
@@ -90,7 +90,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="support-functions" class="section level3">
 <h3>Support functions</h3>
-<p><code>convert</code> must be used in conjuction with data type conversion functions:</p>
+<p><code>convert</code> must be used in conjunction with data type conversion functions:</p>
 <ul>
 <li><code>chr</code> converts to character.</li>
 <li><code>num</code> converts to numeric.</li>
@@ -103,7 +103,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="the-syntax" class="section level3">
 <h3>The syntax</h3>
-<p>Imagine you have a data frame where cou want to change columns:</p>
+<p>Imagine you have a data frame where you want to change columns:</p>
 <ul>
 <li><code>a</code> and <code>b</code> to numerical</li>
 <li><code>c</code> to date</li>
@@ -170,8 +170,8 @@ gapminder</code></pre></div>
 #&gt; 3 Afghanistan Asia       1962      31 10267083      853.
 #&gt; 4 Afghanistan Asia       1967      34 11537966      836.
 #&gt; # ... with 1,700 more rows</code></pre>
-<p>Which gives thre same result. However, you need to refer to the column name twice and the data type conversion function for each column. Imagine the code to convert 20 columns.</p>
-<p>However, <code>dplyr</code> have a another way to help with applying the same function to multiple columns which could help, <code>mutate_at</code>. The same example could then be:</p>
+<p>Which gives the same result. However, you need to refer to the column name twice and the data type conversion function for each column. Imagine the code to convert 20 columns.</p>
+<p>However, <code>dplyr</code> have another way of applying the same function to multiple columns which could help, <code>mutate_at</code>. The same example would then look like:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(country, continent), <span class="kw">funs</span>(as.character)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(lifeExp), <span class="kw">funs</span>(as.integer)) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -185,7 +185,7 @@ gapminder</code></pre></div>
 #&gt; 3 Afghanistan Asia       1962      31 10267083      853.
 #&gt; 4 Afghanistan Asia       1967      34 11537966      836.
 #&gt; # ... with 1,700 more rows</code></pre>
-<p>Which is very scalable for adding more variables for data type conversion. However, it takes much more code to produce the same result. In fact, <code>convert</code> uses <code>mutate_at</code> internally. The difference is syntax and code readability. Compare again with <code>convert</code>:</p>
+<p>Which is more easily scaled to deal with data type conversion of large numbers of variables. However, <code>convert</code> does the same job with much less code. In fact, <code>convert</code> uses <code>mutate_at</code> internally. The difference is syntax and code readability. Compare again with <code>convert</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country, 
                continent),
@@ -203,7 +203,7 @@ gapminder</code></pre></div>
 </div>
 <div id="adding-additional-arguments" class="section level2">
 <h2>Adding additional arguments</h2>
-<p>All support functions of <code>convert</code> support additional arguments to be passed. For example, if you want to convert a number to a date and want to include an <code>origin</code> argument you can write:</p>
+<p><code>convert</code> also supports functions of <code>convert</code> support additional arguments to be passed. For example, if you want to convert a number to a date and want to include an <code>origin</code> argument you can write:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">dates =</span> <span class="kw">c</span>(<span class="dv">12818</span>, <span class="dv">13891</span>),
         <span class="dt">sunny =</span> <span class="kw">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">convert</span>(<span class="kw">dte</span>(dates, <span class="dt">.args =</span> <span class="kw">list</span>(<span class="dt">origin =</span> <span class="st">&quot;1900-01-01&quot;</span>)))</code></pre></div>

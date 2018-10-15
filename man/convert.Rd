@@ -85,29 +85,15 @@ It is also possible to use multiple scoping functions inside \code{convert}. For
 \examples{
 # Changing a columns to numeric
 # and another one to character
-mtcars \%>\%
-  convert(num(gear),
-          chr(mpg))
+convert(mtcars, num(gear),
+                chr(mpg))
 
 
 # Changing multiple classes on multiple columns
-starwars \%>\%
-  convert(int(height,
-              mass),
-          fct(skin_color,
-              gender,
-              eye_color))
-
-
-# convert works with the tidyselect functions from dplyr.
-# To make all column names that contains "color" a factor
-starwars \%>\%
-  convert(fct(contains("color")))
-
-
-# To make all colums integers except for cyl which should be a factor
-mtcars \%>\%
-  convert(int(everything()),
-          fct(cyl))
+convert(mtcars, int(hp,
+                    wt),
+                fct(qsec,
+                    cyl,
+                    drat))
 
 }

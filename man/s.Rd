@@ -13,7 +13,8 @@ s(..., ignore_na = TRUE)
 }
 \value{
 a shortened and simplified vector
-df <- tibble(num_col = c(Inf, 3, NaN))
+df <- data.frame(num_col = c(Inf, 3, NaN), 
+                stringsAsFactors = FALSE)
 }
 \description{
 \code{s} means simple and short. It removes all non-values, i.e. \code{NA,Inf,NaN}  from a vector.
@@ -49,10 +50,10 @@ max(s(vector))
 
 ## First of vector when NA is first element
 vector <- c(NA, "X", "Y")
-# Base R
-first(vector)
+# dplyr R
+dplyr::first(vector)
 # With s
-first(s(vector))
+dplyr::first(s(vector))
 
 ## Use of s when NA should not be removes
 vector <- c(7, Inf, NA, 4)
@@ -62,11 +63,19 @@ sum(vector)
 sum(s(vector, ignore_na = FALSE))
 
 ## s when summarizing a weird data.frame
-df_test <- tibble(a = c(NaN, 1, -Inf, 3), b = c(NA, "Q", "P", "P"), c = c(NA, NA, NA, NA)) \%>\% print
+df_test <- data.frame(a = c(NaN, 1, -Inf, 3), 
+                      b = c(NA, "Q", "P", "P"), 
+                      c = c(NA, NA, NA, NA), 
+                      stringsAsFactors = FALSE) 
+df_test
 # Base R aggregation with dplyr's summarize
-df_test \%>\% summarise(mean_a = mean(a), first_b = first(b), min_c = min(c, na.rm = TRUE))
+dplyr::summarise(df_test, mean_a = mean(a), 
+                          first_b = first(b), 
+                          min_c = min(c, na.rm = TRUE))
 # With s
-df_test \%>\% summarise(mean_a = mean(s(a)), first_b = first(s(b)), min_c = min(s(c)))
+dplyr::summarise(df_test, mean_a = mean(s(a)), 
+                          first_b = first(s(b)), 
+                          min_c = min(s(c)))
 
 }
 \seealso{

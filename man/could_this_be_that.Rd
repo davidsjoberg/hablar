@@ -40,7 +40,6 @@ could_chr_be_int(x)
 
 x <- c("abc", "3", "Hello world")
 could_chr_be_num(x)
-could_num_be_int(x)
 
 x <- c(NA, "3.45", "5,98")
 could_chr_be_num(x)

@@ -25,17 +25,17 @@ library(dplyr)
 Best practise of data analysis is to fix data types directly after importing data into R. This helps in many ways:
 
 * You only need to do it once
-* If there is any errors you know where in the script it should be fixed
+* If there are any errors you know where in the script it should be fixed
 * It scales up your code. For example, all columns that should be numeric could be converted at the same time.
 
-Additionally, if every columns are explicitly converted to its appropriate data type then you won't be suprised by data type errors the next time you run the script. 
+Additionally, if every column is converted to its appropriate data type then you won't be surprised  by data type errors the next time you run the script. 
 
 ### Usage
 `convert(.x, ...)`
 where `.x` is a data frame. `...` is a placeholder for data type specific conversion functions.
 
 ### Support functions
-`convert` must be used in conjuction with data type conversion functions:
+`convert` must be used in conjunction with data type conversion functions:
 
 * `chr` converts to character.
 * `num` converts to numeric.
@@ -46,7 +46,7 @@ where `.x` is a data frame. `...` is a placeholder for data type specific conver
 * `dtm` converts to date time.
 
 ### The syntax
-Imagine you have a data frame where cou want to change columns:
+Imagine you have a data frame where you want to change columns:
 
 - `a` and `b` to numerical
 - `c` to date 
@@ -96,9 +96,9 @@ gapminder %>%
          gdpPercap = as.numeric(gdpPercap))
 ```
 
-Which gives thre same result. However, you need to refer to the column name twice and the data type conversion function for each column. Imagine the code to convert 20 columns. 
+Which gives the same result. However, you need to refer to the column name twice and the data type conversion function for each column. Imagine the code to convert 20 columns. 
 
-However, `dplyr` have a another way to help with applying the same function to multiple columns which could help, `mutate_at`. The same example could then be:
+However, `dplyr` have another way of applying the same function to multiple columns which could help, `mutate_at`. The same example would then look like:
 
 ```{r}
 gapminder %>% 
@@ -108,7 +108,7 @@ gapminder %>%
   mutate_at(vars(gdpPercap), funs(as.numeric))
 ```
 
-Which is very scalable for adding more variables for data type conversion. However, it takes much more code to produce the same result. In fact, `convert` uses `mutate_at` internally. The difference is syntax and code readability. Compare again with `convert`:
+Which is more easily scaled to deal with data type conversion of large numbers of variables. However, `convert` does the same job with much less code. In fact, `convert` uses `mutate_at` internally. The difference is syntax and code readability. Compare again with `convert`:
 
 ```{r}
 gapminder %>% 
@@ -121,7 +121,7 @@ gapminder %>%
 
 
 ## Adding additional arguments
-All support functions of `convert` support additional arguments to be passed. For example, if you want to convert a number to a date and want to include an `origin` argument you can write:
+`convert` also supports functions of `convert` support additional arguments to be passed. For example, if you want to convert a number to a date and want to include an `origin` argument you can write:
 ```{r}
 tibble(dates = c(12818, 13891),
         sunny = c("yes", "no")) %>% 

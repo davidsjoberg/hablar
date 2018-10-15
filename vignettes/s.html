@@ -79,14 +79,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The <code>s</code> function is a simple function that helps you get intuitive results when summarizing data. It is made to be used in conjuction with summarize functions, for example <code>min</code> , <code>sum</code> and <code>mean</code>. <code>s</code> takes a vector and mutates it in the following ways:</p>
 <ul>
 <li><p>It replaces all non-rational numbers from numeric vectors and replace them with <code>NA</code>. Non-rational numbers are <code>Inf</code>, <code>-Inf</code> and <code>NaN</code>.</p></li>
-<li><p>By default it removes <code>NA</code> from the vector</p></li>
+<li><p>It removes <code>NA</code> from the vector by default</p></li>
 <li><p>If the vector has length zero or only consists of <code>NA</code> it returns a single <code>NA</code>.</p></li>
 </ul>
 </div>
 <div id="usage" class="section level3">
 <h3>Usage</h3>
 <p><code>s(..., ignore_na = T)</code></p>
-<p>where … is one or more vector. If missing values should not be omitted use <code>ignore_na = F</code>.</p>
+<p>where … is one or more vector(s). If missing values should not be omitted use <code>ignore_na = F</code>.</p>
 </div>
 <div id="simple-examples" class="section level3">
 <h3>Simple examples</h3>
@@ -112,7 +112,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2>The problems it solvs</h2>
 <div id="principle-of-least-astonishment" class="section level3">
 <h3>Principle of least astonishment</h3>
-<p>When programming the user hope that the output is intuitive. All programming languages have their special cases when you get astonishing results that you did not expect. The same goes for R. In the next parts of the <code>vignette</code> some problems it solves are explained in greater detail.</p>
+<p>All programming languages have their special cases when you get non-intuitive results that you did not expect. This is also true for R. The s-function provides intuitive outcomes of some of the most basic commands in R. In the next parts of the vignette some problems it solves are explained in greater detail.</p>
 </div>
 <div id="missing-values" class="section level3">
 <h3>Missing values</h3>
@@ -120,16 +120,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)
 <span class="kw">sum</span>(x)</code></pre></div>
 <pre><code>#&gt; [1] 15</code></pre>
-<p>This simple example created the sum of 6 which is expected from adding one through five. However, there are many loopholes in R. New users to R might be confused that the next example results in <code>NA</code> (a missing value):</p>
+<p>In this example the output of sum() was, which is expected since all entries in x sums to 15. However, in more messy data, the output is oftentimes less intuitive. New users to R might be confused that the next example results in NA (a missing value):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">NA</span>, <span class="dv">4</span>)
 <span class="kw">mean</span>(x)</code></pre></div>
 <pre><code>#&gt; [1] NA</code></pre>
-<p>Since the vector above have an a missing value R do not know how to find the mean of the vector. The missing value could be anything, and thus R returns the output <code>NA</code>. However, since missing values is a common reality when working with data it is a common practise to ignore missing values. Usually the user tells R to ignore the missing value and return the mean of the vector that have values that could be avaraged. The previous example could be fixed by adding <code>na.rm = TRUE</code> that drops all missing values before calculating the mean:</p>
+<p>Since the vector above have an a missing value R does not know how to find the mean of the vector. The missing value could be anything, and thus R thus returns the output <code>NA</code>. However, since missing values are common when working with real data, it is also a common practise to ignore missing values. Usually the user tells R to ignore the missing value and return the mean of the vector that have values that could be averaged. The error in the previous example could be fixed by adding <code>na.rm = TRUE</code> that drops all missing values before calculating the mean:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">NA</span>, <span class="dv">4</span>)
 <span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>#&gt; [1] 2.5</code></pre>
-<p>Generally, R is strict about mssing values so that you do not miss them, which often is helpful rather than harsh! However, often the programmer want R to return a ‘real’ value from the data, if there is one, even if it ignores missing values.</p>
-<p>The <code>s</code> function helps you with this. Since it by default removes missing values you can simply do:</p>
+<p>Generally, R is strict about missing values so that you do not miss them, which often is helpful rather than harsh! However, often the programmer want R to return a ‘real’ value from the data, if there is one, even if it ignores missing values.</p>
+<p>The <code>s</code> function helps you with this. Since it by default removes missing values you can simply enter:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">NA</span>, <span class="dv">4</span>)
 <span class="kw">mean</span>(<span class="kw">s</span>(x))</code></pre></div>
 <pre><code>#&gt; [1] 2.5</code></pre>
@@ -144,12 +144,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 #&gt; 2     2 Amanda         NA
 #&gt; 3     3 Amanda          8
 #&gt; 4     1 David          NA
-#&gt; 5     2 David          NA
-#&gt; 6     3 David          NA
-#&gt; 7     1 Viktor          2
-#&gt; 8     2 Viktor          1
-#&gt; 9     3 Viktor          4</code></pre>
-<p>Now we want to see the most sodas each person could sell on a single day. The above data frame if saved as <code>df</code>.</p>
+#&gt; # ... with 5 more rows</code></pre>
+<p>Now we want to see the maximum number of sodas each person sold on a single day. The above data frame if saved as <code>df</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(name) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_sodas_best_day =</span> <span class="kw">max</span>(sold_sodas, <span class="dt">na.rm =</span> T))</code></pre></div>
@@ -159,7 +155,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 #&gt; 1 Amanda                8
 #&gt; 2 David              -Inf
 #&gt; 3 Viktor                4</code></pre>
-<p>Amanda sold the most sodas in a single day. However, David that was abscent on all days got the result <code>-Inf</code>, meaning negative infinity as his best day. That is pretty astonishing! One could argue that it would be intuitive for him to get a missing value.</p>
+<p>Amanda sold the most sodas in a single day. However, David who was absent on all days, got the output <code>-Inf</code>. This means that negative infinity was the number of sodas he sold during his most productive day. That is astonishing! One would perhaps think that the more intuitive output would be <code>NA</code>.</p>
 <p>The reason for result is that we told R to remove all missing values before calculating the maximal value. It is equivalent to:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>()
 <span class="kw">max</span>(x)</code></pre></div>
@@ -174,7 +170,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 #&gt; 1 Amanda               NA
 #&gt; 2 David                NA
 #&gt; 3 Viktor                4</code></pre>
-<p>Suddenly Viktor had the best day and Amanda, who was abscent the second day, got <code>NA</code> because R do not know how to find the maximal value. However, David also got <code>NA</code> this time, which makes sense. Working with data can be cumbersome! The <code>s</code> function is there to support you! Since it returns <code>NA</code> if the vector is empty we get:</p>
+<p>Suddenly R tells us that Viktor had the best day and Amanda, who was absent the second day, got NA because R doesn’t not know how to find the maximum value. However, David also got NA this time, which makes sense.</p>
+<p>Sometimes, calculating simple descriptive statistics can be a cumbersome task. The s function is there to support you! Since it returns <code>NA</code> if the vector is empty we get:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(name) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_sodas_best_day =</span> <span class="kw">max</span>(<span class="kw">s</span>(sold_sodas)))</code></pre></div>
@@ -187,65 +184,48 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="getting-answers-when-there-is-none" class="section level3">
 <h3>Getting answers when there is none</h3>
-<p>Another astonishing result one might get is when R tries to return a value when there is none. Take this extract <code>df</code> from the <code>starwars</code> dataset from the R package <code>dplyr</code>.</p>
+<p>Another astonishing result one might encounter occurs when R tries to return a value when there is none. Take this extract <code>df</code> from the <code>starwars</code> dataset from the R package <code>dplyr</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dv">10</span>)</code></pre></div>
 <pre><code>#&gt; # A tibble: 10 x 4
-#&gt;    name               homeworld species height
-#&gt;    &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;    &lt;int&gt;
-#&gt;  1 Luke Skywalker     Tatooine  Human      172
-#&gt;  2 C-3PO              Tatooine  Droid      167
-#&gt;  3 R2-D2              Naboo     Droid       96
-#&gt;  4 Darth Vader        Tatooine  Human      202
-#&gt;  5 Leia Organa        Alderaan  Human      150
-#&gt;  6 Owen Lars          Tatooine  Human      178
-#&gt;  7 Beru Whitesun lars Tatooine  Human      165
-#&gt;  8 R5-D4              Tatooine  Droid       97
-#&gt;  9 Biggs Darklighter  Tatooine  Human      183
-#&gt; 10 Obi-Wan Kenobi     Stewjon   Human      182</code></pre>
-<p>Say that we want to calculate find the height of the tallest human from each homeworld. For safety, we drop all rows with missing values from the height column so that we do not get the same problem as before.</p>
+#&gt;   name           homeworld species height
+#&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;    &lt;int&gt;
+#&gt; 1 Luke Skywalker Tatooine  Human      172
+#&gt; 2 C-3PO          Tatooine  Droid      167
+#&gt; 3 R2-D2          Naboo     Droid       96
+#&gt; 4 Darth Vader    Tatooine  Human      202
+#&gt; # ... with 6 more rows</code></pre>
+<p>Say that we want to calculate find the height of the tallest human from each homeworld. For precautionary reasons, we drop all rows with missing values from the height column so that we do not get the same problem as before.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(height)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(homeworld) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">tallest_human =</span> <span class="kw">max</span>(height[species <span class="op">==</span><span class="st"> &quot;Human&quot;</span>]))</code></pre></div>
 <pre><code>#&gt; # A tibble: 49 x 2
-#&gt;    homeworld      tallest_human
-#&gt;    &lt;chr&gt;                  &lt;dbl&gt;
-#&gt;  1 Alderaan                 191
-#&gt;  2 Aleen Minor             -Inf
-#&gt;  3 Bespin                   175
-#&gt;  4 Bestine IV               180
-#&gt;  5 Cato Neimoidia          -Inf
-#&gt;  6 Cerea                   -Inf
-#&gt;  7 Champala                -Inf
-#&gt;  8 Chandrila                150
-#&gt;  9 Concord Dawn             183
-#&gt; 10 Corellia                 180
-#&gt; # ... with 39 more rows</code></pre>
+#&gt;   homeworld   tallest_human
+#&gt;   &lt;chr&gt;               &lt;dbl&gt;
+#&gt; 1 Alderaan              191
+#&gt; 2 Aleen Minor          -Inf
+#&gt; 3 Bespin                175
+#&gt; 4 Bestine IV            180
+#&gt; # ... with 45 more rows</code></pre>
 <p>We got negative infinity <code>-Inf</code> again. How could this be?</p>
-<p>This is because some homeworld have no humans, e.g. Cerea. R tries to calculate the maximal value of nothing. The <code>s</code> function can help you out! Since it returns <code>NA</code> if the vector is empty we get:</p>
+<p>This is because some homeworld have no humans, e.g. Cerea. R tries to calculate the maximum value of nothing. The <code>s</code> function can help you out! Since it returns <code>NA</code> if the vector is empty we get:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(height)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">group_by</span>(homeworld) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">tallest_human =</span> <span class="kw">max</span>(<span class="kw">s</span>(height[species <span class="op">==</span><span class="st"> &quot;Human&quot;</span>])))</code></pre></div>
 <pre><code>#&gt; # A tibble: 49 x 2
-#&gt;    homeworld      tallest_human
-#&gt;    &lt;chr&gt;                  &lt;int&gt;
-#&gt;  1 Alderaan                 191
-#&gt;  2 Aleen Minor               NA
-#&gt;  3 Bespin                   175
-#&gt;  4 Bestine IV               180
-#&gt;  5 Cato Neimoidia            NA
-#&gt;  6 Cerea                     NA
-#&gt;  7 Champala                  NA
-#&gt;  8 Chandrila                150
-#&gt;  9 Concord Dawn             183
-#&gt; 10 Corellia                 180
-#&gt; # ... with 39 more rows</code></pre>
-<p>Now we get missing values for the homeworld that does not have any humans. Makes sense.</p>
+#&gt;   homeworld   tallest_human
+#&gt;   &lt;chr&gt;               &lt;int&gt;
+#&gt; 1 Alderaan              191
+#&gt; 2 Aleen Minor            NA
+#&gt; 3 Bespin                175
+#&gt; 4 Bestine IV            180
+#&gt; # ... with 45 more rows</code></pre>
+<p>Now we get missing values for the homeworlds that does not have any humans. Makes sense.</p>
 </div>
 <div id="summarizing-weird-numbers" class="section level3">
 <h3>Summarizing weird numbers</h3>
-<p>Numerical vectors in R can include more than numbers and missing values <code>NA</code>. They can aslo include infinite numbers <code>Inf</code> and <code>-Inf</code> as shown in the examples above. Furthermore, numerical vectors can include <code>NaN</code>‘s which means ’not-a-number’. If the data frame you are using have <code>NaN</code> or <code>Inf</code> it may cause you problems when summarizing your data. Some examples:</p>
+<p>Numerical vectors in R can include more than numbers and missing values <code>NA</code>. They can also include infinite numbers <code>Inf</code> and <code>-Inf</code> as shown in the examples above. Furthermore, numerical vectors can include <code>NaN</code>‘s which means ’not-a-number’. If the data frame you are using have <code>NaN</code> or <code>Inf</code> it may cause you problems when summarizing your data. Some examples:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="dv">1</span>)
 <span class="kw">min</span>(x)</code></pre></div>
 <pre><code>#&gt; [1] NaN</code></pre>
@@ -255,7 +235,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="dv">2</span>)
 <span class="kw">sum</span>(x)</code></pre></div>
 <pre><code>#&gt; [1] -Inf</code></pre>
-<p>Often when you summmarize vectors that have <code>NaN</code> or <code>Inf</code> you want to treat them as a missing value. Maybe they have appeared as a mistake when you accidentally divided a value by zero since <code>1/0 = Inf</code> in R. The <code>s</code> function solves this for you be replacing them with <code>NA</code>.</p>
+<p>Often when you summarize vectors that have <code>NaN</code> or <code>Inf</code> you want to treat them as a missing value. Maybe they have appeared as a mistake when you accidentally divided a value by zero since <code>1/0 = Inf</code> in R. The <code>s</code> function solves this for you be replacing them with <code>NA</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="dv">1</span>)
 <span class="kw">min</span>(<span class="kw">s</span>(x))</code></pre></div>
 <pre><code>#&gt; [1] 1</code></pre>
@@ -268,7 +248,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="wrappers-for-s-and-summary-functions" class="section level3">
 <h3>Wrappers for <code>s</code> and summary functions</h3>
-<p>If things get too messy with an extra function you might prefer the wrapper functions of <code>s</code>. All major summary functions have an s wrapped alternative in <code>hablar</code>. These are names as the summary function added by an underscore, i.e. <code>min_(x)</code> and is equal to <code>min(s(x))</code>. The above examples with these wrappers for <code>s</code> are shown below.</p>
+<p>If things get too messy with an extra function you might prefer the wrapper functions of <code>s</code>. All major summary functions have an s wrapped alternative in <code>hablar</code>. These are accessed by adding an underscore to the name of the summary function, i.e. <code>min_(x)</code> and is equal to <code>min(s(x))</code>. Repeating the previous exercises using wrappers for <code>s</code> would look like:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="dv">1</span>)
 <span class="kw">min_</span>(x)</code></pre></div>
 <pre><code>#&gt; [1] 1</code></pre>
@@ -282,7 +262,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="final-note" class="section level2">
 <h2>Final note</h2>
-<p>To summarize, <code>s</code> can help you to get results when you summarize your data, if there is an intuitive answer to be found, otherwise you will get <code>NA</code>.</p>
+<p>To summarize, <code>s</code> can help you to get results when you summarize your data, if there is an sensible answer in the vector. If not, you will get <code>NA</code>.</p>
 </div>
 
 

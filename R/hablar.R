@@ -32,7 +32,6 @@
 #'
 #' x <- c("abc", "3", "Hello world")
 #' could_chr_be_num(x)
-#' could_num_be_int(x)
 #'
 #' x <- c(NA, "3.45", "5,98")
 #' could_chr_be_num(x)
@@ -131,7 +130,10 @@ could_dtm_be_dte <- function(.x) {
 #' x <- c(3, -Inf, 6.56, 9.3, NaN, 5, -Inf)
 #' rationalize(x)
 #'
-#' df <- tibble(num_col = c(Inf, 3, NaN), chr_col = c("a", "b", "c")) %>% print
+#' df <- data.frame(num_col = c(Inf, 3, NaN), 
+#'                  chr_col = c("a", "b", "c"), 
+#'                  stringsAsFactors = FALSE)
+#' df
 #' rationalize(df)
 #'
 #' @rdname rationalize
@@ -215,7 +217,7 @@ rationalize.data.frame <- function(.x, ...) {
 #' # Dates
 #' dte <- as.Date(c("2018-01-01", "2016-03-21", "1970-01-05"))
 #' retype(dte)
-#' dte %>% replace
+#' retype(dte)
 #'
 #' # Factors
 #' fct <- as.factor(c("good", "bad", "average"))
@@ -226,11 +228,16 @@ rationalize.data.frame <- function(.x, ...) {
 #' retype(num_chr)
 #'
 #' # Logical
-#' lgl <- c(T, F, T)
+#' lgl <- c(TRUE, FALSE, TRUE)
 #' retype(lgl)
 #'
 #' # Data frame with all the above vectors
-#' df <- tibble(dte = dte, fct = fct, num_chr = num_chr, lgl = lgl) %>% print
+#' df <- data.frame(dte = dte, 
+#'                  fct = fct, 
+#'                  num_chr = num_chr, 
+#'                  lgl = lgl, 
+#'                  stringsAsFactos = FALSE)
+#' df
 #' retype(df)
 #'
 #' @details The simplification hiarchy is as follows. date > numeric > character.
@@ -385,7 +392,8 @@ retype.data.frame <- function(.x, ...) {
 #' @param ignore_na if TRUE then NA omitted from results, as long as any non-NA element is left.
 #'
 #' @return a shortened and simplified vector
-#'df <- tibble(num_col = c(Inf, 3, NaN))
+#'df <- data.frame(num_col = c(Inf, 3, NaN), 
+#'                 stringsAsFactors = FALSE)
 #' @seealso \code{\link{retype}}, \code{\link{rationalize}}
 #'
 #' @examples
@@ -415,10 +423,10 @@ retype.data.frame <- function(.x, ...) {
 #'
 #' ## First of vector when NA is first element
 #' vector <- c(NA, "X", "Y")
-#' # Base R
-#' first(vector)
+#' # dplyr R
+#' dplyr::first(vector)
 #' # With s
-#' first(s(vector))
+#' dplyr::first(s(vector))
 #'
 #' ## Use of s when NA should not be removes
 #' vector <- c(7, Inf, NA, 4)
@@ -428,11 +436,19 @@ retype.data.frame <- function(.x, ...) {
 #' sum(s(vector, ignore_na = FALSE))
 #'
 #' ## s when summarizing a weird data.frame
-#' df_test <- tibble(a = c(NaN, 1, -Inf, 3), b = c(NA, "Q", "P", "P"), c = c(NA, NA, NA, NA)) %>% print
+#' df_test <- data.frame(a = c(NaN, 1, -Inf, 3), 
+#'                       b = c(NA, "Q", "P", "P"), 
+#'                       c = c(NA, NA, NA, NA), 
+#'                       stringsAsFactors = FALSE) 
+#' df_test
 #' # Base R aggregation with dplyr's summarize
-#' df_test %>% summarise(mean_a = mean(a), first_b = first(b), min_c = min(c, na.rm = TRUE))
+#' dplyr::summarise(df_test, mean_a = mean(a), 
+#'                           first_b = first(b), 
+#'                           min_c = min(c, na.rm = TRUE))
 #' # With s
-#' df_test %>% summarise(mean_a = mean(s(a)), first_b = first(s(b)), min_c = min(s(c)))
+#' dplyr::summarise(df_test, mean_a = mean(s(a)), 
+#'                           first_b = first(s(b)), 
+#'                           min_c = min(s(c)))
 #'
 #' @rdname s
 #' @export
@@ -718,30 +734,16 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", ...) {
 #' @examples
 #' # Changing a columns to numeric
 #' # and another one to character
-#' mtcars %>%
-#'   convert(num(gear),
-#'           chr(mpg))
+#' convert(mtcars, num(gear),
+#'                 chr(mpg))
 #'
 #'
 #' # Changing multiple classes on multiple columns
-#' starwars %>%
-#'   convert(int(height,
-#'               mass),
-#'           fct(skin_color,
-#'               gender,
-#'               eye_color))
-#'
-#'
-#' # convert works with the tidyselect functions from dplyr.
-#' # To make all column names that contains "color" a factor
-#' starwars %>%
-#'   convert(fct(contains("color")))
-#'
-#'
-#' # To make all colums integers except for cyl which should be a factor
-#' mtcars %>%
-#'   convert(int(everything()),
-#'           fct(cyl))
+#' convert(mtcars, int(hp,
+#'                     wt),
+#'                 fct(qsec,
+#'                     cyl,
+#'                     drat))
 #'
 #' @rdname convert
 #' @export

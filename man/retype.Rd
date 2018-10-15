@@ -79,7 +79,7 @@ Lists are left unchanged because the are neither simple nor complicated.
 # Dates
 dte <- as.Date(c("2018-01-01", "2016-03-21", "1970-01-05"))
 retype(dte)
-dte \%>\% replace
+retype(dte)
 
 # Factors
 fct <- as.factor(c("good", "bad", "average"))
@@ -90,11 +90,16 @@ num_chr <- c("3","4.0", "3,5")
 retype(num_chr)
 
 # Logical
-lgl <- c(T, F, T)
+lgl <- c(TRUE, FALSE, TRUE)
 retype(lgl)
 
 # Data frame with all the above vectors
-df <- tibble(dte = dte, fct = fct, num_chr = num_chr, lgl = lgl) \%>\% print
+df <- data.frame(dte = dte, 
+                 fct = fct, 
+                 num_chr = num_chr, 
+                 lgl = lgl, 
+                 stringsAsFactos = FALSE)
+df
 retype(df)
 
 }

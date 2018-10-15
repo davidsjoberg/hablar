@@ -20,17 +20,17 @@ library(dplyr)
 
 ## Can the data be simpler?
 ### `retype` quick start your analysis
-Getting data into R can be hassle. But once you do, it often have incorrect data types/classes. It is not uncommon that numeric columns are characters or that dates are characters. Logical values could just as likely be 1 or 0. 
+Getting data into R can be hassle. But once you do, it often have incorrect data types/classes. For instance, it is not uncommon that numeric variables are characters or dates are classed as characters. 
 
-It is not uncommon that you realize a few hundred rows of code later that some column have the wrong data type, which could be annoying. It could also be a dangerous practise to quickly add `as.numeric` a few hundred lines after you import the data. The `hablar` package recommends that you correct all data types directly after you import the data into R! 
+Data conversion is cumbersome and small coding mistakes can produce large issues. The hablar package facilitates correction of all data types directly after you import the data into R such that you can avoid dangerous operations at later stages!
 
 ### What does `retype` do?
-`retype` provides an easy approach for quick and dirty data type conversion. It follows a strict simplification hiarchy on each column of your data frame. It only converts the column if it assumes no important information is lost in the process. For example, the character vector `c("1", "2")` should rather be an integer vector. Likewise, the character `"2010-06-04"` should be a date. Factors have advantages, but they are never the simplest solution and hence it is always converted to character, at least.
+`retype` provides an easy approach for quick and dirty data type conversion. It follows a strict simplification hierarchy for each column of your data frame. It only converts the column if it can assume that no important information is lost in the process. For example, the character vector `c("1", "2")` should rather be an integer vector. Similarly, the character `"2010-06-04"` should be a date. Factors have advantages, but they are never the simplest solution and hence it is always converted to character, at least.
 
 ### Usage
 `retype(x, ...)`
 
-where `x` is a data frame, and `...` is the column names you wanna apply `retype` to. `x` could also be a single vector.
+where `x` is a data frame, and `...` is the column names you want to apply `retype` to. `x` could also be a single vector.
 
 ### Simple example: numeric
 ```{r}
@@ -69,7 +69,7 @@ class(retype(x))
 ```
 
 
-## The simplification hiarchy
+## The simplification hierarchy
 ### Some things are simpler than others
 `retype` uses a procedure to determine which data type is the simplest, without loosing any vital information in your data.
 
@@ -79,7 +79,7 @@ class(retype(x))
 
 * Thirdly, complex and list columns are left unchanged.
 
-* From there it will test if it could be numeric vector. If true it converts the column to numeric.
+* From there it will test if the data could be coded as numeric. If true it converts the column to numeric.
 
 * If it is numeric it tests if it could be an integer instead. If true, it converts the column to integer.
 
@@ -88,8 +88,8 @@ class(retype(x))
 * If it is a date time column it tests if it could be a date. If true, it converts it to a date column.
 
 
-### A visualization of the hiarchy
-The above procedure could be decripbed in a diagram. The arrows imply a test if a column could be converted to another without loosing information in your data. The procedure continues until it cannot be simplified further.
+### A visualization of the hierarchy
+The above procedure could more intuitively be described in a diagram. The arrows imply a test if a column could be converted to another without loosing information in your data. The procedure continues until it cannot be simplified further.
 
 ```{r, echo=F}
 grViz("digraph d {
@@ -123,7 +123,7 @@ df %>%
   retype()
 ```
 
-Which correctly guessed that height should be an integer and mass a numeric column. Factors were returned to character columns.
+Which correctly guessed that height preferably should be an integer vector and that mass works better as a numeric column. The factors were converted to character columns.
 
 ## Final notes
 ### `retype` in production code

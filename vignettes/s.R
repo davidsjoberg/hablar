@@ -50,7 +50,7 @@ df <- tibble(day = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
 ## ---- warning=FALSE------------------------------------------------------
 df %>% 
   group_by(name) %>% 
-  summarise(n_sodas_best_day = max(sold_sodas, na.rm = T))
+  summarize(n_sodas_best_day = max(sold_sodas, na.rm = T))
 
 ## ---- warning=FALSE------------------------------------------------------
 x <- c()
@@ -59,12 +59,12 @@ max(x)
 ## ------------------------------------------------------------------------
 df %>% 
   group_by(name) %>% 
-  summarise(n_sodas_best_day = max(sold_sodas))
+  summarize(n_sodas_best_day = max(sold_sodas))
 
 ## ------------------------------------------------------------------------
 df %>% 
   group_by(name) %>% 
-  summarise(n_sodas_best_day = max(s(sold_sodas)))
+  summarize(n_sodas_best_day = max(s(sold_sodas)))
 
 ## ---- include = F--------------------------------------------------------
 df <- starwars %>% 
@@ -77,13 +77,13 @@ df %>% head(10)
 df %>% 
   filter(!is.na(height)) %>% 
   group_by(homeworld) %>% 
-  summarise(tallest_human = max(height[species == "Human"]))
+  summarize(tallest_human = max(height[species == "Human"]))
 
 ## ------------------------------------------------------------------------
 df %>% 
   filter(!is.na(height)) %>% 
   group_by(homeworld) %>% 
-  summarise(tallest_human = max(s(height[species == "Human"])))
+  summarize(tallest_human = max(s(height[species == "Human"])))
 
 ## ------------------------------------------------------------------------
 x <- c(NaN, 1)
