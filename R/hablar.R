@@ -440,7 +440,7 @@ retype.data.frame <- function(.x, ...) {
 #' df_test
 #' # Base R aggregation with dplyr's summarize
 #' dplyr::summarise(df_test, mean_a = mean(a), 
-#'                           first_b = first(b), 
+#'                           first_b = dplyr::first(b), 
 #'                           min_c = min(c, na.rm = TRUE))
 #' # With s
 #' dplyr::summarise(df_test, mean_a = mean(s(a)), 
@@ -452,7 +452,7 @@ retype.data.frame <- function(.x, ...) {
 
 s <- function(..., ignore_na = TRUE) {
   if(is.factor(...)){
-    stop("s does not work with factors. Change class of input. Consider using retype on your data frame.")
+    stop("s does not work with factors. Consider converting it into another data type with hablar::convert or hablar::retype.")
   }
   .v <- rationalize(c(...))
   if(all(is.na(.v)) | length(.v) == 0) {
