@@ -1,7 +1,7 @@
 Package: hablar
 Type: Package
 Title: Convert Data Type and Get Non-Astonishing Results
-Version: 0.0.9000
+Version: 0.1.0
 Author: David Sjoberg
 Maintainer: David Sjoberg <dav.sjob@gmail.com>
 Description: Simple tools for converting columns to new data types. Intuitive summary functions.

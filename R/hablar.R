@@ -384,7 +384,7 @@ retype.data.frame <- function(.x, ...) {
 #' However, if the length is 0 it returns NA.
 #' It is useful in combination with summary functions, e.g. mean, sum or min, when
 #' an answer is desired, if there is one in the data. In any other case NA is returned. 
-#' Type \code{vignette("s")} in the console.
+#' Type \code{vignette("s")} in the console for more information.
 #'
 #' @param ... one or more vectors. Does not work for factors.
 #' @param ignore_na if TRUE then NA omitted from results, as long as any non-NA element is left.
@@ -670,8 +670,8 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...
 #' @aliases fct
 #' @aliases lgl
 #'
-#' \code{convert} coerces columns to new classes through scoping functions. Always converts factors to
-#' character before coercion. Type \code{vignette("convert")} in the console.
+#' \code{convert} converts columns to new classes through scoping functions. Always converts factors to
+#' character before conversion Type \code{vignette("convert")} in the console for more information.
 #'
 #' @usage convert(.x, ...)
 #'

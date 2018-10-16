@@ -19,7 +19,7 @@ a shortened and simplified vector
 However, if the length is 0 it returns NA.
 It is useful in combination with summary functions, e.g. mean, sum or min, when
 an answer is desired, if there is one in the data. In any other case NA is returned. 
-Type \code{vignette("s")} in the console.
+Type \code{vignette("s")} in the console for more information.
 }
 \examples{
 ## s on a weird numeric vector
