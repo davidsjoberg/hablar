@@ -30,7 +30,7 @@ test_that("from numeric", {
 
   expect_equal(tibble(a = as.numeric(c(1, 2))) %>%
                  convert(dtm(a)),
-               tibble(a = as.POSIXct(c("1970-01-01 01:00:01 CET", "1970-01-01 01:00:02 CET"))))
+               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"))))
 
   expect_equal(tibble(a = as.numeric(c(1, 2))) %>%
                  convert(lgl(a)),
@@ -64,7 +64,7 @@ test_that("from integer", {
 
   expect_equal(tibble(a = as.integer(c(1, 2))) %>%
                  convert(dtm(a)),
-               tibble(a = as.POSIXct(c("1970-01-01 01:00:01 CET", "1970-01-01 01:00:02 CET"))))
+               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"))))
 
   expect_equal(tibble(a = as.integer(c(1, 2))) %>%
                  convert(lgl(a)),
@@ -135,13 +135,13 @@ test_that("from Date", {
 
 
 test_that("from POSIXct", {
-  expect_equal(tibble(a = as.POSIXct(c("1970-05-03 01:00", NA, "1987-04-20 03:45"))) %>%
+  expect_equal(tibble(a = as.POSIXct(c("1970-05-03 01:00", NA, "1987-04-20 03:45"), tz = "UTC")) %>%
                  convert(num(a)),
-               tibble(a = as.numeric(c(10540800, NA, 545881500))))
+               tibble(a = as.numeric(c(10544400, NA, 545888700))))
 
-  expect_equal(tibble(a = as.POSIXct(c("1970-05-03 01:00", NA, "1987-04-20 03:45"))) %>%
+  expect_equal(tibble(a = as.POSIXct(c("1970-05-03 01:00", NA, "1987-04-20 03:45"), tz = "UTC")) %>%
                  convert(dbl(a)),
-               tibble(a = as.numeric(c(10540800, NA, 545881500))))
+               tibble(a = as.numeric(c(10544400, NA, 545888700))))
 
   expect_equal(tibble(a = as.POSIXct(c("1970-05-03 01:00", NA, "1987-04-20 03:45"))) %>%
                  convert(chr(a)),
