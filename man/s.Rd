@@ -68,11 +68,9 @@ df_test <- data.frame(a = c(NaN, 1, -Inf, 3),
 df_test
 # Base R aggregation with dplyr's summarize
 dplyr::summarise(df_test, mean_a = mean(a), 
-                          first_b = first(b), 
                           min_c = min(c, na.rm = TRUE))
 # With s
 dplyr::summarise(df_test, mean_a = mean(s(a)), 
-                          first_b = first(s(b)), 
                           min_c = min(s(c)))
 
 }
