@@ -189,7 +189,7 @@ test_that("from factor", {
 
   expect_equal(tibble(a = as.factor(c("1970-05-03", NA, "1"))) %>%
                  convert(fct(a)),
-               tibble(a = as.factor(c("1970-05-03", NA, "1"))))
+               tibble(a = as.factor(c("1970-05-03", NA, "1")))) 
 })
 
 test_that("Other tests", {
