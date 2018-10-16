@@ -29,8 +29,8 @@ test_that("from numeric", {
                tibble(a = as.Date(c("1970-01-02", "1970-01-03"))))
 
   expect_equal(tibble(a = as.numeric(c(1, 2))) %>%
-                 convert(dtm(a)),
-               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"))))
+                 convert(dtm(a)) %>% lapply(class),
+               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"))) %>% lapply(class))
 
   expect_equal(tibble(a = as.numeric(c(1, 2))) %>%
                  convert(lgl(a)),
@@ -63,8 +63,8 @@ test_that("from integer", {
                tibble(a = as.Date(c("1970-01-02", "1970-01-03"))))
 
   expect_equal(tibble(a = as.integer(c(1, 2))) %>%
-                 convert(dtm(a)),
-               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"), tz="Europe/London")))
+                 convert(dtm(a)) %>% lapply(class),
+               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"), tz="Europe/London")) %>% lapply(class))
 
   expect_equal(tibble(a = as.integer(c(1, 2))) %>%
                  convert(lgl(a)),
