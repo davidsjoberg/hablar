@@ -33,13 +33,6 @@ sum(vector)
 # With s
 sum(s(vector))
 
-## Min of vector with length 0
-vector <- c()
-# Base R
-min(vector)
-# With s
-min(s(vector))
-
 ## Max of vector with only NA
 # Base R
 max(vector, na.rm = TRUE)
