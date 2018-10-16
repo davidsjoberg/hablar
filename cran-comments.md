@@ -4,4 +4,8 @@
 * win-builder (i386 and x64)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs or NOTEs. 
+There were no ERRORs or WARNINGs.
+
+1 NOTE on Ubuntu 14.04.5
+
+

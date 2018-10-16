@@ -1,6 +1,6 @@
 Package: hablar
 Type: Package
-Title: Convert data type and get non-astonishing results
+Title: Convert Data Type and Get Non-Astonishing Results
 Version: 0.0.9000
 Author: David Sjoberg
 Maintainer: David Sjoberg <dav.sjob@gmail.com>
