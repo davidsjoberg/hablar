@@ -575,10 +575,11 @@ first_ <- function(..., ignore_na = TRUE) {
 #'
 #' as_reliable_dte(.x, origin = "1970-01-01", ...)
 #'
-#' as_reliable_dtm(.x, origin = "1970-01-01", ...)
+#' as_reliable_dtm(.x, origin = "1970-01-01", tz = "Europe/London", ...)
 #'
 #' @param .x vector
 #' @param origin argument to set origin for date/date time.
+#' @param tz argument to set time zone for date/date time. Default is Europe/London.
 #' @param ... additional arguments
 #'
 #' @return vector
@@ -650,7 +651,7 @@ as_reliable_dte <- function(.x, origin = "1970-01-01", ...) {
 
 #' @rdname as_reliable
 #' @export
-as_reliable_dtm <- function(.x, origin = "1970-01-01", ...) {
+as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...) {
   if(any(class(.x) == "POSIXct")) {
     return(.x)}
   if(is.logical(.x)) {
@@ -658,7 +659,7 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", ...) {
   if(is.factor(.x)) {
     .x <- as.character(.x)}
   if(TRUE) {
-    return(as.POSIXct(.x, origin = origin, ...))}
+    return(as.POSIXct(.x, origin = origin, tz = tz, ...))}
 }
 
 

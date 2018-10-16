@@ -1,12 +1,12 @@
 Package: hablar
 Type: Package
-Title: A grammer for data type conversion and vector aggregation
+Title: Convert data type and get non-astonishing results
 Version: 0.0.9000
 Author: David Sjoberg
 Maintainer: David Sjoberg <dav.sjob@gmail.com>
 Description: Simple tools for converting columns to new data types. Intuitive summary functions.
 License: MIT + file LICENSE
-Url: https://davidsjoberg.github.io/
+URL: https://davidsjoberg.github.io/
 BugReports: https://github.com/davidsjoberg/hablar/issues
 Encoding: UTF-8
 LazyData: true

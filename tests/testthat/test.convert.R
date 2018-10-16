@@ -64,7 +64,7 @@ test_that("from integer", {
 
   expect_equal(tibble(a = as.integer(c(1, 2))) %>%
                  convert(dtm(a)),
-               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"))))
+               tibble(a = as.POSIXct(c("1970-01-01 01:00:01", "1970-01-01 01:00:02"), tz="Europe/London")))
 
   expect_equal(tibble(a = as.integer(c(1, 2))) %>%
                  convert(lgl(a)),
