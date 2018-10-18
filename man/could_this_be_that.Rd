@@ -7,7 +7,7 @@
 \alias{could_num_be_int}
 \alias{could_chr_be_dtm}
 \alias{could_dtm_be_dte}
-\title{Tests is a vector could be of another class}
+\title{Tests is a vector could be of another data type}
 \usage{
 could_chr_be_num(.x)
 
@@ -29,7 +29,7 @@ TRUE or FALSE
 Tests if vector could be a another data type without errors.
 }
 \details{
-The name logic of \code{could_chr_be_num} should be intepreted as:
+The name logic of \code{could_chr_be_num} should be interpreted as:
 Could this character vector be a numeric vector?
 The same logic goes for all functions named could_this_be_that.
 }

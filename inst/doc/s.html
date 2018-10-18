@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="David Sjoberg" />
+
+
+<title>s - short and simple summarizing</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore"><code>s</code> - short and simple summarizing</h1>
+<h4 class="author"><em>David Sjoberg</em></h4>
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<div id="description" class="section level3">
+<h3>Description</h3>
+<p>The <code>s</code> function is a simple function that helps you get intuitive results when summarizing data. It is made to be used in conjuction with summarize functions, for example <code>min</code> , <code>sum</code> and <code>mean</code>. <code>s</code> takes a vector and mutates it in the following ways:</p>
+<ul>
+<li><p>It replaces all non-rational numbers from numeric vectors and replace them with <code>NA</code>. Non-rational numbers are <code>Inf</code>, <code>-Inf</code> and <code>NaN</code>.</p></li>
+<li><p>It removes <code>NA</code> from the vector by default</p></li>
+<li><p>If the vector has length zero or only consists of <code>NA</code> it returns a single <code>NA</code>.</p></li>
+</ul>
+</div>
+<div id="usage" class="section level3">
+<h3>Usage</h3>
+<p><code>s(..., ignore_na = T)</code></p>
+<p>where … is one or more vector(s). If missing values should not be omitted use <code>ignore_na = F</code>.</p>
+</div>
+<div id="simple-examples" class="section level3">
+<h3>Simple examples</h3>
+<p>Removing <code>NA</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">1</span>, <span class="dv">2</span>)
+<span class="kw">s</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] 1 2</code></pre>
+<p>Replacing non-rational numbers with <code>NA</code> and then removes <code>NA</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="dv">1</span>, <span class="ot">Inf</span>)
+<span class="kw">s</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] 1</code></pre>
+<p>Empty vectors return a single <code>NA</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>()
+<span class="kw">s</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] NA</code></pre>
+<p>In conjuction with a summary function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="ot">Inf</span>, <span class="dv">3</span>, <span class="dv">4</span>)
+<span class="kw">median</span>(<span class="kw">s</span>(x))</code></pre></div>
+<pre><code>#&gt; [1] 3.5</code></pre>
+</div>
+</div>
+<div id="the-problems-it-solvs" class="section level2">
+<h2>The problems it solvs</h2>
+<div id="principle-of-least-astonishment" class="section level3">
+<h3>Principle of least astonishment</h3>
+<p>All programming languages have their special cases when you get non-intuitive results that you did not expect. This is also true for R. The s-function provides intuitive outcomes of some of the most basic commands in R. In the next parts of the vignette some problems it solves are explained in greater detail.</p>
+</div>
+<div id="missing-values" class="section level3">
+<h3>Missing values</h3>
+<p>When learning R users might be surprised when creating suprised when using simple summary function. A summary function is a function that takes a vector and returns a single one value. For example, <code>min(x)</code> , <code>sum(x)</code> and <code>mean(x)</code>. A simple example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)
+<span class="kw">sum</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] 15</code></pre>
+<p>In this example the output of sum() was, which is expected since all entries in x sums to 15. However, in more messy data, the output is oftentimes less intuitive. New users to R might be confused that the next example results in NA (a missing value):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">NA</span>, <span class="dv">4</span>)
+<span class="kw">mean</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] NA</code></pre>
+<p>Since the vector above have an a missing value R does not know how to find the mean of the vector. The missing value could be anything, and thus R thus returns the output <code>NA</code>. However, since missing values are common when working with real data, it is also a common practise to ignore missing values. Usually the user tells R to ignore the missing value and return the mean of the vector that have values that could be averaged. The error in the previous example could be fixed by adding <code>na.rm = TRUE</code> that drops all missing values before calculating the mean:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">NA</span>, <span class="dv">4</span>)
+<span class="kw">mean</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>#&gt; [1] 2.5</code></pre>
+<p>Generally, R is strict about missing values so that you do not miss them, which often is helpful rather than harsh! However, often the programmer want R to return a ‘real’ value from the data, if there is one, even if it ignores missing values.</p>
+<p>The <code>s</code> function helps you with this. Since it by default removes missing values you can simply enter:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="ot">NA</span>, <span class="dv">4</span>)
+<span class="kw">mean</span>(<span class="kw">s</span>(x))</code></pre></div>
+<pre><code>#&gt; [1] 2.5</code></pre>
+</div>
+<div id="sometimes-r-removes-too-much" class="section level3">
+<h3>Sometimes R removes too much</h3>
+<p>Adding an argument to remove all missing is common practise when summarizing data. However, it is not uncommon that some vectors only have missing values. Imagine an example where Amanda, David and Viktor sold sodas by the beach for three days. If someone did not show up they get a missing value.</p>
+<pre><code>#&gt; # A tibble: 9 x 3
+#&gt;     day name   sold_sodas
+#&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;
+#&gt; 1     1 Amanda          3
+#&gt; 2     2 Amanda         NA
+#&gt; 3     3 Amanda          8
+#&gt; 4     1 David          NA
+#&gt; # ... with 5 more rows</code></pre>
+<p>Now we want to see the maximum number of sodas each person sold on a single day. The above data frame if saved as <code>df</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(name) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_sodas_best_day =</span> <span class="kw">max</span>(sold_sodas, <span class="dt">na.rm =</span> T))</code></pre></div>
+<pre><code>#&gt; # A tibble: 3 x 2
+#&gt;   name   n_sodas_best_day
+#&gt;   &lt;chr&gt;             &lt;dbl&gt;
+#&gt; 1 Amanda                8
+#&gt; 2 David              -Inf
+#&gt; 3 Viktor                4</code></pre>
+<p>Amanda sold the most sodas in a single day. However, David who was absent on all days, got the output <code>-Inf</code>. This means that negative infinity was the number of sodas he sold during his most productive day. That is astonishing! One would perhaps think that the more intuitive output would be <code>NA</code>.</p>
+<p>The reason for result is that we told R to remove all missing values before calculating the maximal value. It is equivalent to:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>()
+<span class="kw">max</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] -Inf</code></pre>
+<p>We could try to remove the <code>na.rm = TRUE</code> argument from <code>max()</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(name) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_sodas_best_day =</span> <span class="kw">max</span>(sold_sodas))</code></pre></div>
+<pre><code>#&gt; # A tibble: 3 x 2
+#&gt;   name   n_sodas_best_day
+#&gt;   &lt;chr&gt;             &lt;dbl&gt;
+#&gt; 1 Amanda               NA
+#&gt; 2 David                NA
+#&gt; 3 Viktor                4</code></pre>
+<p>Suddenly R tells us that Viktor had the best day and Amanda, who was absent the second day, got NA because R doesn’t not know how to find the maximum value. However, David also got NA this time, which makes sense.</p>
+<p>Sometimes, calculating simple descriptive statistics can be a cumbersome task. The s function is there to support you! Since it returns <code>NA</code> if the vector is empty we get:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(name) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">n_sodas_best_day =</span> <span class="kw">max</span>(<span class="kw">s</span>(sold_sodas)))</code></pre></div>
+<pre><code>#&gt; # A tibble: 3 x 2
+#&gt;   name   n_sodas_best_day
+#&gt;   &lt;chr&gt;             &lt;dbl&gt;
+#&gt; 1 Amanda                8
+#&gt; 2 David                NA
+#&gt; 3 Viktor                4</code></pre>
+</div>
+<div id="getting-answers-when-there-is-none" class="section level3">
+<h3>Getting answers when there is none</h3>
+<p>Another astonishing result one might encounter occurs when R tries to return a value when there is none. Take this extract <code>df</code> from the <code>starwars</code> dataset from the R package <code>dplyr</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>(<span class="dv">10</span>)</code></pre></div>
+<pre><code>#&gt; # A tibble: 10 x 4
+#&gt;   name           homeworld species height
+#&gt;   &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;    &lt;int&gt;
+#&gt; 1 Luke Skywalker Tatooine  Human      172
+#&gt; 2 C-3PO          Tatooine  Droid      167
+#&gt; 3 R2-D2          Naboo     Droid       96
+#&gt; 4 Darth Vader    Tatooine  Human      202
+#&gt; # ... with 6 more rows</code></pre>
+<p>Say that we want to calculate find the height of the tallest human from each homeworld. For precautionary reasons, we drop all rows with missing values from the height column so that we do not get the same problem as before.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(height)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(homeworld) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">tallest_human =</span> <span class="kw">max</span>(height[species <span class="op">==</span><span class="st"> &quot;Human&quot;</span>]))</code></pre></div>
+<pre><code>#&gt; # A tibble: 49 x 2
+#&gt;   homeworld   tallest_human
+#&gt;   &lt;chr&gt;               &lt;dbl&gt;
+#&gt; 1 Alderaan              191
+#&gt; 2 Aleen Minor          -Inf
+#&gt; 3 Bespin                175
+#&gt; 4 Bestine IV            180
+#&gt; # ... with 45 more rows</code></pre>
+<p>We got negative infinity <code>-Inf</code> again. How could this be?</p>
+<p>This is because some homeworld have no humans, e.g. Cerea. R tries to calculate the maximum value of nothing. The <code>s</code> function can help you out! Since it returns <code>NA</code> if the vector is empty we get:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(height)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(homeworld) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">tallest_human =</span> <span class="kw">max</span>(<span class="kw">s</span>(height[species <span class="op">==</span><span class="st"> &quot;Human&quot;</span>])))</code></pre></div>
+<pre><code>#&gt; # A tibble: 49 x 2
+#&gt;   homeworld   tallest_human
+#&gt;   &lt;chr&gt;               &lt;int&gt;
+#&gt; 1 Alderaan              191
+#&gt; 2 Aleen Minor            NA
+#&gt; 3 Bespin                175
+#&gt; 4 Bestine IV            180
+#&gt; # ... with 45 more rows</code></pre>
+<p>Now we get missing values for the homeworlds that does not have any humans. Makes sense.</p>
+</div>
+<div id="summarizing-weird-numbers" class="section level3">
+<h3>Summarizing weird numbers</h3>
+<p>Numerical vectors in R can include more than numbers and missing values <code>NA</code>. They can also include infinite numbers <code>Inf</code> and <code>-Inf</code> as shown in the examples above. Furthermore, numerical vectors can include <code>NaN</code>‘s which means ’not-a-number’. If the data frame you are using have <code>NaN</code> or <code>Inf</code> it may cause you problems when summarizing your data. Some examples:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="dv">1</span>)
+<span class="kw">min</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] NaN</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">Inf</span>, <span class="dv">3</span>, <span class="dv">4</span>)
+<span class="kw">mean</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] Inf</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="dv">2</span>)
+<span class="kw">sum</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] -Inf</code></pre>
+<p>Often when you summarize vectors that have <code>NaN</code> or <code>Inf</code> you want to treat them as a missing value. Maybe they have appeared as a mistake when you accidentally divided a value by zero since <code>1/0 = Inf</code> in R. The <code>s</code> function solves this for you be replacing them with <code>NA</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="dv">1</span>)
+<span class="kw">min</span>(<span class="kw">s</span>(x))</code></pre></div>
+<pre><code>#&gt; [1] 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">Inf</span>, <span class="dv">3</span>, <span class="dv">4</span>)
+<span class="kw">mean</span>(<span class="kw">s</span>(x))</code></pre></div>
+<pre><code>#&gt; [1] 3.5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="dv">2</span>)
+<span class="kw">sum</span>(<span class="kw">s</span>(x))</code></pre></div>
+<pre><code>#&gt; [1] 7</code></pre>
+</div>
+<div id="wrappers-for-s-and-summary-functions" class="section level3">
+<h3>Wrappers for <code>s</code> and summary functions</h3>
+<p>If things get too messy with an extra function you might prefer the wrapper functions of <code>s</code>. All major summary functions have an s wrapped alternative in <code>hablar</code>. These are accessed by adding an underscore to the name of the summary function, i.e. <code>min_(x)</code> and is equal to <code>min(s(x))</code>. Repeating the previous exercises using wrappers for <code>s</code> would look like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NaN</span>, <span class="dv">1</span>)
+<span class="kw">min_</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">Inf</span>, <span class="dv">3</span>, <span class="dv">4</span>)
+<span class="kw">mean_</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] 3.5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>, <span class="op">-</span><span class="ot">Inf</span>, <span class="dv">2</span>)
+<span class="kw">sum_</span>(x)</code></pre></div>
+<pre><code>#&gt; [1] 7</code></pre>
+</div>
+</div>
+<div id="final-note" class="section level2">
+<h2>Final note</h2>
+<p>To summarize, <code>s</code> can help you to get results when you summarize your data, if there is an sensible answer in the vector. If not, you will get <code>NA</code>.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

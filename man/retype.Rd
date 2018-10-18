@@ -10,7 +10,7 @@
 \alias{retype.numeric}
 \alias{retype.list}
 \alias{retype.data.frame}
-\title{Return simple classes}
+\title{Return simple data types}
 \usage{
 retype(.x, ...)
 
@@ -33,7 +33,7 @@ retype(.x, ...)
 \arguments{
 \item{.x}{vector or data.frame}
 
-\item{...}{column names to be evalutated. Only if .x is a data frame.}
+\item{...}{column names to be evaluated. Only if .x is a data frame.}
 }
 \value{
 For vectors: simple class of .x.
@@ -64,11 +64,11 @@ more information or type \code{vignette("retype")} in the console.
 }
 \details{
 Each vector past to \code{retype} is reclassified into the highest position in
-a simplification hiarchy without loosing any information. This means that:
+a simplification hierarchy without loosing any information. This means that:
 Factors are converted to characters.
 However, character vectors (or vectors changed to character initially)
 are checked to see if they could be a numeric vector without error.
-If so, it is transformed into a numeric vector which is higher in the hiarchy.
+If so, it is transformed into a numeric vector which is higher in the hierarchy.
 Vectors of class logical, integer are changed to numerical.
 Dates and date time (POSIXct) goes through the same procedure.
 Lists and complex vectors are left unchanged because the are neither simple nor complicated.

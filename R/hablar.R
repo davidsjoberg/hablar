@@ -6,7 +6,7 @@
 # could_this_be_that
 ###############################################
 
-#' @title Tests is a vector could be of another class
+#' @title Tests is a vector could be of another data type
 #' @name could_this_be_that
 #' @aliases  could_chr_be_num
 #' @aliases  could_chr_be_int
@@ -19,7 +19,7 @@
 #'
 #' @param .x vector of the data type that should be tested.
 #'
-#' @details The name logic of \code{could_chr_be_num} should be intepreted as:
+#' @details The name logic of \code{could_chr_be_num} should be interpreted as:
 #' Could this character vector be a numeric vector?
 #' The same logic goes for all functions named could_this_be_that.
 #'
@@ -115,14 +115,15 @@ could_dtm_be_dte <- function(.x) {
 #'
 #' \code{rationalize} transforms all numeric elements to be rational values or NA,
 #' thus removes all \code{NaN,Inf} and replaces them with \code{NA}.
-#' If a non-numeric vector is passed, it is unchanged. If a data.frame is
-#' passed, it evaluates all columns seperately.
 #'
 #' @param .x vector or data.frame
 #' @param ... columns to be evaluated. Only applicable if .x is a data frame.
 #'
 #' @return For vectors: same data type/class as .x.
 #' @return For data.frame: a tbl data frame.
+#' 
+#' @details #' If a non-numeric vector is passed, it is unchanged. If a data.frame is
+#' passed, it evaluates all columns separately.
 #'
 #' @seealso \code{\link{s}}, \code{\link{rationalize}}
 #'
@@ -198,7 +199,7 @@ rationalize.data.frame <- function(.x, ...) {
 # S3 retype
 ###############################################
 
-#' Return simple classes
+#' Return simple data types
 #'
 #' \code{retype} transforms all elements into simple classes. The simple classes
 #' are date, numeric and character. By transforming all elements to these
@@ -206,7 +207,7 @@ rationalize.data.frame <- function(.x, ...) {
 #' more information or type \code{vignette("retype")} in the console.
 #'
 #' @param .x vector or data.frame
-#' @param ... column names to be evalutated. Only if .x is a data frame.
+#' @param ... column names to be evaluated. Only if .x is a data frame.
 #'
 #' @return For vectors: simple class of .x.
 #' @return For data.frame: a tbl data frame with simple classes.
@@ -241,11 +242,11 @@ rationalize.data.frame <- function(.x, ...) {
 #' retype(df)
 #'
 #' @details Each vector past to \code{retype} is reclassified into the highest position in
-#' a simplification hiarchy without loosing any information. This means that:
+#' a simplification hierarchy without loosing any information. This means that:
 #' Factors are converted to characters.
 #' However, character vectors (or vectors changed to character initially)
 #' are checked to see if they could be a numeric vector without error.
-#' If so, it is transformed into a numeric vector which is higher in the hiarchy.
+#' If so, it is transformed into a numeric vector which is higher in the hierarchy.
 #' Vectors of class logical, integer are changed to numerical.
 #' Dates and date time (POSIXct) goes through the same procedure.
 #' Lists and complex vectors are left unchanged because the are neither simple nor complicated.
@@ -497,21 +498,15 @@ s <- function(..., ignore_na = TRUE) {
 #'
 #' ## Min of vector with length 0
 #' vector <- c()
-#' # Base R
-#' min(vector)
 #' # With a wrapped s
 #' min_(vector)
 #'
 #' ## Max of vector with only NA
-#' # Base R
-#' max(vector, na.rm = TRUE)
 #' # With a wrapped s
 #' max_(vector)
 #'
 #' ## Use of s when NA should not be removes
 #' vector <- c(7, Inf, NA, 4)
-#' # Base R
-#' sum(vector)
 #' # With a wrapped s
 #' sum_(vector, ignore_na = FALSE)
 #'
@@ -544,17 +539,17 @@ first_ <- function(..., ignore_na = TRUE) {
 
 
 ###############################################
-# as_reliable_[numeric class]
+# as_reliable_[data type]
 ###############################################
 
-#' @title Reliable coercion to numeric/logical classes
+#' @title Reliable conversion to another data type
 #' @name as_reliable
 #' @aliases as_reliable_num
 #' @aliases as_reliable_int
 #' @aliases as_reliable_lgl
 #'
 #' @description
-#' Suppoert functions for the \code{convert} function. These functions coerces vectors to a new data type, e.g. \code{as.numeric}
+#' Support functions for the \code{convert} function. These functions coerces vectors to a new data type, e.g. \code{as.numeric}
 #' except that it converts factors to character first.
 #' See \code{\link{convert}} for more information.
 #'
@@ -659,7 +654,7 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...
 # convert
 ###############################################
 
-#' @title convert class of columns
+#' @title Convert data type of columns
 #' @name convert
 #' @aliases convert
 #' @aliases num
@@ -676,7 +671,7 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...
 #' @usage convert(.x, ...)
 #'
 #' @param .x A data.frame
-#' @param ... Scoping functions, se details
+#' @param ... Scoping functions, see details
 #' @param .args extra argument to be passed to support function.
 #'
 #' @return a tbl data frame
@@ -704,7 +699,7 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...
 #'   \code{convert(.df, dte(.x, .y)} where \code{.x} and
 #'   \code{.y} are column names of \code{.df}}
 #'
-#'   \item{dtm}{Changes to date-time columns (POIXct). Default origin set to "1970-01-01". \cr\strong{Usage: }
+#'   \item{dtm}{Changes to date-time columns (POSIXct). Default origin set to "1970-01-01". \cr\strong{Usage: }
 #'   \code{convert(.df, dtm(.x, .y)} where \code{.x} and
 #'   \code{.y} are column names of \code{.df}}
 #'
@@ -717,8 +712,8 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...
 #'   \code{.y} are column names of \code{.df}}
 #' }
 #'
-#' It is also possible to use multiple scoping functions inside \code{convert}. For exemple,
-#' \code{convert(.df, num(.x), chr(.y))} works aswell.
+#' It is also possible to use multiple scoping functions inside \code{convert}. For example,
+#' \code{convert(.df, num(.x), chr(.y))} works as well.
 #'
 #' @examples
 #' # Changing a columns to numeric
@@ -727,7 +722,7 @@ as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...
 #'                 chr(mpg))
 #'
 #'
-#' # Changing multiple classes on multiple columns
+#' # Changing multiple data types on multiple columns
 #' convert(mtcars, int(hp,
 #'                     wt),
 #'                 fct(qsec,

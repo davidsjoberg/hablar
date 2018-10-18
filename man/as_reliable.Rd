@@ -7,7 +7,7 @@
 \alias{as_reliable_lgl}
 \alias{as_reliable_dte}
 \alias{as_reliable_dtm}
-\title{Reliable coercion to numeric/logical classes}
+\title{Reliable conversion to another data type}
 \usage{
 as_reliable_num(.x, ...)
 
@@ -40,7 +40,7 @@ as_reliable_dtm(.x, origin = "1970-01-01", tz = "Europe/London", ...)
 vector
 }
 \description{
-Suppoert functions for the \code{convert} function. These functions coerces vectors to a new data type, e.g. \code{as.numeric}
+Support functions for the \code{convert} function. These functions coerces vectors to a new data type, e.g. \code{as.numeric}
 except that it converts factors to character first.
 See \code{\link{convert}} for more information.
 }

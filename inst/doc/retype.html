@@ -143,8 +143,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="a-visualization-of-the-hierarchy" class="section level3">
 <h3>A visualization of the hierarchy</h3>
 <p>The above procedure could more intuitively be described in a diagram. The arrows imply a test if a column could be converted to another without loosing information in your data. The procedure continues until it cannot be simplified further.</p>
-<div id="htmlwidget-af0d32d60d2dc7c8dfc7" style="width:288px;height:288px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-af0d32d60d2dc7c8dfc7">{"x":{"diagram":"digraph d {\n\n      node [shape = circle, style = filled]\n      factor;character;numeric;integer;\"date time\";date;logical;list;complex\n\n      logical -> integer;\n      factor -> character;\n      character -> numeric\n      numeric -> integer;\n      character -> \"date time\";\n      \"date time\" -> date;\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4008069c57f4d962d437" style="width:288px;height:288px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4008069c57f4d962d437">{"x":{"diagram":"digraph d {\n\n      node [shape = circle, style = filled]\n      factor;character;numeric;integer;\"date time\";date;logical;list;complex\n\n      logical -> integer;\n      factor -> character;\n      character -> numeric\n      numeric -> integer;\n      character -> \"date time\";\n      \"date time\" -> date;\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div id="example-on-a-data-frame" class="section level2">

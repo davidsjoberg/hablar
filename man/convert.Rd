@@ -10,7 +10,7 @@
 \alias{fct}
 \alias{dtm}
 \alias{dte}
-\title{convert class of columns}
+\title{Convert data type of columns}
 \usage{
 convert(.x, ...)
 
@@ -31,7 +31,7 @@ dte(..., .args = list())
 convert(.x, ...)
 }
 \arguments{
-\item{...}{Scoping functions, se details}
+\item{...}{Scoping functions, see details}
 
 \item{.args}{extra argument to be passed to support function.}
 
@@ -41,7 +41,7 @@ convert(.x, ...)
 a tbl data frame
 }
 \description{
-convert class of columns
+Convert data type of columns
 }
 \details{
 The convert function requires a scoped function inside. Column names should not be quoted:.
@@ -66,7 +66,7 @@ The convert function requires a scoped function inside. Column names should not 
   \code{convert(.df, dte(.x, .y)} where \code{.x} and
   \code{.y} are column names of \code{.df}}
 
-  \item{dtm}{Changes to date-time columns (POIXct). Default origin set to "1970-01-01". \cr\strong{Usage: }
+  \item{dtm}{Changes to date-time columns (POSIXct). Default origin set to "1970-01-01". \cr\strong{Usage: }
   \code{convert(.df, dtm(.x, .y)} where \code{.x} and
   \code{.y} are column names of \code{.df}}
 
@@ -79,8 +79,8 @@ The convert function requires a scoped function inside. Column names should not 
   \code{.y} are column names of \code{.df}}
 }
 
-It is also possible to use multiple scoping functions inside \code{convert}. For exemple,
-\code{convert(.df, num(.x), chr(.y))} works aswell.
+It is also possible to use multiple scoping functions inside \code{convert}. For example,
+\code{convert(.df, num(.x), chr(.y))} works as well.
 }
 \examples{
 # Changing a columns to numeric
@@ -89,7 +89,7 @@ convert(mtcars, num(gear),
                 chr(mpg))
 
 
-# Changing multiple classes on multiple columns
+# Changing multiple data types on multiple columns
 convert(mtcars, int(hp,
                     wt),
                 fct(qsec,

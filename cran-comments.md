@@ -7,9 +7,10 @@
 There were no ERRORs or WARNINGs or NOTEs.
 
 ## R CMD check results Ubuntu:
-There were no ERRORs and 1 WARNINGs and no NOTEs.
+There were no ERRORs or WARNINGs. 1 NOTE
 
-The warnings on Ubuntu comes from an example in the documentation where base R returns a warning, in contrast to the package's alternative function that does not give a warning.
+* 'license' file found in top directory. 
 
+Comment: file LICENSE is exaxtly the same as other packages. I can't see why Ubuntu finds a NOTE in checking it while windows and mac does not.
 
 

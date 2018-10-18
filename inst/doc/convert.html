@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="David Sjoberg" />
+
+
+<title>A grammer for data type conversion</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">A grammer for data type conversion</h1>
+<h4 class="author"><em>David Sjoberg</em></h4>
+
+
+
+<div id="convert-your-data-types" class="section level2">
+<h2><code>convert</code> your data types</h2>
+<div id="before-everything-there-was-data-type-conversion" class="section level3">
+<h3>Before everything there was data type conversion</h3>
+<p>Best practise of data analysis is to fix data types directly after importing data into R. This helps in many ways:</p>
+<ul>
+<li>You only need to do it once</li>
+<li>If there are any errors you know where in the script it should be fixed</li>
+<li>It scales up your code. For example, all columns that should be numeric could be converted at the same time.</li>
+</ul>
+<p>Additionally, if every column is converted to its appropriate data type then you won’t be surprised by data type errors the next time you run the script.</p>
+</div>
+<div id="usage" class="section level3">
+<h3>Usage</h3>
+<p><code>convert(.x, ...)</code> where <code>.x</code> is a data frame. <code>...</code> is a placeholder for data type specific conversion functions.</p>
+</div>
+<div id="support-functions" class="section level3">
+<h3>Support functions</h3>
+<p><code>convert</code> must be used in conjunction with data type conversion functions:</p>
+<ul>
+<li><code>chr</code> converts to character.</li>
+<li><code>num</code> converts to numeric.</li>
+<li><code>int</code> converts to integer.</li>
+<li><code>lgl</code> converts to logical.</li>
+<li><code>fct</code> converts to factor.</li>
+<li><code>dte</code> converts to date.</li>
+<li><code>dtm</code> converts to date time.</li>
+</ul>
+</div>
+<div id="the-syntax" class="section level3">
+<h3>The syntax</h3>
+<p>Imagine you have a data frame where you want to change columns:</p>
+<ul>
+<li><code>a</code> and <code>b</code> to numerical</li>
+<li><code>c</code> to date</li>
+<li><code>d</code> and <code>e</code> to character</li>
+</ul>
+<p>Then you can write:</p>
+<p><code>df %&gt;% convert(num(a, b), dte(c), chr(d, e))</code></p>
+</div>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
+<p>The easiest way to understand how simple <code>convert</code> is to use is with examples. Have a look at the a gapminder dataset from the package <code>gapminder</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gapminder)
+gapminder</code></pre></div>
+<pre><code>#&gt; # A tibble: 1,704 x 6
+#&gt;   country     continent  year lifeExp      pop gdpPercap
+#&gt;   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+#&gt; 1 Afghanistan Asia       1952    28.8  8425333      779.
+#&gt; 2 Afghanistan Asia       1957    30.3  9240934      821.
+#&gt; 3 Afghanistan Asia       1962    32.0 10267083      853.
+#&gt; 4 Afghanistan Asia       1967    34.0 11537966      836.
+#&gt; # ... with 1,700 more rows</code></pre>
+<p>We might want to change the country column to character instead of factor. To do this we use <code>chr</code> together with the column name inside <code>convert</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country))</code></pre></div>
+<pre><code>#&gt; # A tibble: 1,704 x 6
+#&gt;   country     continent  year lifeExp      pop gdpPercap
+#&gt;   &lt;chr&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+#&gt; 1 Afghanistan Asia       1952    28.8  8425333      779.
+#&gt; 2 Afghanistan Asia       1957    30.3  9240934      821.
+#&gt; 3 Afghanistan Asia       1962    32.0 10267083      853.
+#&gt; 4 Afghanistan Asia       1967    34.0 11537966      836.
+#&gt; # ... with 1,700 more rows</code></pre>
+<p>This converted the country column to the data type character. But we do not have to make this whole procedure for each column if we want to convert more columns. Let’s say that we also want to convert continent to character and the column lifeExp to integer, pop to double and gdpPercap to numeric. It is simply done:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country, 
+              continent),
+          <span class="kw">int</span>(lifeExp),
+          <span class="kw">dbl</span>(pop),
+          <span class="kw">num</span>(gdpPercap))</code></pre></div>
+<pre><code>#&gt; # A tibble: 1,704 x 6
+#&gt;   country     continent  year lifeExp      pop gdpPercap
+#&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1 Afghanistan Asia       1952      28  8425333      779.
+#&gt; 2 Afghanistan Asia       1957      30  9240934      821.
+#&gt; 3 Afghanistan Asia       1962      31 10267083      853.
+#&gt; 4 Afghanistan Asia       1967      34 11537966      836.
+#&gt; # ... with 1,700 more rows</code></pre>
+</div>
+</div>
+<div id="i-can-already-convert-between-data-types.-why-do-i-need-convert" class="section level2">
+<h2>I can already convert between data types. Why do I need <code>convert</code>?</h2>
+<p>You can change alot of data types with little code. Consider using <code>mutate</code> from <code>dplyr</code> to do the same operation:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">country =</span> <span class="kw">as.character</span>(country),
+         <span class="dt">continent =</span> <span class="kw">as.character</span>(continent),
+         <span class="dt">lifeExp =</span> <span class="kw">as.integer</span>(lifeExp),
+         <span class="dt">pop =</span> <span class="kw">as.double</span>(pop),
+         <span class="dt">gdpPercap =</span> <span class="kw">as.numeric</span>(gdpPercap))</code></pre></div>
+<pre><code>#&gt; # A tibble: 1,704 x 6
+#&gt;   country     continent  year lifeExp      pop gdpPercap
+#&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1 Afghanistan Asia       1952      28  8425333      779.
+#&gt; 2 Afghanistan Asia       1957      30  9240934      821.
+#&gt; 3 Afghanistan Asia       1962      31 10267083      853.
+#&gt; 4 Afghanistan Asia       1967      34 11537966      836.
+#&gt; # ... with 1,700 more rows</code></pre>
+<p>Which gives the same result. However, you need to refer to the column name twice and the data type conversion function for each column. Imagine the code to convert 20 columns.</p>
+<p>However, <code>dplyr</code> have another way of applying the same function to multiple columns which could help, <code>mutate_at</code>. The same example would then look like:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(country, continent), <span class="kw">funs</span>(as.character)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(lifeExp), <span class="kw">funs</span>(as.integer)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(pop), <span class="kw">funs</span>(as.double)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(gdpPercap), <span class="kw">funs</span>(as.numeric))</code></pre></div>
+<pre><code>#&gt; # A tibble: 1,704 x 6
+#&gt;   country     continent  year lifeExp      pop gdpPercap
+#&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1 Afghanistan Asia       1952      28  8425333      779.
+#&gt; 2 Afghanistan Asia       1957      30  9240934      821.
+#&gt; 3 Afghanistan Asia       1962      31 10267083      853.
+#&gt; 4 Afghanistan Asia       1967      34 11537966      836.
+#&gt; # ... with 1,700 more rows</code></pre>
+<p>Which is more easily scaled to deal with data type conversion of large numbers of variables. However, <code>convert</code> does the same job with much less code. In fact, <code>convert</code> uses <code>mutate_at</code> internally. The difference is syntax and code readability. Compare again with <code>convert</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country, 
+               continent),
+           <span class="kw">int</span>(lifeExp),
+           <span class="kw">dbl</span>(pop),
+           <span class="kw">num</span>(gdpPercap))</code></pre></div>
+<pre><code>#&gt; # A tibble: 1,704 x 6
+#&gt;   country     continent  year lifeExp      pop gdpPercap
+#&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1 Afghanistan Asia       1952      28  8425333      779.
+#&gt; 2 Afghanistan Asia       1957      30  9240934      821.
+#&gt; 3 Afghanistan Asia       1962      31 10267083      853.
+#&gt; 4 Afghanistan Asia       1967      34 11537966      836.
+#&gt; # ... with 1,700 more rows</code></pre>
+</div>
+<div id="adding-additional-arguments" class="section level2">
+<h2>Adding additional arguments</h2>
+<p><code>convert</code> also supports functions of <code>convert</code> support additional arguments to be passed. For example, if you want to convert a number to a date and want to include an <code>origin</code> argument you can write:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tibble</span>(<span class="dt">dates =</span> <span class="kw">c</span>(<span class="dv">12818</span>, <span class="dv">13891</span>),
+        <span class="dt">sunny =</span> <span class="kw">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">convert</span>(<span class="kw">dte</span>(dates, <span class="dt">.args =</span> <span class="kw">list</span>(<span class="dt">origin =</span> <span class="st">&quot;1900-01-01&quot;</span>)))</code></pre></div>
+<pre><code>#&gt; # A tibble: 2 x 2
+#&gt;   dates      sunny
+#&gt;   &lt;date&gt;     &lt;chr&gt;
+#&gt; 1 1935-02-05 yes  
+#&gt; 2 1938-01-13 no</code></pre>
+</div>
+<div id="final-note" class="section level2">
+<h2>Final note</h2>
+<p><code>convert</code> is built upon <code>dplyr</code> and it will share some amazing features of <code>dplyr</code>. For example, <code>tidyselect</code> works with <code>convert</code> which helps you to select multiple columns at the same time. A simple example, if you want to change all columns with names that includes the letter “e” to factors, you can write:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gapminder <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">convert</span>(<span class="kw">fct</span>(<span class="kw">contains</span>(<span class="st">&quot;e&quot;</span>)))</code></pre></div>
+<pre><code>#&gt; # A tibble: 1,704 x 6
+#&gt;   country     continent year  lifeExp      pop gdpPercap  
+#&gt;   &lt;fct&gt;       &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt;      &lt;int&gt; &lt;fct&gt;      
+#&gt; 1 Afghanistan Asia      1952  28.801   8425333 779.4453145
+#&gt; 2 Afghanistan Asia      1957  30.332   9240934 820.8530296
+#&gt; 3 Afghanistan Asia      1962  31.997  10267083 853.10071  
+#&gt; 4 Afghanistan Asia      1967  34.02   11537966 836.1971382
+#&gt; # ... with 1,700 more rows</code></pre>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

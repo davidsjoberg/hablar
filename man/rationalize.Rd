@@ -8,9 +8,7 @@
 \title{Only allow rational values in numeric vectors
 
 \code{rationalize} transforms all numeric elements to be rational values or NA,
-thus removes all \code{NaN,Inf} and replaces them with \code{NA}.
-If a non-numeric vector is passed, it is unchanged. If a data.frame is
-passed, it evaluates all columns seperately.}
+thus removes all \code{NaN,Inf} and replaces them with \code{NA}.}
 \usage{
 rationalize(.x, ...)
 
@@ -41,8 +39,10 @@ Only allow rational values in numeric vectors
 
 \code{rationalize} transforms all numeric elements to be rational values or NA,
 thus removes all \code{NaN,Inf} and replaces them with \code{NA}.
-If a non-numeric vector is passed, it is unchanged. If a data.frame is
-passed, it evaluates all columns seperately.
+}
+\details{
+#' If a non-numeric vector is passed, it is unchanged. If a data.frame is
+passed, it evaluates all columns separately.
 }
 \examples{
 x <- c(3, -Inf, 6.56, 9.3, NaN, 5, -Inf)

@@ -1,0 +1,130 @@
+---
+title: "`retype` - auto data type conversion"
+author: "David Sjoberg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{retype}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = F,
+  comment = "#>"
+)
+library(DiagrammeR)
+library(hablar)
+library(dplyr)
+```
+
+## Can the data be simpler?
+### `retype` quick start your analysis
+Getting data into R can be hassle. But once you do, it often have incorrect data types/classes. For instance, it is not uncommon that numeric variables are characters or dates are classed as characters. 
+
+Data conversion is cumbersome and small coding mistakes can produce large issues. The hablar package facilitates correction of all data types directly after you import the data into R such that you can avoid dangerous operations at later stages!
+
+### What does `retype` do?
+`retype` provides an easy approach for quick and dirty data type conversion. It follows a strict simplification hierarchy for each column of your data frame. It only converts the column if it can assume that no important information is lost in the process. For example, the character vector `c("1", "2")` should rather be an integer vector. Similarly, the character `"2010-06-04"` should be a date. Factors have advantages, but they are never the simplest solution and hence it is always converted to character, at least.
+
+### Usage
+`retype(x, ...)`
+
+where `x` is a data frame, and `...` is the column names you want to apply `retype` to. `x` could also be a single vector.
+
+### Simple example: numeric
+```{r}
+x <- as.numeric(3)
+retype(x)
+```
+```{r}
+class(retype(x))
+```
+
+### Simple example: character
+```{r}
+x <- as.character("2017-03-02")
+retype(x)
+```
+```{r}
+class(retype(x))
+```
+
+### Simple example: character
+```{r}
+x <- as.character(c("3,56", "0,78"))
+retype(x)
+```
+```{r}
+class(retype(x))
+```
+
+### Simple example: factor
+```{r}
+x <- as.factor(c(3, 4))
+retype(x)
+```
+```{r}
+class(retype(x))
+```
+
+
+## The simplification hierarchy
+### Some things are simpler than others
+`retype` uses a procedure to determine which data type is the simplest, without loosing any vital information in your data.
+
+* The first thing to know about `retype` is that it always converts factors to character. 
+
+* The second thing to know is that all logical columns are converted to integers.
+
+* Thirdly, complex and list columns are left unchanged.
+
+* From there it will test if the data could be coded as numeric. If true it converts the column to numeric.
+
+* If it is numeric it tests if it could be an integer instead. If true, it converts the column to integer.
+
+* If it is a character it tests if it could be a data time column. If true, it converts it to a date time (POSIXct) column.
+
+* If it is a date time column it tests if it could be a date. If true, it converts it to a date column.
+
+
+### A visualization of the hierarchy
+The above procedure could more intuitively be described in a diagram. The arrows imply a test if a column could be converted to another without loosing information in your data. The procedure continues until it cannot be simplified further.
+
+```{r, echo=F}
+grViz("digraph d {
+
+      node [shape = circle, style = filled]
+      factor;character;numeric;integer;'date time';date;logical;list;complex
+
+      logical -> integer;
+      factor -> character;
+      character -> numeric
+      numeric -> integer;
+      character -> 'date time';
+      'date time' -> date;
+      }")
+```
+
+## Example on a data frame
+Examine the following dataset `starwars` from the package `dplyr`. First, we use `convert` on some columns to new data types.
+```{r}
+df <- starwars %>% 
+  select(1:4) %>% 
+  convert(fct(name),
+           chr(height:mass),
+           fct(hair_color)) %>% 
+  print()
+  
+```
+We then apply `retype` on `df`:
+```{r}
+df %>% 
+  retype()
+```
+
+Which correctly guessed that height preferably should be an integer vector and that mass works better as a numeric column. The factors were converted to character columns.
+
+## Final notes
+### `retype` in production code
+Never use `retype` when you need your scripts to work the next time in the exact same way. `retype` may change over time, it could guess wrong and your data may change. Use `hablar::convert` instead where you explicitly state which data type each column should have.
