@@ -505,7 +505,7 @@ s <- function(..., ignore_na = TRUE) {
 #' # With a wrapped s
 #' max_(vector)
 #'
-#' ## Use of s when NA should not be removes
+#' ## Use of s when NA should not be removed
 #' vector <- c(7, Inf, NA, 4)
 #' # With a wrapped s
 #' sum_(vector, ignore_na = FALSE)
