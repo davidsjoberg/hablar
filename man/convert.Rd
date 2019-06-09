@@ -12,7 +12,7 @@
 \alias{dte}
 \title{Convert data type of columns}
 \usage{
-convert(.x, ...)
+num(..., .args = list())
 
 chr(..., .args = list())
 
@@ -43,57 +43,31 @@ a tbl data frame
 \description{
 Convert data type of columns
 }
-\details{
-The convert function requires a scoped function inside. Column names should not be quoted:.
-\describe{
-  \item{num}{Changes to numeric columns. \cr\strong{Usage: }
-  \code{convert(.df, num(.x, .y)} where \code{.x} and
-  \code{.y} are column names of \code{.df}}
-
-  \item{chr}{Changes to character columns. \cr\strong{Usage: }
-  \code{convert(.df, chr(.x, .y)} where
-  \code{.x} and \code{.y} are column names of \code{.df}}
-
-  \item{int}{Changes to integer columns. \cr\strong{Usage: }
-  \code{convert(.df, int(.x, .y)} where
-  \code{.x} and \code{.y} are column names of \code{.df}}
-
-  \item{lgl}{Changes to logical columns. \cr\strong{Usage: }
-  \code{convert(.df, lgl(.x, .y)} where
-  \code{.x} and \code{.y} are column names of \code{.df}}
-
-  \item{dte}{Changes to date columns. Default origin set to "1970-01-01" \cr\strong{Usage: }
-  \code{convert(.df, dte(.x, .y)} where \code{.x} and
-  \code{.y} are column names of \code{.df}}
-
-  \item{dtm}{Changes to date-time columns (POSIXct). Default origin set to "1970-01-01". \cr\strong{Usage: }
-  \code{convert(.df, dtm(.x, .y)} where \code{.x} and
-  \code{.y} are column names of \code{.df}}
-
-  \item{fct}{Changes to factor columns. \cr\strong{Usage: }
-  \code{convert(.df, fct(.x, .y)} where \code{.x} and
-  \code{.y} are column names of \code{.df}}
-
-  \item{dbl}{Changes to numeric columns. \cr\strong{Usage: }
-  \code{convert(.df, dbl(.x, .y)} where \code{.x} and
-  \code{.y} are column names of \code{.df}}
-}
-
-It is also possible to use multiple scoping functions inside \code{convert}. For example,
-\code{convert(.df, num(.x), chr(.y))} works as well.
-}
 \examples{
-# Changing a columns to numeric
-# and another one to character
-convert(mtcars, num(gear),
-                chr(mpg))
+\dontrun{
+
+# Change one column to numeric and another to character
+mtcars \%>\% 
+  convert(num(gear),
+          chr(mpg))
 
 
 # Changing multiple data types on multiple columns
-convert(mtcars, int(hp,
-                    wt),
-                fct(qsec,
-                    cyl,
-                    drat))
+mtcars \%>\% 
+  convert(int(hp,
+              wt),
+          fct(qsec,
+              cyl,
+              drat))
 
+# Also works with tidyselect convenience functions
+mtcars \%>\%
+  convert(int(vs:carb),
+          fct(last_col()))
+
+}
+
+}
+\seealso{
+\code{vignette("convert")}, \code{vignette("hablar")}
 }

@@ -52,3 +52,6 @@ x <- as.numeric(c(7, 2))
 could_num_be_int(x)
 
 }
+\seealso{
+\code{vignette("s")}, \code{vignette("hablar")}
+}

@@ -1,11 +1,6 @@
 library(testthat)
 library(hablar)
 
-
-###################################################
-# rationalize
-###################################################
-
 context("rationalize")
 test_that("vectors", {
   expect_equal(rationalize(as.numeric(c(Inf))), as.numeric(c(NA)))

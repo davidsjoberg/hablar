@@ -22,6 +22,9 @@ an answer is desired, if there is one in the data. In any other case NA is retur
 Type \code{vignette("s")} in the console for more information.
 }
 \examples{
+\dontrun{
+library(dplyr)
+
 ## s on a weird numeric vector
 vector <- c(7, NaN, 6, -Inf, 5, 4, NA)
 s(vector)
@@ -42,9 +45,9 @@ max(s(vector))
 ## First of vector when NA is first element
 vector <- c(NA, "X", "Y")
 # dplyr R
-dplyr::first(vector)
+first(vector)
 # With s
-dplyr::first(s(vector))
+first(s(vector))
 
 ## Use of s when NA should not be removes
 vector <- c(7, Inf, NA, 4)
@@ -59,14 +62,15 @@ df_test <- data.frame(a = c(NaN, 1, -Inf, 3),
                       c = c(NA, NA, NA, NA), 
                       stringsAsFactors = FALSE) 
 df_test
-# Base R aggregation with dplyr's summarize
-dplyr::summarise(df_test, mean_a = mean(a), 
-                          min_c = min(c, na.rm = TRUE))
-# With s
-dplyr::summarise(df_test, mean_a = mean(s(a)), 
-                          min_c = min(s(c)))
 
+# Base R aggregation with dplyr's summarize
+summarise(df_test, mean_a = mean(a), 
+                   min_c = min(c, na.rm = TRUE))
+# With s
+summarise(df_test, mean_a = mean(s(a)), 
+                   min_c = min(s(c)))
+}
 }
 \seealso{
-\code{\link{retype}}, \code{\link{rationalize}}
+\code{\link{retype}}, \code{\link{rationalize}}, \code{vignette("s")}, \code{vignette("hablar")}
 }

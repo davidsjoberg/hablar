@@ -1,11 +1,5 @@
 library(testthat)
 library(hablar)
-# Keep order of hablar.R for tests
-
-
-###################################################
-# could_this_be_that
-###################################################
 
 context("could this be that")
 test_that("could_chr_be_num", {
@@ -19,9 +13,9 @@ test_that("could_chr_be_num", {
   expect_equal(could_chr_be_num(".56"), T)
   expect_equal(could_chr_be_num("7.0"), T)
   expect_equal(could_chr_be_num("0003"), T)
-  expect_equal(could_chr_be_num("1,98"), T)
+  expect_equal(could_chr_be_num("1.98"), T)
   expect_equal(could_chr_be_num(as.character(c(NA, NA))), F)
-  expect_equal(could_chr_be_num(",98"), T)
+  expect_equal(could_chr_be_num(".98"), T)
   expect_equal(could_chr_be_num(as.character(NA)), F)
 
   expect_error(could_chr_be_num(as.numeric(1)))

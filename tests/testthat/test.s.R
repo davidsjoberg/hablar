@@ -1,11 +1,7 @@
 library(testthat)
 library(hablar)
 
-###################################################
-# s
-###################################################
-
-context("s()")
+context("s")
 test_that("vectors", {
   expect_equal(s(as.numeric(c(1, 2))), as.numeric(c(1, 2)))
   expect_equal(s(as.numeric(c(1, NA))), as.numeric(c(1)))
@@ -39,7 +35,7 @@ test_that("vectors", {
 })
 
 
-test_that("s() and aggregators", {
+test_that("s and aggregators", {
   expect_equal(min(s(as.numeric(c(1, 2)))), as.numeric(c(1)))
   expect_equal(min(s(as.numeric(c()))), min(as.numeric(c(NA))))
   expect_equal(min(s(as.numeric(c(1, 2, NA)))), as.numeric(c(1)))
@@ -76,7 +72,7 @@ test_that("s() and aggregators", {
 })
 
 
-test_that("s() and aggregators - wrappers", {
+test_that("s and aggregators - wrappers", {
   expect_equal(min_(as.numeric(c(1, 2))), as.numeric(c(1)))
   expect_equal(min_(as.numeric(c())), min(as.numeric(c(NA))))
   expect_equal(min_(as.numeric(c(1, 2, NA))) , as.numeric(c(1)))
@@ -109,12 +105,36 @@ test_that("s() and aggregators - wrappers", {
   expect_equal(first_(as.numeric(c(NaN, 2, Inf))), as.numeric(c(2)))
   expect_equal(first_(as.numeric(c(NaN, NA, Inf))), NA)
   expect_equal(first_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
+  
+  expect_equal(last_(as.numeric(c(1, 2))), as.numeric(c(2)))
+  expect_equal(last_(as.numeric(c())), last(c(NA)))
+  expect_equal(last_(as.numeric(c(1, 2, NA))), as.numeric(c(2)))
+  expect_equal(last_(as.numeric(c(NaN, 2, NA))), as.numeric(c(2)))
+  expect_equal(last_(as.numeric(c(NaN, 2, Inf))), as.numeric(c(2)))
+  expect_equal(last_(as.numeric(c(NaN, NA, Inf))), NA)
+  expect_equal(last_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
+  
+  expect_equal(sd_(as.numeric(c(1, 2, 3, 4))), as.numeric(sd(c(1, 2, 3, 4))))
+  expect_equal(sd_(as.numeric(c())), last(as.numeric(c(NA))))
+  expect_equal(sd_(as.numeric(c(1, 2, NA, 3, 4))), as.numeric(sd(c(1, 2, 3, 4))))
+  expect_equal(sd_(as.numeric(c(NaN, 1, 2, NA, 3, 4))), as.numeric(sd(c(1, 2, 3, 4))))
+  expect_equal(sd_(as.numeric(c(NaN, 1, 2, Inf, 3, 4))), as.numeric(sd(c(1, 2, 3, 4))))
+  expect_equal(sd_(as.numeric(c(NaN, NA, Inf))), as.numeric(NA))
+  expect_equal(sd_(as.numeric(c(NaN, 2, NA, 3, 4)), ignore_na = F), as.numeric(NA))
+  
+  expect_equal(var_(as.numeric(c(1, 2, 3, 4))), as.numeric(var(c(1, 2, 3, 4))))
+  expect_equal(var_(as.numeric(c())), last(as.numeric(c(NA))))
+  expect_equal(var_(as.numeric(c(1, 2, NA, 3, 4))), as.numeric(var(c(1, 2, 3, 4))))
+  expect_equal(var_(as.numeric(c(NaN, 1, 2, NA, 3, 4))), as.numeric(var(c(1, 2, 3, 4))))
+  expect_equal(var_(as.numeric(c(NaN, 1, 2, Inf, 3, 4))), as.numeric(var(c(1, 2, 3, 4))))
+  expect_equal(var_(as.numeric(c(NaN, NA, Inf))), as.numeric(NA))
+  expect_equal(var_(as.numeric(c(NaN, 2, NA, 3, 4)), ignore_na = F), as.numeric(NA))
 
   expect_error(min_(as.factor(c(2, 3, NA))))
   expect_equal(length(mean_(as.numeric(c()))), 1)
 })
 
 
-test_that("s() and aggregators - dplyr", {
+test_that("s and aggregators - dplyr", {
   expect_equal(mtcars %>% mutate(max_gear = max_(gear[vs == 2])), mtcars %>% mutate(max_gear = as.numeric(NA)))
 })

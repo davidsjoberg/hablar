@@ -102,5 +102,5 @@ retype(df)
 
 }
 \seealso{
-\code{\link{s}}, \code{\link{rationalize}}
+\code{\link{s}}, \code{\link{rationalize}} #' \code{vignette("retype")}, \code{vignette("s")}, \code{vignette("hablar")}
 }

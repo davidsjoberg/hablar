@@ -1,0 +1,150 @@
+---
+title: "An introduction to hablar"
+author: David Sjoberg
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{hablar}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(hablar)
+library(dplyr)
+library(knitr)
+
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+```
+
+The mission of `hablar` is for you to get non-astonishing results! That means that functions return what you expected. R has some intuitive quirks that beginners and experienced programmers fail to identify. Some of the first weird features of R that `hablar` solves:
+
+* Missing values `NA` and irrational values `Inf`, `NaN` is dominant. For example, in R `sum(c(1, 2, NA))` is `NA` and not 3. In `hablar` the addition of an underscore `sum_(c(1, 2, NA))` returns 3, as is often expected.
+
+* Factors (categorical variables) that are converted to numeric returns the number of the category rather than the value. In `hablar` the `convert()` function always changes the type of the values.
+
+* Finding duplicates, and rows with `NA` can be cumbersome. The functions `find_duplicates()` and `find_na()` make it easy to find where the data frame needs to be fixed. When the issues are found the utility replacement functions, e.g. `if_else_()`, `if_na()`, `zero_if()` easily fixes many of the most common problems you face.
+
+`hablar` follows the syntax API of `tidyverse` and works seamlessly with `dplyr` and `tidyselect`. 
+
+## Missing values that astonishes you
+
+A common issue in R is how R treats missing values (i.e. `NA`). Sometimes `NA` in your data frame means that there is missing values in the sense that you need to estimate or replace them with values. But often it is not a problem! Often `NA` means that there *is* no value, and should not be. `hablar` provide useful functions that handle `NA` intuitively. Let's take a simple example: 
+
+```{r, echo=FALSE}
+df <- tibble(name = c("Fredrik", "Maria", "Astrid"),
+           graduation_date = as.Date(c("2016-06-15",
+                                       NA,
+                                       "2014-06-15")),
+           age = c(21L, 16L, 23L))
+
+df
+```
+
+##### **Change `min()` to `min_()`**
+
+The `graduation_date` is missing for Maria. In this case it is not because we do not know. It is because she has not graduated yet, she is younger than Fredrik and Astrid. If we would like to know the first graduation date of the three observation in R with a naive `min()` we get `NA`. But with `min_()` from `hablar` we get the minimum value that is not missing. See:
+
+```{r}
+df %>% 
+  mutate(min_baseR = min(graduation_date),
+         min_hablar = min_(graduation_date))
+```
+
+The `hablar` package provides the same functionality for 
+
+* `max_()`
+* `mean_()`
+* `median_()`
+* `sd_()`
+* `first_()` 
+
+... and more. For more documentation type `help(min_())` or `vignette("s")` for an in-depth description.
+
+## Change type in a snap - safely
+
+In `hablar` the function `convert` provides a robust, readable and dynamic way to change type of a column.
+
+```{r}
+mtcars %>% 
+  convert(int(cyl, am),
+          num(disp:drat))
+```
+
+The above chunk converts the columns `cyl` and `am` to integers, and the columns `disp` through `drat` to numeric. If a column is of type `factor` it always converts it to character before further conversion. 
+
+##### **Fix all your types in the same function**
+
+With `convert` and `tidyselect` you can easily change type of a wide range of columns. 
+
+```{r}
+mtcars %>% 
+  convert(
+    chr(last_col()),       # Last colum to character
+    int(1:2),              # First two columns to integer
+    fct(hp, wt),           # hp and wt to factors
+    dte(vs),               # vs to date (if you really want)
+    num(contains("car"))   # car as in carb to numeric
+  )           
+```
+
+For more information, see `help(hablar)` or `vignette("convert")`.
+
+## Find the problem
+
+When cleaning data you spend a lot of time understanding your data. Sometimes you get more row than you expected when doing a `left_join()`. Or you did not know that certain column contained missing values `NA` or irrational values like `Inf` or `NaN`.
+
+In `hablar` the `find_*` functions speeds up your search for the problem. To find duplicated rows you simply `df %>% find_duplicates()`. You can also find duplicates in in specific columns, which can be useful before joins.
+
+```{r}
+# Create df with duplicates
+df <- mtcars %>% 
+  bind_rows(mtcars %>% slice(1, 5, 9))
+
+# Return rows with duplicates in cyl and am
+df %>% 
+  find_duplicates(cyl, am)
+```
+
+There are also find functions for other cases. For example `find_na()` returns rows with missing values.
+
+```{r}
+starwars %>% 
+  find_na(height)
+```
+
+If you rather want a Boolean value instead then e.g. `check_duplicates()` returns `TRUE` if the data frame contains duplicates, otherwise it returns `FALSE`.
+
+##### **...apply the solution**
+
+Let's say that we have found a problem is caused by missing values in the column `height` and you want to replace all missing values with the integer 100. `hablar` comes with an additional ways of doing if-or-else. 
+
+```{r}
+starwars %>% 
+  find_na(height) %>% 
+  mutate(height = if_na(height, 100L))
+```
+
+In the chunk above we successfully replaced all missing heights with the integer 100. `hablar` also contain the self explained:
+
+* `if_zero()` and `zero_if()`
+* `if_inf()` and `inf_if()`
+* `if_nan()` and `nan_if()`
+
+which works in the same way as the examples above.
+
+##### **Introducing a third way to if or else**
+
+The generic function `if_else_()` provides the same rigidity as `if_else()` in `dplyr` but ads some flexibility. In `dplyr` you need to specify which type `NA` should have. In `if_else_()` you can write:
+
+```{r}
+starwars %>% 
+  mutate(skin_color = if_else_(hair_color == "brown", NA, hair_color))
+```
+
+In `if_else()` from `dplyr` you would have had to specified `NA_character_`.
+

@@ -1,11 +1,6 @@
 library(testthat)
 library(hablar)
 
-
-###################################################
-# convert
-###################################################
-
 context("convert")
 test_that("from numeric", {
   expect_equal(tibble(a = as.numeric(c(1, 2))) %>%
@@ -195,8 +190,8 @@ test_that("from factor", {
 test_that("Other tests", {
   expect_equal(dplyr::starwars %>% select(1:6) %>% convert(lgl(height), int(mass)),
                dplyr::starwars %>% select(1:6) %>%
-                 mutate_at(vars(height), funs(as.logical)) %>%
-                 mutate_at(vars(mass), funs(as.integer)))
+                 mutate_at(vars(height), ~as.logical(.)) %>%
+                 mutate_at(vars(mass), ~as.integer(.)))
 
   expect_error(convert(as.numeric(1)))
   })

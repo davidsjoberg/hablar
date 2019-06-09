@@ -55,3 +55,6 @@ x <- as.factor(c("1", "0"))
 as_reliable_lgl(x)
 
 }
+\seealso{
+\code{vignette("convert")}, \code{vignette("hablar")}
+}

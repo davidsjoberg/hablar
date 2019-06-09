@@ -6,8 +6,12 @@
 \alias{sum_}
 \alias{min_}
 \alias{mean_}
+\alias{median_}
+\alias{sd_}
+\alias{var_}
 \alias{first_}
-\title{Combine aggregate function and s}
+\alias{last_}
+\title{Combine aggregate functions and s}
 \usage{
 sum_(..., ignore_na = TRUE)
 
@@ -17,7 +21,15 @@ max_(..., ignore_na = TRUE)
 
 min_(..., ignore_na = TRUE)
 
+median_(..., ignore_na = TRUE)
+
+sd_(..., ignore_na = TRUE)
+
+var_(..., ignore_na = TRUE)
+
 first_(..., ignore_na = TRUE)
+
+last_(..., ignore_na = TRUE)
 
 min_(..., ignore_na = TRUE)
 
@@ -25,7 +37,15 @@ sum_(..., ignore_na = TRUE)
 
 mean_(..., ignore_na = TRUE)
 
+median_(..., ignore_na = TRUE)
+
+sd_(..., ignore_na = TRUE)
+
+var_(..., ignore_na = TRUE)
+
 first_(..., ignore_na = TRUE)
+
+last_(..., ignore_na = TRUE)
 }
 \arguments{
 \item{...}{one or more vectors}
@@ -57,9 +77,12 @@ min_(vector)
 # With a wrapped s
 max_(vector)
 
-## Use of s when NA should not be removes
+## Use of s when NA should not be removed
 vector <- c(7, Inf, NA, 4)
 # With a wrapped s
 sum_(vector, ignore_na = FALSE)
 
+}
+\seealso{
+\code{vignette("convert")}, \code{vignette("hablar")}
 }

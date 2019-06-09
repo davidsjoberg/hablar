@@ -117,7 +117,9 @@ df <- starwars %>%
   print()
   
 ```
+
 We then apply `retype` on `df`:
+
 ```{r}
 df %>% 
   retype()
