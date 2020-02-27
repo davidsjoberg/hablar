@@ -609,7 +609,7 @@ dbl <- function(..., .args = list()){
 #' @export
 fct <- function(..., .args = list()){
   list(vars = quos(...),
-       fun = ~as.factor(., !!!.args))}
+       fun = ~factor(., !!!.args))}
 
 #' @rdname convert
 #' @export
