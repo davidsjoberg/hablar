@@ -4,51 +4,44 @@
 \alias{wrapper - s and summary funs}
 \alias{max_}
 \alias{sum_}
-\alias{min_}
 \alias{mean_}
-\alias{median_}
+\alias{min_}
 \alias{sd_}
 \alias{var_}
 \alias{first_}
 \alias{last_}
+\alias{median_}
+\alias{first_non_na}
+\alias{squeeze}
+\alias{squeeze_}
 \title{Combine aggregate functions and s}
 \usage{
-sum_(..., ignore_na = TRUE)
+max_(.x, ignore_na = TRUE)
 
-mean_(..., ignore_na = TRUE)
+min_(.x, ignore_na = TRUE)
 
-max_(..., ignore_na = TRUE)
+sum_(.x, ignore_na = TRUE)
 
-min_(..., ignore_na = TRUE)
+mean_(.x, ignore_na = TRUE)
 
-median_(..., ignore_na = TRUE)
+median_(.x, ignore_na = TRUE)
 
-sd_(..., ignore_na = TRUE)
+sd_(.x, ignore_na = TRUE)
 
-var_(..., ignore_na = TRUE)
+var_(.x, ignore_na = TRUE)
 
-first_(..., ignore_na = TRUE)
+first_(.x, ignore_na = TRUE)
 
-last_(..., ignore_na = TRUE)
+last_(.x, ignore_na = TRUE)
 
-min_(..., ignore_na = TRUE)
+first_non_na(.x)
 
-sum_(..., ignore_na = TRUE)
+squeeze(.x, ignore_na = FALSE)
 
-mean_(..., ignore_na = TRUE)
-
-median_(..., ignore_na = TRUE)
-
-sd_(..., ignore_na = TRUE)
-
-var_(..., ignore_na = TRUE)
-
-first_(..., ignore_na = TRUE)
-
-last_(..., ignore_na = TRUE)
+squeeze_(.x, ignore_na = TRUE)
 }
 \arguments{
-\item{...}{one or more vectors}
+\item{.x}{a single vector}
 
 \item{ignore_na}{if false missing values are not omitted.}
 }
@@ -62,6 +55,10 @@ i.e. \code{NA,Inf,NaN}  from a vector.
 However, if the length is 0 it returns NA. The result is then passed to the
 corresponding aggregation function. For example,
 \code{min_(x)} is identical to \code{min(s(x))}. Please read \code{vignette("s")} for more information.
+}
+\details{
+'first_non_na' is a faster version of 'first' since it only search for a non NA value until it finds one.
+'squeeze' on the other hand checks if all elements are equal and then returns only that value.
 }
 \examples{
 ## sum_ on non-rational numeric vector

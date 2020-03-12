@@ -7,6 +7,7 @@
 \alias{check_irrational}
 \alias{check_nan}
 \alias{check_inf}
+\alias{check_complete_set}
 \title{Special checks}
 \usage{
 check_duplicates(.data, ...)
@@ -18,6 +19,8 @@ check_irrational(.data, ...)
 check_nan(.data, ...)
 
 check_inf(.data, ...)
+
+check_complete_set(.data, ...)
 }
 \arguments{
 \item{.data}{a data frame}
@@ -33,7 +36,8 @@ TRUE if any rows are duplicates. If variables are passed to the function
 then TRUE or FALSE is returned for those variables.
 }
 \details{
-irrational values are Inf and NaN
+irrational values are Inf and NaN. 'check_complete_set' tests 
+if all combinations of elements exists in the data frame.
 }
 \examples{
 \dontrun{
@@ -57,5 +61,6 @@ df \%>\% check_nan(c)
 
 }
 \seealso{
-\code{\link{find_in_df}} to return rows instead of TRUE or FALSE. \code{vignette("s")}, \code{vignette("hablar")}
+\code{\link{find_in_df}} to return rows instead of TRUE or FALSE. 
+\code{vignette("s")}, \code{vignette("hablar")}
 }

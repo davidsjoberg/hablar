@@ -10,9 +10,26 @@
 \alias{inf_if}
 \alias{nan_if}
 \alias{zero_if}
+\alias{if_not_na}
 \title{replacemnt and specials}
 \usage{
 if_na(.x, replacement, missing = NULL)
+
+if_nan(.x, replacement, missing = NULL)
+
+if_inf(.x, replacement, missing = NULL)
+
+if_zero(.x, replacement, missing = NULL)
+
+na_if(.x, condition, replace_na = FALSE)
+
+nan_if(.x, condition, replace_na = FALSE)
+
+inf_if(.x, condition, replace_na = FALSE)
+
+zero_if(.x, condition, replace_na = FALSE)
+
+if_not_na(.x, replacement, missing = NULL)
 
 if_inf(.x, replacement, missing = NULL)
 

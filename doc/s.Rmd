@@ -1,0 +1,240 @@
+---
+title: "`s` - short and simple summarizing"
+author: "David Sjoberg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{s}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = F,
+  comment = "#>"
+)
+library(dplyr)
+library(hablar)
+```
+
+## Overview
+
+### Description
+The `s` function is a simple function that helps you get intuitive results when summarizing data. It is made to be used in conjuction with summarize functions, for example `min` , `sum` and `mean`. `s` takes a vector and mutates it in the following ways:
+
+* It replaces all non-rational numbers from numeric vectors and replace them with `NA`. Non-rational numbers are `Inf`, `-Inf` and `NaN`.
+
+* It removes `NA` from the vector by default
+
+* If the vector has length zero or only consists of `NA` it returns a single `NA`.
+
+### Usage
+
+`s(..., ignore_na = T)`
+
+where ... is one or more vector(s). If missing values should not be omitted use `ignore_na = F`.
+
+### Simple examples
+
+Removing `NA`:
+```{r}
+x <- c(NA, 1, 2)
+s(x)
+```
+
+Replacing non-rational numbers with `NA` and then removes `NA`:
+```{r}
+x <- c(NaN, 1, Inf)
+s(x)
+```
+
+Empty vectors return a single `NA`:
+```{r}
+x <- c()
+s(x)
+```
+
+In conjuction with a summary function:
+```{r}
+x <- c(NaN, Inf, 3, 4)
+median(s(x))
+```
+
+## The problems it solvs
+### Principle of least astonishment
+All programming languages have their special cases when you get non-intuitive results that you did not expect. This is also true for R. The s-function provides intuitive outcomes of some of the most basic commands in R. In the next parts of the vignette some problems it solves are explained in greater detail.
+
+### Missing values
+When learning R users might be surprised when creating suprised when using simple summary function. A summary function is a function that takes a vector and returns a single one value. For example, `min(x)` , `sum(x)` and `mean(x)`. A simple example:
+
+```{r}
+x <- c(1, 2, 3, 4, 5)
+sum(x)
+```
+
+In this example the output of sum() was, which is expected since all entries in x sums to 15. However, in more messy data, the output is oftentimes less intuitive. New users to R might be confused that the next example results in NA (a missing value):
+
+```{r}
+x <- c(1, 2, 3, NA, 4)
+mean(x)
+
+```
+
+Since the vector above have an a missing value R does not know how to find the mean of the vector. The missing value could be anything, and thus R thus returns the output `NA`. However, since missing values are common when working with real data,  it is also a common practise to ignore missing values. Usually the user tells R to ignore the missing value and return the mean of the vector that have values that could be averaged. The error in the previous example could be fixed by adding `na.rm = TRUE` that drops all missing values before calculating the mean:
+
+```{r}
+x <- c(1, 2, 3, NA, 4)
+mean(x, na.rm = TRUE)
+
+```
+
+Generally, R is strict about missing values so that you do not miss them, which often is helpful rather than harsh! However, often the programmer want R to return a 'real' value from the data, if there is one, even if it ignores missing values.
+
+The `s` function helps you with this. Since it by default removes missing values you can simply enter:
+```{r}
+x <- c(1, 2, 3, NA, 4)
+mean(s(x))
+
+```
+
+### Sometimes R removes too much
+
+Adding an argument to remove all missing is common practise when summarizing data. However, it is not uncommon that some vectors only have missing values. Imagine an example where Amanda, David and Viktor sold sodas by the beach for three days. If someone did not show up they get a missing value.
+
+```{r, echo=F}
+df <- tibble(day = c(1, 2, 3, 1, 2, 3, 1, 2, 3),
+       name = c(rep("Amanda", 3), rep("David", 3), rep("Viktor", 3)),
+       sold_sodas = c(3, NA, 8, NA, NA, NA, 2, 1, 4)) %>% 
+  print()
+```
+
+Now we want to see the maximum number of sodas each person sold on a single day. The above data frame if saved as `df`.
+
+```{r, warning=FALSE}
+df %>% 
+  group_by(name) %>% 
+  summarize(n_sodas_best_day = max(sold_sodas, na.rm = T))
+```
+
+Amanda sold the most sodas in a single day. However, David who was absent on all days, got the output `-Inf`. This means that negative infinity was the number of sodas he sold during his most productive day. That is astonishing! One would perhaps think that the more intuitive output would be `NA`.
+
+The reason for result is that we told R to remove all missing values before calculating the maximal value. It is equivalent to:
+
+```{r, warning=FALSE}
+x <- c()
+max(x)
+```
+
+We could try to remove the `na.rm = TRUE` argument from `max()`.
+
+```{r}
+df %>% 
+  group_by(name) %>% 
+  summarize(n_sodas_best_day = max(sold_sodas))
+```
+
+Suddenly R tells us that Viktor had the best day and Amanda, who was absent the second day, got NA because R doesn’t not know how to find the maximum value. However, David also got NA this time, which makes sense. 
+
+Sometimes, calculating simple descriptive statistics can be a cumbersome task. The s function is there to support you! Since it returns `NA` if the vector is empty we get:
+
+```{r}
+df %>% 
+  group_by(name) %>% 
+  summarize(n_sodas_best_day = max(s(sold_sodas)))
+```
+
+
+### Getting answers when there is none
+
+Another astonishing result one might encounter occurs when R tries to return a value when there is none. Take this extract `df` from the `starwars` dataset from the R package `dplyr`. 
+
+```{r, include = F}
+df <- starwars %>% 
+  select(name, homeworld, species, height)
+```
+```{r}
+df %>% head(10)
+```
+
+
+Say that we want to calculate find the height of the tallest human from each homeworld. For precautionary reasons, we drop all rows with missing values from the height column so that we do not get the same problem as before.
+
+```{r, warning=FALSE}
+df %>% 
+  filter(!is.na(height)) %>% 
+  group_by(homeworld) %>% 
+  summarize(tallest_human = max(height[species == "Human"]))
+```
+
+We got negative infinity `-Inf` again. How could this be?
+
+This is because some homeworld have no humans, e.g. Cerea. R tries to calculate the maximum value of nothing. The `s` function can help you out! Since it returns `NA` if the vector is empty we get:
+
+```{r}
+df %>% 
+  filter(!is.na(height)) %>% 
+  group_by(homeworld) %>% 
+  summarize(tallest_human = max(s(height[species == "Human"])))
+```
+
+Now we get missing values for the homeworlds that does not have any humans. Makes sense.
+
+
+### Summarizing weird numbers
+
+Numerical vectors in R can include more than numbers and missing values `NA`. They can also include infinite numbers `Inf` and `-Inf` as shown in the examples above. Furthermore, numerical vectors can include `NaN`'s which means 'not-a-number'. If the data frame you are using have `NaN` or `Inf` it may cause you problems when summarizing your data. Some examples:
+
+```{r}
+x <- c(NaN, 1)
+min(x)
+```
+
+```{r}
+x <- c(Inf, 3, 4)
+mean(x)
+```
+
+```{r}
+x <- c(5, -Inf, 2)
+sum(x)
+```
+
+Often when you summarize vectors that have `NaN` or `Inf` you want to treat them as a missing value. Maybe they have appeared as a mistake when you accidentally divided a value by zero since `1/0 = Inf` in R. The `s` function solves this for you be replacing them with `NA`.
+
+```{r}
+x <- c(NaN, 1)
+min(s(x))
+```
+
+```{r}
+x <- c(Inf, 3, 4)
+mean(s(x))
+```
+
+```{r}
+x <- c(5, -Inf, 2)
+sum(s(x))
+```
+
+### Wrappers for `s` and summary functions
+
+If things get too messy with an extra function you might prefer the wrapper functions of `s`. All major summary functions have an s wrapped alternative in `hablar`. These are accessed by adding an underscore to the name of the summary function, i.e. `min_(x)` and is equal to `min(s(x))`. Repeating the previous exercises using wrappers for `s` would look like: 
+
+```{r}
+x <- c(NaN, 1)
+min_(x)
+```
+
+```{r}
+x <- c(Inf, 3, 4)
+mean_(x)
+```
+
+```{r}
+x <- c(5, -Inf, 2)
+sum_(x)
+```
+
+## Final note
+
+To summarize, `s` can help you to get results when you summarize your data, if there is an sensible answer in the vector. If not, you will get `NA`.

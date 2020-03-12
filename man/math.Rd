@@ -28,7 +28,7 @@ The result is then passed to the
 corresponding math function.
 }
 \examples{
-# The simplest case
+\dontrun{# The simplest case
 3 \%minus_\% 2
 
 # But with NA it returns 3 as if the NA were zero
@@ -36,6 +36,7 @@ corresponding math function.
 
 # It doesnt matter if the irrational number is on left- or right-hand.
 NA \%plus_\% 5
+}
 
 }
 \seealso{

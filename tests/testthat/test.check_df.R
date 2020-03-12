@@ -171,4 +171,24 @@ test_that("check_irrational", {
 })
 
 
+test_that("check_complete_set", {
+  expect_equal(data.frame(a = c(1, 2),
+                          b = c(3, 4)) %>% 
+                            check_complete_set(a, b), FALSE
+  )
+  expect_equal(data.frame(a = c(1, 2),
+                          b = c(3, 4)) %>% 
+                            check_complete_set(a:b), FALSE
+  )
+  expect_equal(data.frame(a = c(1, 2, 1, 2),
+                          b = c(3, 4, 4, 3)) %>% 
+                            check_complete_set(a, b), TRUE
+  )
+  expect_error(data.frame(a = c(1, 2, 1, 2),
+                          b = c(3, 4, 4, 3)) %>% 
+                            check_complete_set(a)
+  )
+})
+
+
 

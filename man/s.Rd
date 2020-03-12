@@ -4,10 +4,10 @@
 \alias{s}
 \title{Make vector shorter and simpler}
 \usage{
-s(..., ignore_na = TRUE)
+s(.x, ignore_na = TRUE)
 }
 \arguments{
-\item{...}{one or more vectors. Does not work for factors.}
+\item{.x}{one vector. Does not work for factors.}
 
 \item{ignore_na}{if TRUE then NA omitted from results, as long as any non-NA element is left.}
 }

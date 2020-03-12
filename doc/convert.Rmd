@@ -1,0 +1,139 @@
+---
+title: "A grammer for data type conversion"
+author: "David Sjoberg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{convert}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = F,
+  comment = "#>"
+)
+options(tibble.print_min = 4L, tibble.print_max = 4L)
+
+library(gapminder)
+library(hablar)
+library(dplyr)
+```
+
+## `convert` your data types
+### Before everything there was data type conversion
+Best practise of data analysis is to fix data types directly after importing data into R. This helps in many ways:
+
+* You only need to do it once
+* If there are any errors you know where in the script it should be fixed
+* It scales up your code. For example, all columns that should be numeric could be converted at the same time.
+
+Additionally, if every column is converted to its appropriate data type then you won't be surprised  by data type errors the next time you run the script. 
+
+### Usage
+`convert(.x, ...)`
+where `.x` is a data frame. `...` is a placeholder for data type specific conversion functions.
+
+### Support functions
+`convert` must be used in conjunction with data type conversion functions:
+
+* `chr` converts to character.
+* `num` converts to numeric.
+* `int` converts to integer.
+* `lgl` converts to logical.
+* `fct` converts to factor.
+* `dte` converts to date.
+* `dtm` converts to date time.
+
+### The syntax
+Imagine you have a data frame where you want to change columns:
+
+- `a` and `b` to numerical
+- `c` to date 
+- `d` and `e` to character
+
+Then you can write:
+
+`df %>% convert(num(a, b), dte(c), chr(d, e))`
+
+### Examples
+
+The easiest way to understand how simple `convert` is to use is with examples. Have a look at the a gapminder dataset from the package `gapminder`:
+
+```{r}
+library(gapminder)
+gapminder
+
+```
+
+We might want to change the country column to character instead of factor. To do this we use `chr` together with the column name inside `convert`:
+
+```{r}
+gapminder %>% 
+  convert(chr(country))
+```
+
+This converted the country column to the data type character. But we do not have to make this whole procedure for each column if we want to convert more columns. Let's say that we also want to convert continent to character and the column lifeExp to integer, pop to double and gdpPercap to numeric. It is simply done:
+
+```{r}
+gapminder %>% 
+  convert(chr(country, 
+              continent),
+          int(lifeExp),
+          dbl(pop),
+          num(gdpPercap))
+```
+
+## I can already convert between data types. Why do I need `convert`?
+You can change alot of data types with little code. Consider using `mutate` from `dplyr` to do the same operation:
+
+```{r}
+gapminder %>%
+  mutate(country = as.character(country),
+         continent = as.character(continent),
+         lifeExp = as.integer(lifeExp),
+         pop = as.double(pop),
+         gdpPercap = as.numeric(gdpPercap))
+```
+
+Which gives the same result. However, you need to refer to the column name twice and the data type conversion function for each column. Imagine the code to convert 20 columns. 
+
+However, `dplyr` have another way of applying the same function to multiple columns which could help, `mutate_at`. The same example would then look like:
+
+```{r}
+gapminder %>% 
+  mutate_at(vars(country, continent), funs(as.character)) %>% 
+  mutate_at(vars(lifeExp), funs(as.integer)) %>% 
+  mutate_at(vars(pop), funs(as.double)) %>% 
+  mutate_at(vars(gdpPercap), funs(as.numeric))
+```
+
+Which is more easily scaled to deal with data type conversion of large numbers of variables. However, `convert` does the same job with much less code. In fact, `convert` uses `mutate_at` internally. The difference is syntax and code readability. Compare again with `convert`:
+
+```{r}
+gapminder %>% 
+  convert(chr(country, 
+               continent),
+           int(lifeExp),
+           dbl(pop),
+           num(gdpPercap))
+```
+
+
+## Adding additional arguments
+`convert` also supports functions of `convert` support additional arguments to be passed. For example, if you want to convert a number to a date and want to include an `origin` argument you can write:
+```{r}
+tibble(dates = c(12818, 13891),
+        sunny = c("yes", "no")) %>% 
+  convert(dte(dates, .args = list(origin = "1900-01-01")))
+```
+
+
+## Final note
+`convert` is built upon `dplyr` and it will share some amazing features of `dplyr`. For example, `tidyselect` works with `convert` which helps you to select multiple columns at the same time. A simple example, if you want to change all columns with names that includes the letter "e" to factors, you can write:
+
+```{r}
+gapminder %>% 
+  convert(fct(contains("e")))
+```
+

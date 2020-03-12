@@ -4,16 +4,10 @@
 \alias{fun_by_row tidyverse_syntax for funs on rows}
 \alias{row_sum_}
 \alias{row_sum}
-\alias{row_mean_}
 \alias{row_mean}
+\alias{row_mean_}
 \title{row functions inside dplyr mutate}
 \usage{
-row_sum(..., ignore_na = FALSE, rationalize = FALSE)
-
-row_sum_(..., ignore_na = TRUE, rationalize = TRUE)
-
-row_mean(..., ignore_na = FALSE, rationalize = FALSE)
-
 row_sum_(..., ignore_na = TRUE, rationalize = TRUE)
 
 row_sum(..., ignore_na = FALSE, rationalize = FALSE)

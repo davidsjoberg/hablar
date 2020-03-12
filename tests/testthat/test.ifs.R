@@ -61,6 +61,7 @@ test_that("if_else_", {
 test_that("replacers if_*", {
   # No missing argument
   expect_equal(if_na(c(1, NA, 3), 99), c(1, 99, 3))
+  expect_equal(if_not_na(c(1, NA, 3), 99), c(99, NA, 99))
   expect_equal(if_nan(c(1, NaN, NA), 99), c(1, 99, NA))
   expect_equal(if_inf(c(1, Inf, -Inf, NA), 99), c(1, 99, 99, NA))
   expect_equal(if_zero(c(1, 0, 0, NA), 99), c(1, 99, 99, NA))

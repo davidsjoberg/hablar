@@ -138,3 +138,24 @@ test_that("s and aggregators - wrappers", {
 test_that("s and aggregators - dplyr", {
   expect_equal(mtcars %>% mutate(max_gear = max_(gear[vs == 2])), mtcars %>% mutate(max_gear = as.numeric(NA)))
 })
+
+
+test_that("first_non_na and squeeze", {
+  expect_equal(squeeze(c(1, 1, 1)), c(1))
+  expect_error(squeeze(c(NA, NA, NA)))
+  expect_error(squeeze(c(1, 1, NA)))
+  expect_error(squeeze(c(1, 2)))
+  expect_error(squeeze(c(1, Inf)))
+  
+  expect_equal(squeeze_(c(1, 1, 1)), c(1))
+  expect_equal(squeeze_(c(NA, NA, NA)), c(NA))
+  expect_equal(squeeze_(c(1, 1, NA)), c(1))
+  expect_error(squeeze_(c(1, 2)))
+  expect_equal(squeeze_(c(1, Inf)), c(1))
+  
+  expect_equal(first_non_na(c(1, 1, 1)), c(1))
+  expect_equal(first_non_na(c(1, 1, NA)), c(1))
+  expect_equal(first_non_na(c(1, 2)), c(1))
+  expect_equal(first_non_na(c(Inf, 1)), c(1))
+  expect_equal(first_non_na(c(NA, NA)), c(NA))
+})
