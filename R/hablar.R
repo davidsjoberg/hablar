@@ -1277,6 +1277,32 @@ dummy_ <- function(condition, missing = 0L){
 }
 
 
+# repeat_df -----------------------------------------------------------------
+#' @title repeat_df
+#' @name repeat_df
+#'
+#' @description
+#' Repeats a data frame n times. Useful for testing on large data frames.
+#'
+#' @param .df a data frame
+#' @param n times the data frame should be repeated
+#' @param id a character element that creates a column with a number for each repetition
+#'
+#' @return a vector of the integers 1, 0 and NA (if not dummy_ is used).
+#' 
+#' @seealso \code{vignette("hablar")}
+#'
+#' @examples
+#' repeat_df(mtcars, 2)
+#' 
+#' @rdname repeat_df
+#' @export
+repeat_df <- function(.df, n, id = NULL) {
+  purrr::map_dfr(1:n, ~.df, .id = id)
+}
+
+
+
 # find in df ------------------------------------------------------------
 #' @title Special filters
 #' @name find_in_df
