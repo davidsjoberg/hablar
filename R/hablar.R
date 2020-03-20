@@ -824,7 +824,7 @@ squeeze_ <- function(.x, ignore_na = TRUE) {
 #' If any of the left-hand side or right-hand side is NA, Inf or NaN it 
 #' returns any rational value, if there is any. 
 #' 
-#' However, if the both values are irriational it returns NA. 
+#' However, if the both values are irrational it returns NA. 
 #' The result is then passed to the
 #' corresponding math function.
 #'
@@ -874,102 +874,6 @@ squeeze_ <- function(.x, ignore_na = TRUE) {
   ifelse(is.na(.x), 0, .x) + ifelse(is.na(.y), 0, .y)
 }
 
-
-
-
-# Row summary function ---------------------------------------------------------
-#' @title row functions inside dplyr mutate
-#' @name fun_by_row tidyverse_syntax for funs on rows
-#' @aliases row_sum
-#' @aliases row_sum_
-#' @aliases row_mean
-#' @aliases row_mean_
-#'
-#' @description
-#' Simple and tidyversish syntac for sum and mean of a row, or select vars.
-#' The suffix *_ version of the function removes irrational numbers and NA by default. 
-#' 
-#' Must be used inside the dplyr function \code{mutate} in order to work.
-#' 
-#'
-#' @param ... vars or tidyselect function
-#' @param ignore_na a logical indicating whether missing values should be removed
-#' @param rationalize a logical indicating whether irriational values (NaN, Inf) should be removed
-#'
-#' @return a single numeric vector of the same length as the data frame it
-#' is applied to.
-#' 
-#' @seealso \code{vignette("s")}, \code{vignette("hablar")}
-#'
-#' @examples
-#' 
-#' \dontrun{
-#' mtcars %>% 
-#'   mutate(sum_of_row = row_sum_(cyl:wt))
-#'   
-#' mtcars %>% 
-#'   mutate(mean_of_row = row_mean(disp, drat, gear))
-#' } 
-#'
-#' @rdname fun_by_row
-#' @export
-row_sum_ <- function(..., ignore_na = TRUE, rationalize = TRUE){
-  .vars <- apply_columns_quosure(...)
-  .df <- dplyr::select(get_caller_df(), !!!.vars)
-  if("grouped_df" %in% class(.df)) {
-    stop("Grouped data frames not yet supported")
-  }
-  if(rationalize){
-    rowSums(rationalize(.df), na.rm = ignore_na)
-  } else {
-    rowSums(.df, na.rm = ignore_na)
-  }
-}
-
-#' @rdname fun_by_row
-#' @export
-row_sum <- function(..., ignore_na = FALSE, rationalize = FALSE){
-  .vars <- apply_columns_quosure(...)
-  .df <- dplyr::select(get_caller_df(), !!!.vars)
-  if("grouped_df" %in% class(.df)) {
-    stop("Grouped data frames not yet supported")
-  }
-  if(rationalize){
-    rowSums(rationalize(.df), na.rm = ignore_na)
-  } else {
-    rowSums(.df, na.rm = ignore_na)
-  }
-}
-
-#' @rdname fun_by_row
-#' @export
-row_mean_ <- function(..., ignore_na = TRUE, rationalize = TRUE){
-  .vars <- apply_columns_quosure(...)
-  .df <- dplyr::select(get_caller_df(), !!!.vars)
-  if("grouped_df" %in% class(.df)) {
-    stop("Grouped data frames not yet supported")
-  }
-  if(rationalize){
-    rowMeans(rationalize(.df), na.rm = ignore_na)
-  } else {
-    rowMeans(.df, na.rm = ignore_na)
-  }
-}
-
-#' @rdname fun_by_row
-#' @export
-row_mean <- function(..., ignore_na = FALSE, rationalize = FALSE){
-  .vars <- apply_columns_quosure(...)
-  .df <- dplyr::select(get_caller_df(), !!!.vars)
-  if("grouped_df" %in% class(.df)) {
-    stop("Grouped data frames not yet supported")
-  }
-  if(rationalize){
-    rowMeans(rationalize(.df), na.rm = ignore_na)
-  } else {
-    rowMeans(.df, na.rm = ignore_na)
-  }
-}
 
 
 # Count unique elements --------------------------------------------------------
@@ -1108,7 +1012,7 @@ if_else_ <- function(condition, true, false, missing = NULL){
 }
 
 
-# replacemnt and specials ------------------------------------------------------------------------
+# replacement and specials ------------------------------------------------------------------------
 #' @title replacemnt and specials
 #' @name replacers
 #' @aliases if_na
@@ -1572,7 +1476,7 @@ this_year <- function() {
 #' 'cum_unique_' ignores missing values
 #' 
 #' @param .v a vector
-#' @param ignore_na shouls missing values be ignores?
+#' @param ignore_na should missing values be ignores?
 #' 
 #' @return a vector
 #' 
@@ -1667,10 +1571,10 @@ set_wd_to_script_path <- function(){
 
 # Gets the .Data from mutate call if called from inside a function in a mutate call.
 # That is df %>% mutate(a = f()) and the function f() contains get_caller_df()
-get_caller_df <- function (.vars) {
-  frames <- sys.frames()
-  frames[[length(frames) - 4]]$.data
-}
+  # get_caller_df <- function (.vars) {
+  #   frames <- sys.frames()
+  #   frames[[length(frames) - 4]]$.data
+  # }
 
 # A function that sets a class on a generic NA. If not a generic NA, the function returns input.
 check_single_generic_na <- function(.x){

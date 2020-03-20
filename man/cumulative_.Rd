@@ -19,7 +19,7 @@ cum_unique_(.v, ignore_na = TRUE)
 \arguments{
 \item{.v}{a vector}
 
-\item{ignore_na}{shouls missing values be ignores?}
+\item{ignore_na}{should missing values be ignores?}
 }
 \value{
 a vector

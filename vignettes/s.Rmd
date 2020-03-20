@@ -60,7 +60,7 @@ x <- c(NaN, Inf, 3, 4)
 median(s(x))
 ```
 
-## The problems it solvs
+## The problems it solves
 ### Principle of least astonishment
 All programming languages have their special cases when you get non-intuitive results that you did not expect. This is also true for R. The s-function provides intuitive outcomes of some of the most basic commands in R. In the next parts of the vignette some problems it solves are explained in greater detail.
 

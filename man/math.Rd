@@ -23,7 +23,7 @@ Simplifying math functions are simple wrappers of math function (- +).
 If any of the left-hand side or right-hand side is NA, Inf or NaN it 
 returns any rational value, if there is any. 
 
-However, if the both values are irriational it returns NA. 
+However, if the both values are irrational it returns NA. 
 The result is then passed to the
 corresponding math function.
 }

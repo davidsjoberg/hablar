@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
 
 <meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -36,7 +36,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -95,7 +95,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -348,8 +348,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="examples" class="section level3">
 <h3>Examples</h3>
 <p>The easiest way to understand how simple <code>convert</code> is to use is with examples. Have a look at the a gapminder dataset from the package <code>gapminder</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(gapminder)</a>
-<a class="sourceLine" id="cb1-2" title="2">gapminder</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(gapminder)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">gapminder</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,704 x 6
 #&gt;   country     continent  year lifeExp      pop gdpPercap
 #&gt;   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -357,10 +357,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 2 Afghanistan Asia       1957    30.3  9240934      821.
 #&gt; 3 Afghanistan Asia       1962    32.0 10267083      853.
 #&gt; 4 Afghanistan Asia       1967    34.0 11537966      836.
-#&gt; # ... with 1,700 more rows</code></pre>
+#&gt; # … with 1,700 more rows</code></pre>
 <p>We might want to change the country column to character instead of factor. To do this we use <code>chr</code> together with the column name inside <code>convert</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,704 x 6
 #&gt;   country     continent  year lifeExp      pop gdpPercap
 #&gt;   &lt;chr&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
@@ -368,14 +368,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 2 Afghanistan Asia       1957    30.3  9240934      821.
 #&gt; 3 Afghanistan Asia       1962    32.0 10267083      853.
 #&gt; 4 Afghanistan Asia       1967    34.0 11537966      836.
-#&gt; # ... with 1,700 more rows</code></pre>
+#&gt; # … with 1,700 more rows</code></pre>
 <p>This converted the country column to the data type character. But we do not have to make this whole procedure for each column if we want to convert more columns. Let’s say that we also want to convert continent to character and the column lifeExp to integer, pop to double and gdpPercap to numeric. It is simply done:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country, </a>
-<a class="sourceLine" id="cb5-3" title="3">              continent),</a>
-<a class="sourceLine" id="cb5-4" title="4">          <span class="kw">int</span>(lifeExp),</a>
-<a class="sourceLine" id="cb5-5" title="5">          <span class="kw">dbl</span>(pop),</a>
-<a class="sourceLine" id="cb5-6" title="6">          <span class="kw">num</span>(gdpPercap))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country, </a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">              continent),</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">          <span class="kw">int</span>(lifeExp),</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">          <span class="kw">dbl</span>(pop),</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">          <span class="kw">num</span>(gdpPercap))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,704 x 6
 #&gt;   country     continent  year lifeExp      pop gdpPercap
 #&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
@@ -383,18 +383,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 2 Afghanistan Asia       1957      30  9240934      821.
 #&gt; 3 Afghanistan Asia       1962      31 10267083      853.
 #&gt; 4 Afghanistan Asia       1967      34 11537966      836.
-#&gt; # ... with 1,700 more rows</code></pre>
+#&gt; # … with 1,700 more rows</code></pre>
 </div>
 </div>
 <div id="i-can-already-convert-between-data-types.-why-do-i-need-convert" class="section level2">
 <h2>I can already convert between data types. Why do I need <code>convert</code>?</h2>
 <p>You can change alot of data types with little code. Consider using <code>mutate</code> from <code>dplyr</code> to do the same operation:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">gapminder <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">country =</span> <span class="kw">as.character</span>(country),</a>
-<a class="sourceLine" id="cb7-3" title="3">         <span class="dt">continent =</span> <span class="kw">as.character</span>(continent),</a>
-<a class="sourceLine" id="cb7-4" title="4">         <span class="dt">lifeExp =</span> <span class="kw">as.integer</span>(lifeExp),</a>
-<a class="sourceLine" id="cb7-5" title="5">         <span class="dt">pop =</span> <span class="kw">as.double</span>(pop),</a>
-<a class="sourceLine" id="cb7-6" title="6">         <span class="dt">gdpPercap =</span> <span class="kw">as.numeric</span>(gdpPercap))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">gapminder <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">country =</span> <span class="kw">as.character</span>(country),</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">         <span class="dt">continent =</span> <span class="kw">as.character</span>(continent),</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">         <span class="dt">lifeExp =</span> <span class="kw">as.integer</span>(lifeExp),</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">         <span class="dt">pop =</span> <span class="kw">as.double</span>(pop),</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">         <span class="dt">gdpPercap =</span> <span class="kw">as.numeric</span>(gdpPercap))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,704 x 6
 #&gt;   country     continent  year lifeExp      pop gdpPercap
 #&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
@@ -402,15 +402,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 2 Afghanistan Asia       1957      30  9240934      821.
 #&gt; 3 Afghanistan Asia       1962      31 10267083      853.
 #&gt; 4 Afghanistan Asia       1967      34 11537966      836.
-#&gt; # ... with 1,700 more rows</code></pre>
+#&gt; # … with 1,700 more rows</code></pre>
 <p>Which gives the same result. However, you need to refer to the column name twice and the data type conversion function for each column. Imagine the code to convert 20 columns.</p>
 <p>However, <code>dplyr</code> have another way of applying the same function to multiple columns which could help, <code>mutate_at</code>. The same example would then look like:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(country, continent), <span class="kw">funs</span>(as.character)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(lifeExp), <span class="kw">funs</span>(as.integer)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-4" title="4"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(pop), <span class="kw">funs</span>(as.double)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(gdpPercap), <span class="kw">funs</span>(as.numeric))</a></code></pre></div>
-<pre><code>#&gt; Warning: funs() is soft deprecated as of dplyr 0.8.0
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(country, continent), <span class="kw">funs</span>(as.character)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(lifeExp), <span class="kw">funs</span>(as.integer)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(pop), <span class="kw">funs</span>(as.double)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(gdpPercap), <span class="kw">funs</span>(as.numeric))</a></code></pre></div>
+<pre><code>#&gt; Warning: `funs()` is deprecated as of dplyr 1.0.0.
 #&gt; Please use a list of either functions or lambdas: 
 #&gt; 
 #&gt;   # Simple named list: 
@@ -421,7 +421,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 
 #&gt;   # Using lambdas
 #&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-#&gt; This warning is displayed once per session.</code></pre>
+#&gt; This warning is displayed once every 8 hours.
+#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <pre><code>#&gt; # A tibble: 1,704 x 6
 #&gt;   country     continent  year lifeExp      pop gdpPercap
 #&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
@@ -429,14 +430,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 2 Afghanistan Asia       1957      30  9240934      821.
 #&gt; 3 Afghanistan Asia       1962      31 10267083      853.
 #&gt; 4 Afghanistan Asia       1967      34 11537966      836.
-#&gt; # ... with 1,700 more rows</code></pre>
+#&gt; # … with 1,700 more rows</code></pre>
 <p>Which is more easily scaled to deal with data type conversion of large numbers of variables. However, <code>convert</code> does the same job with much less code. In fact, <code>convert</code> uses <code>mutate_at</code> internally. The difference is syntax and code readability. Compare again with <code>convert</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country, </a>
-<a class="sourceLine" id="cb12-3" title="3">               continent),</a>
-<a class="sourceLine" id="cb12-4" title="4">           <span class="kw">int</span>(lifeExp),</a>
-<a class="sourceLine" id="cb12-5" title="5">           <span class="kw">dbl</span>(pop),</a>
-<a class="sourceLine" id="cb12-6" title="6">           <span class="kw">num</span>(gdpPercap))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">chr</span>(country, </a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">               continent),</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">           <span class="kw">int</span>(lifeExp),</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">           <span class="kw">dbl</span>(pop),</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">           <span class="kw">num</span>(gdpPercap))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,704 x 6
 #&gt;   country     continent  year lifeExp      pop gdpPercap
 #&gt;   &lt;chr&gt;       &lt;chr&gt;     &lt;int&gt;   &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;
@@ -444,14 +445,14 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 2 Afghanistan Asia       1957      30  9240934      821.
 #&gt; 3 Afghanistan Asia       1962      31 10267083      853.
 #&gt; 4 Afghanistan Asia       1967      34 11537966      836.
-#&gt; # ... with 1,700 more rows</code></pre>
+#&gt; # … with 1,700 more rows</code></pre>
 </div>
 <div id="adding-additional-arguments" class="section level2">
 <h2>Adding additional arguments</h2>
 <p><code>convert</code> also supports functions of <code>convert</code> support additional arguments to be passed. For example, if you want to convert a number to a date and want to include an <code>origin</code> argument you can write:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">tibble</span>(<span class="dt">dates =</span> <span class="kw">c</span>(<span class="dv">12818</span>, <span class="dv">13891</span>),</a>
-<a class="sourceLine" id="cb14-2" title="2">        <span class="dt">sunny =</span> <span class="kw">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">dte</span>(dates, <span class="dt">.args =</span> <span class="kw">list</span>(<span class="dt">origin =</span> <span class="st">&quot;1900-01-01&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">tibble</span>(<span class="dt">dates =</span> <span class="kw">c</span>(<span class="dv">12818</span>, <span class="dv">13891</span>),</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">        <span class="dt">sunny =</span> <span class="kw">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">dte</span>(dates, <span class="dt">.args =</span> <span class="kw">list</span>(<span class="dt">origin =</span> <span class="st">&quot;1900-01-01&quot;</span>)))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 2 x 2
 #&gt;   dates      sunny
 #&gt;   &lt;date&gt;     &lt;chr&gt;
@@ -461,8 +462,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="final-note" class="section level2">
 <h2>Final note</h2>
 <p><code>convert</code> is built upon <code>dplyr</code> and it will share some amazing features of <code>dplyr</code>. For example, <code>tidyselect</code> works with <code>convert</code> which helps you to select multiple columns at the same time. A simple example, if you want to change all columns with names that includes the letter “e” to factors, you can write:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">fct</span>(<span class="kw">contains</span>(<span class="st">&quot;e&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">gapminder <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">convert</span>(<span class="kw">fct</span>(<span class="kw">contains</span>(<span class="st">&quot;e&quot;</span>)))</a></code></pre></div>
 <pre><code>#&gt; # A tibble: 1,704 x 6
 #&gt;   country     continent year  lifeExp      pop gdpPercap  
 #&gt;   &lt;fct&gt;       &lt;fct&gt;     &lt;fct&gt; &lt;fct&gt;      &lt;int&gt; &lt;fct&gt;      
@@ -470,12 +471,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 #&gt; 2 Afghanistan Asia      1957  30.332   9240934 820.8530296
 #&gt; 3 Afghanistan Asia      1962  31.997  10267083 853.10071  
 #&gt; 4 Afghanistan Asia      1967  34.02   11537966 836.1971382
-#&gt; # ... with 1,700 more rows</code></pre>
+#&gt; # … with 1,700 more rows</code></pre>
 </div>
 
-
-
-<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
