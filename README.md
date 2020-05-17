@@ -1,6 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/hablar)](https://CRAN.R-project.org/package=hablar)
+\[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/hablar)
+<!-- badges: end -->
+
 # hablar
 
 The mission of `hablar` is for you to get non-astonishing results\! That
@@ -129,14 +138,14 @@ starwars %>%
 ```
 
     #> # A tibble: 6 x 13
-    #>   name  height  mass hair_color skin_color eye_color birth_year gender
-    #>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> 
-    #> 1 Arve…     NA    NA brown      fair       brown             NA male  
-    #> 2 Finn      NA    NA black      dark       dark              NA male  
-    #> 3 Rey       NA    NA brown      light      hazel             NA female
-    #> 4 Poe …     NA    NA brown      light      brown             NA male  
-    #> # … with 2 more rows, and 5 more variables: homeworld <chr>,
-    #> #   species <chr>, films <list>, vehicles <list>, starships <list>
+    #>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
+    #>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
+    #> 1 Arve…     NA    NA brown      fair       brown             NA male   <NA>     
+    #> 2 Finn      NA    NA black      dark       dark              NA male   <NA>     
+    #> 3 Rey       NA    NA brown      light      hazel             NA female <NA>     
+    #> 4 Poe …     NA    NA brown      light      brown             NA male   <NA>     
+    #> # … with 2 more rows, and 4 more variables: species <chr>, films <list>,
+    #> #   vehicles <list>, starships <list>
 
 If you rather want a Boolean value instead then e.g.
 `check_duplicates()` returns `TRUE` if the data frame contains
@@ -155,14 +164,14 @@ starwars %>%
 ```
 
     #> # A tibble: 6 x 13
-    #>   name  height  mass hair_color skin_color eye_color birth_year gender
-    #>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> 
-    #> 1 Arve…    100    NA brown      fair       brown             NA male  
-    #> 2 Finn     100    NA black      dark       dark              NA male  
-    #> 3 Rey      100    NA brown      light      hazel             NA female
-    #> 4 Poe …    100    NA brown      light      brown             NA male  
-    #> # … with 2 more rows, and 5 more variables: homeworld <chr>,
-    #> #   species <chr>, films <list>, vehicles <list>, starships <list>
+    #>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
+    #>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
+    #> 1 Arve…    100    NA brown      fair       brown             NA male   <NA>     
+    #> 2 Finn     100    NA black      dark       dark              NA male   <NA>     
+    #> 3 Rey      100    NA brown      light      hazel             NA female <NA>     
+    #> 4 Poe …    100    NA brown      light      brown             NA male   <NA>     
+    #> # … with 2 more rows, and 4 more variables: species <chr>, films <list>,
+    #> #   vehicles <list>, starships <list>
 
 In the chunk above we successfully replaced all missing heights with the
 integer 100. `hablar` also contain the self explained:
