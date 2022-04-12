@@ -73,7 +73,7 @@ could_chr_be_int <- function(.x) {
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
   .x <- as.numeric(.x)
-  if(all(is.na(.x)) | length(.x) == 0) {
+  if(all(is.na(.x)) | length(.x) == 0 | any(.x > .Machine$integer.max)) {
     return(FALSE)}
   ifelse(all(.x[!is.na(.x)] == as.integer(.x[!is.na(.x)])), TRUE, FALSE)
 }
@@ -83,7 +83,7 @@ could_chr_be_int <- function(.x) {
 could_num_be_int <- function(.x) {
   if(!is.numeric(.x)) {
     stop("Only works with numeric vectors")}
-  if(all(is.na(.x)) | length(.x) == 0 | any(is.nan(.x) | any(is.infinite(.x)))) {
+  if(all(is.na(.x)) | length(.x) == 0 | any(is.nan(.x) | any(is.infinite(.x))) | any(.x > .Machine$integer.max)) {
     return(FALSE)}
   ifelse(all(.x[!is.na(.x)] == as.integer(.x[!is.na(.x)])), TRUE, FALSE)
 }
