@@ -106,8 +106,8 @@ could_dtm_be_dte <- function(.x) {
     stop("Only works with date-time vectors (POSIXct)")}
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
-  .timestamps <- strftime(.x, format="%H:%M:%S")
-  ifelse(length(unique(.timestamps[!is.na(.timestamps)])) == 1, TRUE, FALSE)
+  lossy = .x != as.Date(.x)
+  ifelse(any(lossy[!is.na(lossy)]), FALSE, TRUE)
 }
 
 
