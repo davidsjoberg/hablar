@@ -73,7 +73,7 @@ could_chr_be_int <- function(.x) {
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
   .x <- as.numeric(.x)
-  if(all(is.na(.x)) | length(.x) == 0) {
+  if(all(is.na(.x)) | length(.x) == 0 | any(.x > .Machine$integer.max, na.rm=T)) {
     return(FALSE)}
   ifelse(all(.x[!is.na(.x)] == as.integer(.x[!is.na(.x)])), TRUE, FALSE)
 }
@@ -83,7 +83,7 @@ could_chr_be_int <- function(.x) {
 could_num_be_int <- function(.x) {
   if(!is.numeric(.x)) {
     stop("Only works with numeric vectors")}
-  if(all(is.na(.x)) | length(.x) == 0 | any(is.nan(.x) | any(is.infinite(.x)))) {
+  if(all(is.na(.x)) | length(.x) == 0 | any(is.nan(.x) | any(is.infinite(.x))) | any(.x > .Machine$integer.max, na.rm=T)) {
     return(FALSE)}
   ifelse(all(.x[!is.na(.x)] == as.integer(.x[!is.na(.x)])), TRUE, FALSE)
 }
@@ -106,8 +106,8 @@ could_dtm_be_dte <- function(.x) {
     stop("Only works with date-time vectors (POSIXct)")}
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
-  .timestamps <- strftime(.x, format="%H:%M:%S")
-  ifelse(length(unique(.timestamps[!is.na(.timestamps)])) == 1, TRUE, FALSE)
+  lossy = .x != as.Date(.x)
+  ifelse(any(lossy[!is.na(lossy)]), FALSE, TRUE)
 }
 
 
