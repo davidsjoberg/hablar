@@ -24,11 +24,12 @@ test_that("vectors", {
   expect_equal(s(as.logical(c(T, NA))), as.logical(c(T)))
   expect_equal(s(as.logical(c(T, NA)), ignore_na = F), as.logical(c(T, NA)))
 
-  expect_equal(s(as.numeric(c(NA, NA)), ignore_na = F), NA)
-  expect_equal(s(as.Date(c(NA, NA))), NA)
-  expect_equal(s(as.POSIXct(c(NA, NA))), NA)
-  expect_equal(s(as.character(c(NA, NA))), NA)
-  expect_equal(s(as.integer(c(NA, NA))), NA)
+  expect_equal(s(as.numeric(c(NA, NA)), ignore_na = F), as.numeric(NA))
+  expect_equal(s(as.Date(c(NA, NA))), as.Date(NA))
+  expect_equal(s(as.POSIXct(c(NA, NA))), as.POSIXct(NA))
+  expect_equal(s(as.character(c(NA, NA))), as.character(NA))
+  expect_equal(s(as.character(c(NA, NA))), NA_character_)
+  expect_equal(s(as.integer(c(NA, NA))), as.integer(NA))
 
   expect_error(s(as.factor(c(NA, NA))))
   expect_error(s(as.factor(c(2, 3, NA))))
@@ -61,11 +62,11 @@ test_that("s and aggregators", {
   expect_equal(mean(s(as.numeric(c(NaN, 2, NA)), ignore_na = F)), as.numeric(NA))
 
   expect_equal(first(s(as.numeric(c(1, 2)))), as.numeric(c(1)))
-  expect_equal(first(s(as.numeric(c()))), first(c(NA)))
+  expect_equal(first(s(as.numeric(c()))), first(as.numeric(c(NA))))
   expect_equal(first(s(as.numeric(c(1, 2, NA)))), as.numeric(c(1)))
   expect_equal(first(s(as.numeric(c(NaN, 2, NA)))), as.numeric(c(2)))
   expect_equal(first(s(as.numeric(c(NaN, 2, Inf)))), as.numeric(c(2)))
-  expect_equal(first(s(as.numeric(c(NaN, NA, Inf)))), NA)
+  expect_equal(first(s(as.numeric(c(NaN, NA, Inf)))), as.numeric(NA))
   expect_equal(first(s(as.numeric(c(NaN, 2, NA)), ignore_na = F)), as.numeric(NA))
 
   expect_error(s(as.factor(c(2, 3, NA))))
@@ -99,19 +100,19 @@ test_that("s and aggregators - wrappers", {
   expect_equal(mean_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
 
   expect_equal(first_(as.numeric(c(1, 2))), as.numeric(c(1)))
-  expect_equal(first_(as.numeric(c())), first(c(NA)))
+  expect_equal(first_(as.numeric(c())), first(as.numeric(c(NA))))
   expect_equal(first_(as.numeric(c(1, 2, NA))), as.numeric(c(1)))
   expect_equal(first_(as.numeric(c(NaN, 2, NA))), as.numeric(c(2)))
   expect_equal(first_(as.numeric(c(NaN, 2, Inf))), as.numeric(c(2)))
-  expect_equal(first_(as.numeric(c(NaN, NA, Inf))), NA)
+  expect_equal(first_(as.numeric(c(NaN, NA, Inf))), as.numeric(NA))
   expect_equal(first_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
   
   expect_equal(last_(as.numeric(c(1, 2))), as.numeric(c(2)))
-  expect_equal(last_(as.numeric(c())), last(c(NA)))
+  expect_equal(last_(as.numeric(c())), last(as.numeric(c(NA))))
   expect_equal(last_(as.numeric(c(1, 2, NA))), as.numeric(c(2)))
   expect_equal(last_(as.numeric(c(NaN, 2, NA))), as.numeric(c(2)))
   expect_equal(last_(as.numeric(c(NaN, 2, Inf))), as.numeric(c(2)))
-  expect_equal(last_(as.numeric(c(NaN, NA, Inf))), NA)
+  expect_equal(last_(as.numeric(c(NaN, NA, Inf))), as.numeric(NA))
   expect_equal(last_(as.numeric(c(NaN, 2, NA)), ignore_na = F), as.numeric(NA))
   
   expect_equal(sd_(as.numeric(c(1, 2, 3, 4))), as.numeric(sd(c(1, 2, 3, 4))))
@@ -149,6 +150,7 @@ test_that("first_non_na and squeeze", {
   
   expect_equal(squeeze_(c(1, 1, 1)), c(1))
   expect_equal(squeeze_(c(NA, NA, NA)), c(NA))
+  expect_equal(squeeze_(as.numeric(c(NA, NA, NA))), as.numeric(c(NA)))
   expect_equal(squeeze_(c(1, 1, NA)), c(1))
   expect_error(squeeze_(c(1, 2)))
   expect_equal(squeeze_(c(1, Inf)), c(1))
@@ -158,4 +160,12 @@ test_that("first_non_na and squeeze", {
   expect_equal(first_non_na(c(1, 2)), c(1))
   expect_equal(first_non_na(c(Inf, 1)), c(1))
   expect_equal(first_non_na(c(NA, NA)), c(NA))
+})
+
+test_that("empty groups of non-missing data", {
+  # Checks that if grouped df with groups of only NA keeps correct NA class
+  expect_silent(data.frame(id = c(1, 1, 2, 2),
+                           date = as.Date(c(NA, NA, as.Date("2022-06-20"), NA), origin = "1970-01-01")) %>%
+                  group_by(id) %>%
+                  summarise(max_date = max_(date)))
 })

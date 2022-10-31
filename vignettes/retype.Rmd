@@ -1,5 +1,5 @@
 ---
-title: "`retype` - auto data type conversion"
+title: "retype"
 author: "David Sjoberg"
 output: rmarkdown::html_vignette
 vignette: >

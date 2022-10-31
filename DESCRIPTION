@@ -1,7 +1,7 @@
 Package: hablar
 Type: Package
 Title: Non-Astonishing Results in R
-Version: 0.3.0
+Version: 0.3.1
 Author: David Sjoberg
 Maintainer: David Sjoberg <dav.sjob@gmail.com>
 Description: Simple tools for converting columns to new data types. Intuitive functions for columns with missing values. 
@@ -9,8 +9,7 @@ License: MIT + file LICENSE
 URL: https://davidsjoberg.github.io/
 BugReports: https://github.com/davidsjoberg/hablar/issues
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.2
 Imports: 
     dplyr (>= 0.8.0),
     purrr,

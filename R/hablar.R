@@ -194,7 +194,7 @@ rationalize.data.frame <- function(.x, ...) {
       dplyr::mutate_at(dplyr::quos(dplyr::everything()),
                 ~rationalize(.))
   }
-  return(dplyr::as_tibble(.x))
+  return(.x)
 }
 
 
@@ -371,7 +371,7 @@ retype.data.frame <- function(.x, ...) {
     .x <- .x %>%
       dplyr::mutate_all(retype)
   }
-  return(dplyr::as_tibble(.x))
+  return(.x)
 }
 
 
@@ -397,11 +397,11 @@ retype.data.frame <- function(.x, ...) {
 #'
 #' as_reliable_dte(.x, origin = "1970-01-01", ...)
 #'
-#' as_reliable_dtm(.x, origin = "1970-01-01", tz = "Europe/London", ...)
+#' as_reliable_dtm(.x, origin = "1970-01-01", tz = "UTC", ...)
 #'
 #' @param .x vector
 #' @param origin argument to set origin for date/date time.
-#' @param tz argument to set time zone for date/date time. Default is Europe/London.
+#' @param tz argument to set time zone for date/date time. Default is UTC.
 #' @param ... additional arguments
 #'
 #' @return vector
@@ -475,7 +475,7 @@ as_reliable_dte <- function(.x, origin = "1970-01-01", ...) {
 
 #' @rdname as_reliable
 #' @export
-as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "Europe/London", ...) {
+as_reliable_dtm <- function(.x, origin = "1970-01-01", tz = "UTC", ...) {
   if(any(class(.x) == "POSIXct")) {
     return(.x)}
   if(is.logical(.x)) {
@@ -597,7 +597,7 @@ convert <- function(.x, ...){
     .fun  <- args[[i]]$fun
     .x <- .x %>% dplyr::mutate_at(dplyr::vars(!!!.vars), .fun)
   }
-  return(dplyr::as_tibble(.x))
+  return(.x)
 }
 
 
@@ -675,8 +675,12 @@ s <- function(.x, ignore_na = TRUE) {
     stop("s does not work with factors. Consider converting it into another data type with hablar::convert or hablar::retype.")
   }
   .v <- rationalize(.x)
-  if(all(is.na(.v)) | length(.v) == 0) {
-    return(NA)
+  if(all(is.na(.v))) {
+    return(.v[1])
+  }
+  if(length(.v) == 0) {
+    na <- c(NA, .x[1])[1]
+    return(na)
   }
   if(ignore_na) {return(c(.v[!is.na(.v)]))}
   return(.v)

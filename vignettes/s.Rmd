@@ -1,5 +1,5 @@
 ---
-title: "`s` - short and simple summarizing"
+title: "s"
 author: "David Sjoberg"
 output: rmarkdown::html_vignette
 vignette: >

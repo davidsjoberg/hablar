@@ -17,7 +17,7 @@ as_reliable_lgl(.x, ...)
 
 as_reliable_dte(.x, origin = "1970-01-01", ...)
 
-as_reliable_dtm(.x, origin = "1970-01-01", tz = "Europe/London", ...)
+as_reliable_dtm(.x, origin = "1970-01-01", tz = "UTC", ...)
 
 as_reliable_int(.x, ...)
 
@@ -25,7 +25,7 @@ as_reliable_lgl(.x, ...)
 
 as_reliable_dte(.x, origin = "1970-01-01", ...)
 
-as_reliable_dtm(.x, origin = "1970-01-01", tz = "Europe/London", ...)
+as_reliable_dtm(.x, origin = "1970-01-01", tz = "UTC", ...)
 }
 \arguments{
 \item{.x}{vector}
@@ -34,7 +34,7 @@ as_reliable_dtm(.x, origin = "1970-01-01", tz = "Europe/London", ...)
 
 \item{origin}{argument to set origin for date/date time.}
 
-\item{tz}{argument to set time zone for date/date time. Default is Europe/London.}
+\item{tz}{argument to set time zone for date/date time. Default is UTC.}
 }
 \value{
 vector

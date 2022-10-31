@@ -5,3 +5,5 @@
 ^README-.*\.png$
 ^cran-comments.md
 ^LICENSE\.md$
+NEWS.md
+^\.github$

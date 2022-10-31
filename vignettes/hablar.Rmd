@@ -1,5 +1,5 @@
 ---
-title: "An introduction to hablar"
+title: "hablar"
 author: David Sjoberg
 output: rmarkdown::html_vignette
 vignette: >

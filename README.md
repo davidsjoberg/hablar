@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
 [![Lifecycle:
@@ -8,29 +7,30 @@ experimental](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://w
 [![CRAN
 status](https://www.r-pkg.org/badges/version/hablar)](https://CRAN.R-project.org/package=hablar)
 \[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/hablar)
+[![R-CMD-check](https://github.com/davidsjoberg/hablar/workflows/R-CMD-check/badge.svg)](https://github.com/davidsjoberg/hablar/actions)
 <!-- badges: end -->
 
 # hablar
 
-The mission of `hablar` is for you to get non-astonishing results\! That
+The mission of `hablar` is for you to get non-astonishing results! That
 means that functions return what you expected. R has some intuitive
 quirks that beginners and experienced programmers fail to identify. Some
 of the first weird features of R that `hablar` solves:
 
-  - Missing values `NA` and irrational values `Inf`, `NaN` is dominant.
+-   Missing values `NA` and irrational values `Inf`, `NaN` is dominant.
     For example, in R `sum(c(1, 2, NA))` is `NA` and not 3. In `hablar`
     the addition of an underscore `sum_(c(1, 2, NA))` returns 3, as is
     often expected.
 
-  - Factors (categorical variables) that are converted to numeric
+-   Factors (categorical variables) that are converted to numeric
     returns the number of the category rather than the value. In
     `hablar` the `convert()` function always changes the type of the
     values.
 
-  - Finding duplicates, and rows with `NA` can be cumbersome. The
+-   Finding duplicates, and rows with `NA` can be cumbersome. The
     functions `find_duplicates()` and `find_na()` make it easy to find
     where the data frame needs to be fixed. When the issues are found
-    the utility replacement functions, e.g. `if_else_()`, `if_na()`,
+    the utility replacement functions, e.g. `if_else_()`, `if_na()`,
     `zero_if()` easily fixes many of the most common problems you face.
 
 `hablar` follows the syntax API of `tidyverse` and works seamlessly with
@@ -72,7 +72,7 @@ mtcars %>%
     #> 2  21       6 160   110   3.9   2.875  17.0     0     1     4     4
     #> 3  22.8     4 108   93    3.85  2.32   18.6     1     1     4     1
     #> 4  21.4     6 258   110   3.08  3.215  19.4     1     0     3     1
-    #> # … with 28 more rows
+    #> # ... with 28 more rows
 
 For more information type `vignette("convert")` in the console.
 
@@ -92,7 +92,7 @@ starwars %>%
 
     #> # A tibble: 1 x 2
     #>   min_height_baseR min_height_hablar
-    #>              <dbl>             <int>
+    #>              <int>             <int>
     #> 1               NA                66
 
 The function `min_` omitted that the variable `height` contained `NA`.
@@ -127,7 +127,7 @@ df %>%
     #> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
     #> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
     #> 4  21.4     6   258   110  3.08  3.22  19.4     1     0     3     1
-    #> # … with 31 more rows
+    #> # ... with 31 more rows
 
 There are also find functions for other cases. For example `find_na()`
 returns rows with missing values.
@@ -137,18 +137,18 @@ starwars %>%
   find_na(height)
 ```
 
-    #> # A tibble: 6 x 13
-    #>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-    #>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
-    #> 1 Arve…     NA    NA brown      fair       brown             NA male   <NA>     
-    #> 2 Finn      NA    NA black      dark       dark              NA male   <NA>     
-    #> 3 Rey       NA    NA brown      light      hazel             NA female <NA>     
-    #> 4 Poe …     NA    NA brown      light      brown             NA male   <NA>     
-    #> # … with 2 more rows, and 4 more variables: species <chr>, films <list>,
-    #> #   vehicles <list>, starships <list>
+    #> # A tibble: 6 x 14
+    #>   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
+    #>   <chr>     <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr>  
+    #> 1 Arvel C~     NA    NA brown      fair       brown             NA male  mascul~
+    #> 2 Finn         NA    NA black      dark       dark              NA male  mascul~
+    #> 3 Rey          NA    NA brown      light      hazel             NA fema~ femini~
+    #> 4 Poe Dam~     NA    NA brown      light      brown             NA male  mascul~
+    #> # ... with 2 more rows, and 5 more variables: homeworld <chr>, species <chr>,
+    #> #   films <list>, vehicles <list>, starships <list>
 
-If you rather want a Boolean value instead then e.g.
-`check_duplicates()` returns `TRUE` if the data frame contains
+If you rather want a Boolean value instead then
+e.g. `check_duplicates()` returns `TRUE` if the data frame contains
 duplicates, otherwise it returns `FALSE`.
 
 ##### **…apply the solution**
@@ -163,22 +163,22 @@ starwars %>%
   mutate(height = if_na(height, 100L))
 ```
 
-    #> # A tibble: 6 x 13
-    #>   name  height  mass hair_color skin_color eye_color birth_year gender homeworld
-    #>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr>  <chr>    
-    #> 1 Arve…    100    NA brown      fair       brown             NA male   <NA>     
-    #> 2 Finn     100    NA black      dark       dark              NA male   <NA>     
-    #> 3 Rey      100    NA brown      light      hazel             NA female <NA>     
-    #> 4 Poe …    100    NA brown      light      brown             NA male   <NA>     
-    #> # … with 2 more rows, and 4 more variables: species <chr>, films <list>,
-    #> #   vehicles <list>, starships <list>
+    #> # A tibble: 6 x 14
+    #>   name     height  mass hair_color skin_color eye_color birth_year sex   gender 
+    #>   <chr>     <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr>  
+    #> 1 Arvel C~    100    NA brown      fair       brown             NA male  mascul~
+    #> 2 Finn        100    NA black      dark       dark              NA male  mascul~
+    #> 3 Rey         100    NA brown      light      hazel             NA fema~ femini~
+    #> 4 Poe Dam~    100    NA brown      light      brown             NA male  mascul~
+    #> # ... with 2 more rows, and 5 more variables: homeworld <chr>, species <chr>,
+    #> #   films <list>, vehicles <list>, starships <list>
 
 In the chunk above we successfully replaced all missing heights with the
 integer 100. `hablar` also contain the self explained:
 
-  - `if_zero()` and `zero_if()`
-  - `if_inf()` and `inf_if()`
-  - `if_nan()` and `nan_if()`
+-   `if_zero()` and `zero_if()`
+-   `if_inf()` and `inf_if()`
+-   `if_nan()` and `nan_if()`
 
 which works in the same way as the examples above.
 
@@ -199,7 +199,7 @@ mtcars %>% retype()
     #> 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4
     #> 3  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
     #> 4  21.4     6   258   110  3.08  3.22  19.4     1     0     3     1
-    #> # … with 28 more rows
+    #> # ... with 28 more rows
 
 All variables with only integer were converted to type integer. For more
 information type `vignette("retype")` in the console.

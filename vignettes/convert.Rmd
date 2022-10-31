@@ -1,5 +1,5 @@
 ---
-title: "A grammer for data type conversion"
+title: "convert"
 author: "David Sjoberg"
 output: rmarkdown::html_vignette
 vignette: >
