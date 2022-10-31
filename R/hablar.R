@@ -9,7 +9,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 requireNamespace("rstudioapi", quietly = TRUE)
 
 # could_this_be_that -----------------------------------------------------------
-
+ 
 #' @title Tests is a vector could be of another data type
 #' @name could_this_be_that
 #' @aliases  could_chr_be_num
