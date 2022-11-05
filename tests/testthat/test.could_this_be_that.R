@@ -69,7 +69,7 @@ test_that("could_chr_be_dtm", {
   expect_equal(could_chr_be_dtm("."), F)
   expect_equal(could_chr_be_dtm(" 3"), F)
   expect_equal(could_chr_be_dtm("3 0"), F)
-  expect_equal(could_chr_be_dtm("2018-03-01"), T)
+  expect_equal(could_chr_be_dtm("2018-03-01"), F)
   expect_equal(could_chr_be_dtm("2018-10-09 19:19:26 CEST"), T)
   expect_equal(could_chr_be_dtm(as.character(c("2018-10-09 19:19:26 CEST", "2018-10-09 19:19:27 CEST", NA))), T)
   expect_equal(could_chr_be_dtm("1"), F)
@@ -85,18 +85,17 @@ test_that("could_chr_be_dtm", {
   expect_error(could_chr_be_num(list(a = c(1,3,4))))
 })
 
-test_that("could_dtm_be_dte", {
-  expect_equal(could_dtm_be_dte(as.POSIXct("2018-03-01")), T)
-  expect_equal(could_dtm_be_dte(as.POSIXct(c("2018-03-01", "2018-03-03"))), T)
-  expect_equal(could_dtm_be_dte(as.POSIXct(c("2018-10-09 19:19:26 CEST", "2018-10-09 19:19:27 CEST"))), F)
-  expect_equal(could_dtm_be_dte(as.POSIXct(c("2018-10-09 19:19:26 CEST", "2018-10-09 19:19:27 CEST", NA))), F)
-  expect_equal(could_dtm_be_dte(as.POSIXct(NA)), F)
+test_that("could_chr_be_dte", {
+  expect_equal(could_chr_be_dte(c("2018-03-01")), T)
+  expect_equal(could_chr_be_dte(c(c("2018-03-01", "2018-03-03"))), T)
+  expect_equal(could_chr_be_dte(c(c("2018-10-09 19:19:26 CEST", "2018-10-09 19:19:27 CEST"))), T)
+  expect_equal(could_chr_be_dte(c(c("2018-10-09 19:19:26 CEST", "2018-10-09 19:19:27 CEST", NA))), T)
+  expect_equal(could_chr_be_dte(c(NA_character_)), F)
 
-  expect_error(could_dtm_be_dte("a"))
-  expect_error(could_dtm_be_dte(as.Date(c(NA, NA))))
-  expect_error(could_dtm_be_dte(as.numeric(1)))
-  expect_error(could_dtm_be_dte(as.factor("2018-03-01")))
-  expect_error(could_dtm_be_dte(data.frame(a = c(1,3,4))))
+  expect_error(could_chr_be_dte(as.Date(c(NA, NA))))
+  expect_error(could_chr_be_dte(as.numeric(1)))
+  expect_error(could_chr_be_dte(as.factor("2018-03-01")))
+  expect_error(could_chr_be_dte(data.frame(a = c(1,3,4))))
   expect_error(could_chr_be_num(list(a = c(1,3,4))))
 })
 

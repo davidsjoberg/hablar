@@ -7,6 +7,7 @@
 \alias{could_num_be_int}
 \alias{could_chr_be_dtm}
 \alias{could_dtm_be_dte}
+\alias{could_chr_be_dte}
 \title{Tests is a vector could be of another data type}
 \usage{
 could_chr_be_num(.x)
@@ -17,7 +18,7 @@ could_num_be_int(.x)
 
 could_chr_be_dtm(.x)
 
-could_dtm_be_dte(.x)
+could_chr_be_dte(.x)
 }
 \arguments{
 \item{.x}{vector of the data type that should be tested.}

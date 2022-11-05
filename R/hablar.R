@@ -95,19 +95,32 @@ could_chr_be_dtm <- function(.x) {
     stop("Only works with character vectors")}
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
-  res <- try(as.POSIXct(.x),silent = TRUE)
-  ifelse(all(class(res) != "try-error") == TRUE, TRUE, FALSE)
+  res <- try(as.POSIXct(.x), silent = TRUE)
+  test <- ifelse(all(class(res) != "try-error") == TRUE, TRUE, FALSE)
+  if(test) {
+    if(all(strftime(res, format="%H:%M:%S") %in% c("00:00:00", NA_character_))) {
+      return(FALSE)
+    } else {
+      return(TRUE)
+    }
+  } else {
+    return(FALSE)
+  }
 }
 
 #' @rdname could_this_be_that
 #' @export
-could_dtm_be_dte <- function(.x) {
-  if(!any(class(.x) %in% c("POSIXct", "POSIXt"))) {
-    stop("Only works with date-time vectors (POSIXct)")}
+could_chr_be_dte <- function(.x) {
+  if(!is.character(.x)) {
+    stop("Only works with character vectors")}
   if(all(is.na(.x)) | length(.x) == 0) {
     return(FALSE)}
-  lossy = .x != as.Date(.x)
-  ifelse(any(lossy[!is.na(lossy)]), FALSE, TRUE)
+  .test <- tryCatch(as.Date(.x),
+                    error=function(e) e,
+                    warning=function(w) w)
+  if(any(attributes(.test)$class %in% c("warning", "error"))) {
+    return(FALSE)
+  } else {TRUE}
 }
 
 
@@ -280,15 +293,13 @@ retype.default <- function(.x, ...) {
 
   # Dates
   if(could_chr_be_dtm(.x) == TRUE) {
-    .x <- as.POSIXct(.x)
-    if(could_dtm_be_dte(.x) == TRUE) {
-      return(as.Date(strftime(.x)))
-    } else {
-      return(.x)
-    }
+      return(as.POSIXct(.x))
   }
-
-  return(.x)
+  if (could_chr_be_dte(.x) == TRUE) {
+    return(as.Date(.x))
+  } else {
+    return(.x)
+  }
 }
 
 #' @return \code{NULL}
@@ -324,10 +335,7 @@ retype.Date <- function(.x, ...) {
 #' @method retype POSIXct
 #' @export
 retype.POSIXct <- function(.x, ...) {
-  if(could_dtm_be_dte(.x) == TRUE) {
-    .x <- as.Date(strftime(.x))
-  }
-  return(.x)
+  .x
 }
 
 #' @return \code{NULL}
@@ -1523,9 +1531,11 @@ cum_unique_ <- function(.v, ignore_na = TRUE) {
 #' 
 #' @return a vector
 #' 
-#' @example 
+#' @examples 
+#' \dontrun{
 #' x <- c(1, 2, NA, 4)
 #' x %>% given_(x >= 2)
+#' }
 #' 
 #' @rdname given
 #' @export

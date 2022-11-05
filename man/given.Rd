@@ -23,3 +23,10 @@ a vector
 Simple function that filters a vector while helping with missing values.
 Replacing expression like 'x[x > 3 & !is.null(x)]'
 }
+\examples{
+\dontrun{
+x <- c(1, 2, NA, 4)
+x \%>\% given_(x >= 2)
+}
+
+}

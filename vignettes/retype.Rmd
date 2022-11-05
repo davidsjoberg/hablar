@@ -83,7 +83,7 @@ class(retype(x))
 
 * If it is numeric it tests if it could be an integer instead. If true, it converts the column to integer.
 
-* If it is a character it tests if it could be a data time column. If true, it converts it to a date time (POSIXct) column.
+* If it is a character it tests if it could be a date column. If true, it converts it to a date column.
 
 * If it is a date time column it tests if it could be a date. If true, it converts it to a date column.
 
@@ -101,8 +101,8 @@ grViz("digraph d {
       factor -> character;
       character -> numeric
       numeric -> integer;
-      character -> 'date time';
-      'date time' -> date;
+      character -> date;
+      date -> 'date time';
       }")
 ```
 
