@@ -2,12 +2,12 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://www.tidyverse.org/lifecycle/#stable)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/hablar)](https://CRAN.R-project.org/package=hablar)
 \[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/hablar)
 [![R-CMD-check](https://github.com/davidsjoberg/hablar/workflows/R-CMD-check/badge.svg)](https://github.com/davidsjoberg/hablar/actions)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 # hablar
