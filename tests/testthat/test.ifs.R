@@ -50,9 +50,6 @@ test_that("if_else_", {
                as.Date(c("2019-01-01", NA, NA)) 
   )
 
-  expect_error(if_else_(c(T, F, NA),
-                        1,
-                        1L))
   expect_warning(if_else_(c(T, F, NA),
                         as.factor(1),
                         factor(1, levels = c("1", "2"))))
