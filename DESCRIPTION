@@ -1,7 +1,7 @@
 Package: hablar
 Type: Package
 Title: Non-Astonishing Results in R
-Version: 0.3.1
+Version: 0.3.2
 Author: David Sjoberg
 Maintainer: David Sjoberg <dav.sjob@gmail.com>
 Description: Simple tools for converting columns to new data types. Intuitive functions for columns with missing values. 
