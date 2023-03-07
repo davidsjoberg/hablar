@@ -1,4 +1,4 @@
-On latesWindows, Ubuntu and Mac:
+On latest Windows, Ubuntu, ubuntu-devel and Mac:
 
 ## R CMD check results
 
