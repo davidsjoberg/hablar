@@ -9,6 +9,7 @@ output: github_document
 [![CRAN Downloads](https://cranlogs.r-pkg.org/badges/hablar)
 [![R-CMD-check](https://github.com/davidsjoberg/hablar/workflows/R-CMD-check/badge.svg)](https://github.com/davidsjoberg/hablar/actions)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/davidsjoberg/hablar/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/davidsjoberg/hablar/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 ```{r, echo = FALSE, include = FALSE}
