@@ -51,7 +51,7 @@ test_that("if_else_", {
   )
 
   expect_error(if_else_(c(T, F, NA),
-                        1,
+                        "1",
                         1L))
   expect_warning(if_else_(c(T, F, NA),
                         as.factor(1),
