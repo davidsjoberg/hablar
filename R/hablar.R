@@ -1439,7 +1439,7 @@ check_complete_set <- function(.data, ...) {
     dplyr::select(!!!vars) %>% 
     dplyr::distinct() %>% 
     nrow()
-  complete_set_nrow <- purrr::cross_df(purrr::map(.data, ~unique(.))) %>% nrow()
+  complete_set_nrow <- prod(lengths(purrr::map(.data, ~unique(.))))
   if(complete_set_nrow == data_distinct_nrow) {
     return(TRUE)
   } else {
